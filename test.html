@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bröllopsplanering</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('A_black_and_white_photograph_captures_a_newlywed_c.png');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .nav-bar {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .nav-bar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-bar a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      background-color: rgba(208, 172, 172, 0.8);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-bar a:hover {
+      background-color: rgba(208, 172, 172, 1);
+    }
+
+    .intro-box {
+      background-color: rgba(255, 182, 193, 0.85);
+      padding: 60px 80px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .intro-box h1 {
+      margin: 0 0 20px;
+      font-size: 2.5rem;
+      color: #333;
+    }
+
+    .intro-box a {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #fff;
+      color: #333;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .intro-box a:hover {
+      background-color: #f8f8f8;
+    }
+  </style>
+  <style>
+    #canvasContainer {
+      width: 100vw;
+      height: 100vh;
+      overflow: scroll;
+    }
+  
+    canvas {
+      max-width: 100%;
+      max-height: 100%;
+      display: block;
+    }
+  </style>
+  
+</head>
+<body>
+
+  <!-- 🔹 Navigationsmeny -->
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="#">Hem</a></li>
+      <li><a href="test.html">Ritverktyg</a></li>
+      <li><a href="galleri.html">Galleri</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+
+    </ul>
+  </nav>
+  
+
+  <!-- 🔸 Innehåll -->
+  <div class="intro-box">
+    <h1>Kom igång med planeringen</h1>
+    <a href="ritverktyg.html">Starta ritverktyget</a>
+  </div>
+
+</body>
+</html>
