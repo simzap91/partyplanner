@@ -9,7 +9,6 @@
 </head>
 <body>
   <div style="padding: 10px; background: #eee;">
-  <div id="pageHeader">
     <label for="titleInput">Rubrik:</label>
     <input type="text" id="titleInput" value="Anna & Noah 2026-07-12" oninput="drawAll()" style="width: 300px; padding: 4px; font-family: 'Georgia', serif;">
   </div>
@@ -32,7 +31,7 @@
       <button onclick="addGuest()">Lägg till gäst</button>
       <button onclick="removeSelected()">Ta bort markerad</button>
       <button onclick="toggleAxes()">Visa/Dölj avstånd</button>
-      <button onclick="saveAsImageCropped()">Spara som bild</button>
+      <button onclick="saveAsImage()">Spara som bild</button>
       <button onclick="createGuestList()">Skapa gästlista</button>
       <button onclick="createChecklist()">Skapa checklista</button>
       <button id="sumButton" onclick="summarizeOrder()" disabled style="opacity: 0.5; cursor: not-allowed;">Summera beställning</button>
@@ -40,10 +39,7 @@
   </div>
 
   <div id="canvasContainer">
-    <div id="floatingTitle"></div>
-    <div id="canvasWrapper">
-      <canvas id="canvas"></canvas>
-    </div>
+    <canvas id="canvas"></canvas>
   </div>
 
   <div id="summaryBox"></div>

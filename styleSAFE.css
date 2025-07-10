@@ -65,6 +65,15 @@ body {
   transform: scale(1.05);
 }
 
+#canvas {
+  border: none;
+  background-color: #fffdf8;
+  margin: 20px auto;
+  display: block;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
 #summaryBox, #userFormBox {
   max-width: 400px;
   background: #fffef9;
@@ -179,6 +188,25 @@ body {
 }
 body {
   overflow: auto;
+}
+#canvasContainer {
+  width: 100vw;
+  height: calc(100vh - 120px); /* Justera om du har ett verktygsfält t.ex. */
+  overflow: auto;
+}
+canvas {
+  display: block;
+}
+#canvasContainer {
+  width: 100vw;
+  height: calc(100vh - 200px); /* justera efter behov */
+  overflow: auto;
+  border: none;
+}
+
+canvas {
+  display: block;
+  margin: 0;
 }
 
 #summaryBox {
@@ -477,77 +505,4 @@ label[for="titleInput"] {
   position: relative;
   z-index: 1001;  /* högre än menyns 1000 */
 }
-}
-
-/* reset any page margins */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow-x: hidden; /* your existing rule */
-}
-
-/* 50×50 m world under header+toolbar */
-#canvasContainer {
-  position: absolute;
-  top: 120px;            /* <-- adjust this to exactly header + toolbar height */
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #fffdf8;
-  overflow: hidden;
-}
-
-/* scrollable viewport */
-#canvasWrapper {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0; /* top/left 40 px if rulers */
-  overflow: auto;
-  touch-action: none;
-}
-
-/* horizontal ruler (ticks drawn by JS) */
-/*
-#rulerX {
-  position: absolute;
-  top: 0;
-  left: 40px;
-  right: 0;
-  height: 40px;
-  background: #f9f7f1;
-  pointer-events: none;
-  z-index: 10;
-}
-  */
-
-/* vertical ruler (ticks drawn by JS) */
-/*
-#rulerY {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  bottom: 0;
-  width: 40px;
-  background: #f9f7f1;
-  pointer-events: none;
-  z-index: 10;
-}
-*/
-
-/* make sure the drawing canvas sits flush in its wrapper */
-#canvas {
-  display: block;
-  margin: 0;    /* kill that 20px auto */
-}
-
-#floatingTitle {
-  position: absolute;
-  top: 10px;              /* distance from the top of canvasContainer */
-  left: 50%;
-  transform: translateX(-50%);
-  font: bold 32px 'Segoe UI', sans-serif;
-  color: #111;
-  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
-  pointer-events: none;   /* so clicks go “through” to the canvas */
-  z-index: 100;           /* above the canvas scroller */
 }
