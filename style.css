@@ -510,6 +510,7 @@ html, body {
 #canvas {
   display: block;
   margin: 0;    /* kill that 20px auto */
+  touch-action: pan-x pan-y;
 }
 
 #floatingTitle {

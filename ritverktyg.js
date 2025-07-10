@@ -397,8 +397,6 @@ function toggleAxes() {
   }
 
 // ——— enable PointerEvents dragging on mobile & desktop ———
-// prevent default touch gestures (scroll/pinch) on the canvas
-canvas.style.touchAction = 'none';
 
 canvas.addEventListener('pointerdown', (e) => {
   
@@ -446,6 +444,7 @@ canvas.addEventListener('pointerdown', (e) => {
       selected   = obj;
 
       // now lock pointer to canvas and prevent scrolling
+      canvas.style.touchAction = 'none';
       e.preventDefault();
       canvas.setPointerCapture(e.pointerId);
 
@@ -522,6 +521,7 @@ canvas.addEventListener('pointerup', (e) => {
   if (dragTarget) {
     canvas.releasePointerCapture(e.pointerId);
     dragTarget = null;
+    canvas.style.touchAction = 'pan-x pan-y';
   }
 });
 
@@ -529,6 +529,7 @@ canvas.addEventListener('pointercancel', (e) => {
   if (dragTarget) {
     canvas.releasePointerCapture(e.pointerId);
     dragTarget = null;
+    canvas.style.touchAction = 'pan-x pan-y';
   }
 });
 
