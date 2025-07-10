@@ -9,8 +9,6 @@ let selected = null;
 let nextTableNumber = 1;
 let showAxes = false;
 
-
-
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
   const extraWidth = window.innerWidth * 0.5;
@@ -36,6 +34,140 @@ window.addEventListener("keydown", (e) => {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
+// Om inte denna funkar, testa tidigare version skickat av chatgpt
+function drawAll(isForExport = false) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#fffdf8";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#111";
+  ctx.font = "bold 32px 'Segoe UI', sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.shadowBlur = 1;
+
+  const titleText = document.getElementById("titleInput").value;
+  const centerX = isForExport
+    ? canvas.width / 2
+    : window.scrollX + window.innerWidth / 2;
+
+  ctx.fillText(titleText, centerX, 50);
+  ctx.shadowColor = "transparent";
+
+  for (const obj of objects) {
+    // ← **only this block changed**:
+    ctx.lineWidth   = obj === selected ? 3 : 1;
+    ctx.strokeStyle = obj === selected ? "#007BFF" : "#000";
+
+    if (obj.type === "rect") {
+      ctx.save();
+      ctx.translate(obj.x + obj.w / 2, obj.y + obj.h / 2);
+      ctx.rotate((obj.rotation || 0) * Math.PI / 180);
+      ctx.fillStyle = obj.color || "#ead8b6";
+      ctx.fillRect(-obj.w / 2, -obj.h / 2, obj.w, obj.h);
+      ctx.strokeRect(-obj.w / 2, -obj.h / 2, obj.w, obj.h);
+      ctx.fillStyle = "#000";
+      ctx.font = "12px sans-serif";
+      ctx.fillText(`Bord ${obj.tableNumber}`, 0, -6);
+      ctx.fillText(`${obj.seats} platser`, 0, 12);
+      ctx.restore();
+
+    } else if (obj.type === "circle") {
+      ctx.beginPath();
+      ctx.fillStyle = obj.color || "#ead8b6";
+      ctx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#000";
+      ctx.font = "12px sans-serif";
+      ctx.fillText(`Bord ${obj.tableNumber}`, obj.x, obj.y - 6);
+      ctx.fillText(`${obj.seats} platser`, obj.x, obj.y + 12);
+
+    } else if (obj.type === "guest") {
+      ctx.beginPath();
+      ctx.fillStyle = "#fffffe";
+      ctx.arc(obj.x, obj.y, 20, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#d4b98c";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = "#000";
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(obj.name, obj.x, obj.y + 1);
+    }
+  }
+
+  ctx.save();
+  ctx.globalAlpha = 0.15;
+  ctx.fillStyle = "#333";
+  ctx.font = "bold 48px 'Segoe UI', sans-serif";
+  ctx.textAlign = "right";
+  ctx.textBaseline = "bottom";
+  const x = canvas.width * 0.49;
+  const y = canvas.height * 0.50;
+  ctx.fillText("EverAfterbyEster", x, y);
+
+  if (showAxes) {
+    const meterToPx = 80;
+    const viewCenterX = window.scrollX + window.innerWidth / 2;
+    const viewCenterY = window.scrollY + window.innerHeight / 2;
+
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 3]);
+
+    ctx.beginPath();
+    ctx.moveTo(0, viewCenterY);
+    ctx.lineTo(canvas.width, viewCenterY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(viewCenterX, 0);
+    ctx.lineTo(viewCenterX, canvas.height);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+    ctx.fillStyle = "#000";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+
+    for (let x = -10; x <= 20; x++) {
+      const px = viewCenterX + x * meterToPx;
+      if (px < 0 || px > canvas.width) continue;
+      ctx.beginPath();
+      ctx.moveTo(px, viewCenterY - 5);
+      ctx.lineTo(px, viewCenterY + 5);
+      ctx.stroke();
+      if (x !== 0) ctx.fillText(`${x} m`, px, viewCenterY + 8);
+    }
+
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    for (let y = -10; y <= 10; y++) {
+      const py = viewCenterY + y * meterToPx;
+      if (py < 0 || py > canvas.height) continue;
+      ctx.beginPath();
+      ctx.moveTo(viewCenterX - 5, py);
+      ctx.lineTo(viewCenterX + 5, py);
+      ctx.stroke();
+      if (y !== 0) ctx.fillText(`${-y} m`, viewCenterX + 8, py);
+    }
+
+    ctx.restore();
+  }
+
+  ctx.restore();
+}
+
+
+/*
 function drawAll(isForExport = false) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#fffdf8";
@@ -173,6 +305,7 @@ function drawAll(isForExport = false) {
    ctx.restore();
 
 }
+*/
 
 
 function addSelectedTable() {
@@ -246,7 +379,6 @@ function saveAsImage() {
   link.click();
 }
 
-// --- Ersätt befintlig createGuestList() med detta ---
 function createGuestList() {
   const guests = objects.filter(o => o.type === "guest");
   if (guests.length === 0) {
@@ -274,20 +406,95 @@ function closeGuestList() {
   document.getElementById('guestListContainer').style.display = 'none';
 }
 
-// --- (Valfritt) Stäng modalen vid Escape ---
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeGuestList();
-  }
-});
-
 function toggleAxes() {
     showAxes = !showAxes;
     drawAll();
   }
+
+// ——— enable PointerEvents dragging on mobile & desktop ———
+// prevent default touch gestures (scroll/pinch) on the canvas
+canvas.style.touchAction = 'none';
+
+canvas.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
+  selected = null;
   
+  // loop objects from topmost to bottom
+  for (let i = objects.length - 1; i >= 0; i--) {
+    const obj = objects[i];
+    let hit = false;
+    
+    if (obj.type === 'rect') {
+      const angle = ((obj.rotation||0) * Math.PI) / 180;
+      const cx = obj.x + obj.w/2, cy = obj.y + obj.h/2;
+      const dx = mx - cx, dy = my - cy;
+      const rx = dx*Math.cos(-angle) - dy*Math.sin(-angle);
+      const ry = dx*Math.sin(-angle) + dy*Math.cos(-angle);
+      if (rx >= -obj.w/2 && rx <= obj.w/2 && ry >= -obj.h/2 && ry <= obj.h/2) {
+        hit = true;
+        offsetX = rx;
+        offsetY = ry;
+      }
+    } else { // circle or guest
+      const dx = mx - obj.x, dy = my - obj.y;
+      const r = obj.type === 'guest' ? 20 : obj.r;
+      if (dx*dx + dy*dy <= r*r) {
+        hit = true;
+        offsetX = dx;
+        offsetY = dy;
+      }
+    }
+    
+    if (hit) {
+      dragTarget = obj;
+      selected   = obj;
+      // capture the pointer so we keep getting move/up
+      canvas.setPointerCapture(e.pointerId);
+      drawAll();
+      return;
+    }
+  }
   
+  drawAll(); // clicked on empty space
+});
+
+canvas.addEventListener('pointermove', (e) => {
+  if (!dragTarget) return;
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  const my = e.clientY - rect.top;
   
+  if (dragTarget.type === 'rect') {
+    const angle = ((dragTarget.rotation||0) * Math.PI) / 180;
+    dragTarget.x = mx - (offsetX * Math.cos(angle) + offsetY * Math.sin(angle)) - dragTarget.w/2;
+    dragTarget.y = my - (-offsetX * Math.sin(angle) + offsetY * Math.cos(angle)) - dragTarget.h/2;
+  } else {
+    dragTarget.x = mx - offsetX;
+    dragTarget.y = my - offsetY;
+  }
+  
+  drawAll();
+});
+
+canvas.addEventListener('pointerup', (e) => {
+  if (dragTarget) {
+    canvas.releasePointerCapture(e.pointerId);
+    dragTarget = null;
+  }
+});
+
+canvas.addEventListener('pointercancel', (e) => {
+  if (dragTarget) {
+    canvas.releasePointerCapture(e.pointerId);
+    dragTarget = null;
+  }
+});
+
+/*
 
 canvas.addEventListener("mousedown", (e) => {
   const mx = e.offsetX, my = e.offsetY;
@@ -407,6 +614,7 @@ canvas.addEventListener("touchend", () => {
   
 
 drawAll();
+*/
 
 // ... all din befintliga kod ovanför drawAll() ...
 
@@ -466,24 +674,76 @@ drawAll();
       });
     }
   });
-  // --- Utskriftsfunktion för checklistan ---
-  function printChecklist() {
-    document.body.classList.add('print-checklist-mode');
-    setTimeout(() => {
-      window.print();
-      document.body.classList.remove('print-checklist-mode');
-    }, 100);
+
+  // --- Nedladdningsfunktion för checklistan ---
+  async function downloadChecklist() {
+    const container   = document.getElementById('checklistContainer');
+    const closeBtn    = container.querySelector('.close-modal');
+    const downloadBtn = container.querySelector('button[onclick="downloadChecklist()"]');
+    const controlsDiv = document.getElementById('newChecklistItem').closest('div');
+  
+    // Hide controls so they don’t show up in the PNG
+    closeBtn.style.display    = 'none';
+    downloadBtn.style.display = 'none';
+    controlsDiv.style.display = 'none';
+  
+    try {
+      // Render at 2× resolution on white background
+      const canvas = await html2canvas(container, {
+        backgroundColor: '#fff',
+        scale: 2
+      });
+  
+      // Convert to blob and trigger download
+      canvas.toBlob(blob => {
+        const link = document.createElement('a');
+        link.download = 'checklista.png';
+        link.href     = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+      }, 'image/png');
+  
+    } catch (err) {
+      console.error('Could not capture checklist:', err);
+      alert('Något gick fel vid nedladdningen. Prova igen.');
+    } finally {
+      // Restore buttons
+      closeBtn.style.display    = '';
+      downloadBtn.style.display = '';
+      controlsDiv.style.display = '';
+    }
   }
 
-// --- Utskriftsfunktion för gästlistan ---
-function printGuestList() {
-  // Sätt klass för att visa bara gästlistan
-  document.body.classList.add('print-guestlist-mode');
-  window.print();
+// --- Nedladdningsfunktion för gästlistan ---
+async function downloadGuestList() {
+  const container = document.getElementById('guestListContainer');
+  // Temporarily hide buttons so they don't appear in the image
+  const closeBtn    = container.querySelector('.close-modal');
+  const downloadBtn = container.querySelector('button[onclick="downloadGuestList()"]');
+  closeBtn.style.display = 'none';
+  downloadBtn.style.display = 'none';
+  
+  try {
+    // Render the container to canvas (white background, higher resolution)
+    const canvas = await html2canvas(container, {
+      backgroundColor: '#fff',
+      scale: 2
+    });
+    
+    // Convert to blob and trigger download
+    canvas.toBlob(blob => {
+      const link = document.createElement('a');
+      link.download = 'gästlista.png';
+      link.href     = URL.createObjectURL(blob);
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }, 'image/png');
+  } catch (err) {
+    console.error('Could not capture guest list:', err);
+    alert('Något gick fel vid nedladdningen. Prova igen.');
+  } finally {
+    // Restore buttons
+    closeBtn.style.display = '';
+    downloadBtn.style.display = '';
+  }
 }
-
-// --- Ta bort båda utskrifts-klasserna efter att själva print-dialogen stängts ---
-window.addEventListener('afterprint', () => {
-  document.body.classList.remove('print-checklist-mode');
-  document.body.classList.remove('print-guestlist-mode');
-});
