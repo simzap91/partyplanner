@@ -401,12 +401,60 @@ function toggleAxes() {
 canvas.style.touchAction = 'none';
 
 canvas.addEventListener('pointerdown', (e) => {
-  e.preventDefault();
+  
   const rect = canvas.getBoundingClientRect();
   const mx = e.clientX - rect.left;
   const my = e.clientY - rect.top;
   selected = null;
+
+  for (let i = objects.length - 1; i >= 0; i--) {
+    const obj = objects[i];
+    let hit    = false;
+    let localX, localY;
+
+    if (obj.type === 'rect') {
+      const angle = ((obj.rotation||0) * Math.PI) / 180;
+      const cx    = obj.x + obj.w/2;
+      const cy    = obj.y + obj.h/2;
+      const dx    = mx - cx;
+      const dy    = my - cy;
+      const rx    = dx * Math.cos(-angle) - dy * Math.sin(-angle);
+      const ry    = dx * Math.sin(-angle) + dy * Math.cos(-angle);
+      if (rx >= -obj.w/2 && rx <= obj.w/2 && ry >= -obj.h/2 && ry <= obj.h/2) {
+        hit    = true;
+        localX = rx;
+        localY = ry;
+      }
+    } else { // circle or guest
+      const dx = mx - obj.x;
+      const dy = my - obj.y;
+      const r  = obj.type === 'guest' ? 20 : obj.r;
+      if (dx*dx + dy*dy <= r*r) {
+        hit    = true;
+        localX = dx;
+        localY = dy;
+      }
+    }
+
+    if (hit) {
+      // store the offset for smooth dragging
+      offsetX    = localX;
+      offsetY    = localY;
+
+      // mark this object as the one we’ll drag
+      dragTarget = obj;
+      selected   = obj;
+
+      // now lock pointer to canvas and prevent scrolling
+      e.preventDefault();
+      canvas.setPointerCapture(e.pointerId);
+
+      drawAll();
+      return;
+    }
+  }
   
+  /*
   // loop objects from topmost to bottom
   for (let i = objects.length - 1; i >= 0; i--) {
     const obj = objects[i];
@@ -434,14 +482,19 @@ canvas.addEventListener('pointerdown', (e) => {
     }
     
     if (hit) {
+      offsetX    = localX;
+      offsetY    = localY;
+
       dragTarget = obj;
       selected   = obj;
       // capture the pointer so we keep getting move/up
+      e.preventDefault();
       canvas.setPointerCapture(e.pointerId);
       drawAll();
       return;
     }
   }
+  */
   
   drawAll(); // clicked on empty space
 });

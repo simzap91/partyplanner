@@ -490,7 +490,7 @@ html, body {
 /* 50×50 m world under header+toolbar */
 #canvasContainer {
   position: absolute;
-  top: 120px;            /* <-- adjust this to exactly header + toolbar height */
+  top: 250px;            /* <-- adjust this to exactly header + toolbar height */
   left: 0;
   right: 0;
   bottom: 0;
@@ -503,36 +503,8 @@ html, body {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0; /* top/left 40 px if rulers */
   overflow: auto;
-  touch-action: none;
+  touch-action: auto;
 }
-
-/* horizontal ruler (ticks drawn by JS) */
-/*
-#rulerX {
-  position: absolute;
-  top: 0;
-  left: 40px;
-  right: 0;
-  height: 40px;
-  background: #f9f7f1;
-  pointer-events: none;
-  z-index: 10;
-}
-  */
-
-/* vertical ruler (ticks drawn by JS) */
-/*
-#rulerY {
-  position: absolute;
-  top: 40px;
-  left: 0;
-  bottom: 0;
-  width: 40px;
-  background: #f9f7f1;
-  pointer-events: none;
-  z-index: 10;
-}
-*/
 
 /* make sure the drawing canvas sits flush in its wrapper */
 #canvas {
@@ -542,7 +514,7 @@ html, body {
 
 #floatingTitle {
   position: absolute;
-  top: 10px;              /* distance from the top of canvasContainer */
+  top: 40px;              /* distance from the top of canvasContainer */
   left: 50%;
   transform: translateX(-50%);
   font: bold 32px 'Segoe UI', sans-serif;
@@ -550,4 +522,15 @@ html, body {
   text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
   pointer-events: none;   /* so clicks go “through” to the canvas */
   z-index: 100;           /* above the canvas scroller */
+}
+
+#toolbar {
+  position: fixed;        /* keep it pinned under the header */
+  top: 40px;              /* (or whatever your header height is) */
+  left: 0;                /* span from the very left edge */
+  right: 0;               /* to the very right edge */
+  width: 100vw;           /* force full viewport width */
+  box-sizing: border-box; /* include any padding inside that width */
+  margin: 0;              /* clear out any auto-margins */
+  z-index: 1000;          /* stay on top of everything */
 }
