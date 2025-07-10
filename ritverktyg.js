@@ -443,6 +443,9 @@ canvas.addEventListener('pointerdown', (e) => {
       dragTarget = obj;
       selected   = obj;
 
+      // **LOCK SCROLLING** by hiding overflow
+      wrapper.style.overflow = "hidden";
+
       // now lock pointer to canvas and prevent scrolling
       canvas.style.touchAction = 'none';
       e.preventDefault();
@@ -521,6 +524,10 @@ canvas.addEventListener('pointerup', (e) => {
   if (dragTarget) {
     canvas.releasePointerCapture(e.pointerId);
     dragTarget = null;
+
+    // **UNLOCK SCROLLING** again
+    wrapper.style.overflow = "auto";
+
     canvas.style.touchAction = 'pan-x pan-y';
   }
 });
@@ -529,6 +536,10 @@ canvas.addEventListener('pointercancel', (e) => {
   if (dragTarget) {
     canvas.releasePointerCapture(e.pointerId);
     dragTarget = null;
+    
+    // **UNLOCK SCROLLING** again
+    wrapper.style.overflow = "auto";
+
     canvas.style.touchAction = 'pan-x pan-y';
   }
 });
