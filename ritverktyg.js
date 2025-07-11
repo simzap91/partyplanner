@@ -521,6 +521,54 @@ async function downloadChecklist() {
   const container   = document.getElementById('checklistContainer');
   const closeBtn    = container.querySelector('.close-modal');
   const downloadBtn = container.querySelector('button[onclick="downloadChecklist()"]');
+  const controlsDiv = document.getElementById('newChecklistItem').closest('div');
+
+  // Hide UI chrome
+  closeBtn.style.display    = 'none';
+  downloadBtn.style.display = 'none';
+  controlsDiv.style.display = 'none';
+
+  try {
+    // Render to a canvas
+    const c = await html2canvas(container, {
+      backgroundColor: '#fff',
+      scale: 2
+    });
+
+    // 1) Synchronously get a base64 data URL
+    const dataURL = c.toDataURL('image/png');
+
+    // 2) Create a temporary anchor
+    const a = document.createElement('a');
+    a.href = dataURL;
+    a.download = 'checklista.png';
+
+    // 3) If download isn't supported, open in a new tab
+    if (typeof a.download === 'undefined') {
+      window.open(dataURL, '_blank');
+    } else {
+      // append it so Firefox on Android will honor the click
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+  } catch (err) {
+    console.error('Could not capture checklist:', err);
+    alert('Något gick fel vid nedladdningen. Prova igen.');
+  } finally {
+    // restore UI chrome
+    closeBtn.style.display    = '';
+    downloadBtn.style.display = '';
+    controlsDiv.style.display = '';
+  }
+}
+
+/*
+async function downloadChecklist() {
+  const container   = document.getElementById('checklistContainer');
+  const closeBtn    = container.querySelector('.close-modal');
+  const downloadBtn = container.querySelector('button[onclick="downloadChecklist()"]');
   // the div that holds the input + “Lägg till” button + download-button
   const controlsDiv = document.getElementById('newChecklistItem').closest('div');
 
@@ -553,6 +601,7 @@ async function downloadChecklist() {
     controlsDiv.style.display = '';
   }
 }
+*/
 
 async function downloadGuestList() {
   const container = document.getElementById('guestListContainer');
