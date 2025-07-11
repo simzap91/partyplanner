@@ -495,6 +495,76 @@ function printGuestList() {
   window.print();
 }
 
+async function downloadChecklist() {
+  const container   = document.getElementById('checklistContainer');
+  const closeBtn    = container.querySelector('.close-modal');
+  const downloadBtn = container.querySelector('button[onclick="downloadChecklist()"]');
+  // the div that holds the input + “Lägg till” button + download-button
+  const controlsDiv = document.getElementById('newChecklistItem').closest('div');
+
+  // Hide everything except the <h2> + <ul>
+  closeBtn.style.display    = 'none';
+  downloadBtn.style.display = 'none';
+  controlsDiv.style.display = 'none';
+
+  try {
+    const canvas = await html2canvas(container, {
+      backgroundColor: '#fff',
+      scale: 2
+    });
+
+    canvas.toBlob(blob => {
+      const link = document.createElement('a');
+      link.download = 'checklista.png';
+      link.href     = URL.createObjectURL(blob);
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }, 'image/png');
+
+  } catch (err) {
+    console.error('Could not capture checklist:', err);
+    alert('Något gick fel vid nedladdningen. Prova igen.');
+  } finally {
+    // restore
+    closeBtn.style.display    = '';
+    downloadBtn.style.display = '';
+    controlsDiv.style.display = '';
+  }
+}
+
+async function downloadGuestList() {
+  const container = document.getElementById('guestListContainer');
+  // Temporarily hide buttons so they don't appear in the image
+  const closeBtn    = container.querySelector('.close-modal');
+  const downloadBtn = container.querySelector('button[onclick="downloadGuestList()"]');
+  closeBtn.style.display = 'none';
+  downloadBtn.style.display = 'none';
+  
+  try {
+    // Render the container to canvas (white background, higher resolution)
+    const canvas = await html2canvas(container, {
+      backgroundColor: '#fff',
+      scale: 2
+    });
+    
+    // Convert to blob and trigger download
+    canvas.toBlob(blob => {
+      const link = document.createElement('a');
+      link.download = 'gastlista.png';                  // file name
+      link.href     = URL.createObjectURL(blob);
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }, 'image/png');
+  } catch (err) {
+    console.error('Could not capture guest list:', err);
+    alert('Något gick fel vid nedladdningen. Prova igen.');
+  } finally {
+    // Restore buttons
+    closeBtn.style.display = '';
+    downloadBtn.style.display = '';
+  }
+}
+
 // --- Ta bort båda utskrifts-klasserna efter att själva print-dialogen stängts ---
 window.addEventListener('afterprint', () => {
   document.body.classList.remove('print-checklist-mode');

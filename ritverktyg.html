@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ritverktyg – Bordsplacering</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Skriv ut-inställningar för checklista -->
   
 </head>
 <body>
@@ -128,20 +127,22 @@ style="display:none;
                      cursor:pointer;">
         Lägg till
       </button>
-      <!-- Inlagd Skriv ut-knapp inne i checklist-container -->
-      <button onclick="printChecklist()"
+      <!-- Ladda ner-knapp till checklista -->
+      <button onclick="downloadChecklist()"
               class="no-print"
               style="background:#f3e0bd;
                      border:1px solid #dbccab;
                      border-radius:8px;
                      padding:6px 12px;
                      cursor:pointer;">
-        Skriv ut
+        Ladda ner checklista som .png
       </button>
     </div>
   
   </div>
 
+  <!-- Till nedladdningsfunktioner. Denna måste ligga innan 'ritverktyg.js' -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="ritverktyg.js"></script>
   <script src="bestallning.js"></script>
   <script src="kontaktform.js"></script>
@@ -216,15 +217,15 @@ style="display:none;
   </ul>
 
   <div style="margin-top:12px; text-align:right;">
-    <!-- Skriv ut-knapp för gästlistan -->
-    <button onclick="printGuestList()"
+    <!-- Ladda ner-knapp för gästlistan -->
+    <button onclick="downloadGuestList()"
             class="no-print"
             style="background:#f3e0bd;
                    border:1px solid #dbccab;
                    border-radius:8px;
                    padding:6px 12px;
                    cursor:pointer;">
-      Skriv ut
+      Ladda ner gästlista som .png
     </button>
   </div>
 </div>
