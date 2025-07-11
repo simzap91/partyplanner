@@ -13,7 +13,6 @@ let showAxes = false;
 
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
-  //const extraWidth = window.innerWidth * 0.5;
   const extraWidth = window.innerWidth < 600
     ? window.innerWidth    // makes total width = 2× viewport
     : window.innerWidth * 0.5;
@@ -27,14 +26,6 @@ function resizeCanvas() {
 
   canvas.style.width  = w + "px";
   canvas.style.height = h + "px";
-
-  /*
-
-  canvas.width = (window.innerWidth + extraWidth) * scale;
-  canvas.height = (window.innerHeight + extraHeight) * scale;
-  canvas.style.width = (window.innerWidth + extraWidth) + "px";
-  canvas.style.height = (window.innerHeight + extraHeight) + "px";
-  */
 
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
   drawAll();
@@ -256,11 +247,97 @@ function renameTable() {
 }
 
 function saveAsImage() {
+  const scale  = window.devicePixelRatio || 1;
+  const pxPerM = 80;      // same scale you’re using throughout
+  const pad    = 40;      // CSS-px padding on each side
+  const minW   = 26 * pxPerM;  // default 60 m width in px
+  const minH   = 19 * pxPerM;  // default 40 m height in px
+
+  // 1) Find bounding box of objects
+  let minX = Infinity, minY = Infinity;
+  let maxX = -Infinity, maxY = -Infinity;
+
+  objects.forEach(obj => {
+    if (obj.type === 'circle' || obj.type === 'guest') {
+      const r = obj.type === 'guest' ? 20 : obj.r;
+      minX = Math.min(minX, obj.x - r);
+      minY = Math.min(minY, obj.y - r);
+      maxX = Math.max(maxX, obj.x + r);
+      maxY = Math.max(maxY, obj.y + r);
+    } else { // rect
+      const angle = ((obj.rotation||0) * Math.PI)/180;
+      const cx = obj.x + obj.w/2, cy = obj.y + obj.h/2;
+      const dx = Math.abs(Math.cos(angle)*obj.w/2) + Math.abs(Math.sin(angle)*obj.h/2);
+      const dy = Math.abs(Math.sin(angle)*obj.w/2) + Math.abs(Math.cos(angle)*obj.h/2);
+      minX = Math.min(minX, cx - dx);
+      minY = Math.min(minY, cy - dy);
+      maxX = Math.max(maxX, cx + dx);
+      maxY = Math.max(maxY, cy + dy);
+    }
+  });
+
+  // 2) If no objects, fall back to a centered default region
+  const worldCssW = canvas.width / scale;
+  const worldCssH = canvas.height / scale;
+  if (minX === Infinity) {
+    // center a default box
+    const cx = worldCssW/2, cy = worldCssH/2;
+    minX = cx - minW/2;
+    minY = cy - minH/2;
+    maxX = cx + minW/2;
+    maxY = cy + minH/2;
+  }
+
+  // 3) Add padding
+  minX = Math.max(0,   minX - pad);
+  minY = Math.max(0,   minY - pad);
+  maxX = Math.min(worldCssW, maxX + pad);
+  maxY = Math.min(worldCssH, maxY + pad);
+
+  // 4) Enforce minimum size
+  let w = maxX - minX;
+  let h = maxY - minY;
+  if (w < minW) {
+    const dw = (minW - w)/2;
+    minX = Math.max(0, minX - dw);
+    maxX = Math.min(worldCssW, maxX + dw);
+    w = maxX - minX;
+  }
+  if (h < minH) {
+    const dh = (minH - h)/2;
+    minY = Math.max(0, minY - dh);
+    maxY = Math.min(worldCssH, maxY + dh);
+    h = maxY - minY;
+  }
+
+  // 5) Render that region to an offscreen canvas
+  const exportCanvas = document.createElement('canvas');
+  exportCanvas.width  = w * scale;
+  exportCanvas.height = h * scale;
+  const ec = exportCanvas.getContext('2d');
+  ec.setTransform(scale, 0, 0, scale, 0, 0);
+  ec.drawImage(
+    canvas,
+    minX * scale, minY * scale,
+    w * scale,   h * scale,
+    0, 0,
+    w, h
+  );
+
+  // 6) Download it
+  const link = document.createElement('a');
+  link.download = 'bordsplacering.png';
+  link.href     = exportCanvas.toDataURL('image/png');
+  link.click();
+}
+
+/*
+function saveAsImage() {
   const link = document.createElement('a');
   link.download = 'bordsplacering.png';
   link.href = canvas.toDataURL('image/png');
   link.click();
-}
+}*/
 
 // --- Ersätt befintlig createGuestList() med detta ---
 function createGuestList() {
