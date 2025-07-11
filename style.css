@@ -1,4 +1,3 @@
-
 body {
   margin: 0;
   padding: 0;
@@ -17,11 +16,17 @@ body {
   background: #eee;            /* or transparent if you only want the titleRow bg */
 }
 .titleRow {
-  padding: 10px;
+  display: flex;
+  align-items: center;    /* vertically center label+input */
+  gap: 8px;               /* space between label and input */
+  padding: 10px 10px 24px;  /* top 10px, right 10px, bottom 24px, left 10px */
   background: #eee;
+  /* remove the old margin-bottom if you don’t want extra outside space */
+  margin-bottom: 0;
 }
 
 #toolbar {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -29,15 +34,17 @@ body {
   padding: 16px;
   background: #D0ACAC;
   box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-  position: fixed;          /* stays inside #headerWrapper */
+  position: relative;
   width: 100%;
-  top:  /*höjden på titleBar i p*/x ;
   left: 0; right: 0;
   box-sizing: border-box;
   min-height: 120px;            /* ensure one row of buttons always fits */
   z-index: 1002;
   font-family: 'Georgia', serif;
   text-align: center;
+  margin: 0;
+  /*margin-top: 80px;
+  margin-bottom: 24px;*/
 }
 
 #canvasContainer {
@@ -45,7 +52,6 @@ body {
   width: 100vw;
   height: calc(100vh - 120px);
   z-index: 0;
-  margin-top: calc(16px * 2 + 46px); /* calc( 40px + 70px ); */
   overflow: auto !important;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
@@ -64,7 +70,6 @@ body {
 @media screen and (max-width: 600px) {
   #toolbar {
     position: fixed;
-    top: 0;
     left: 0;
     right: 0;
     /* pick a height that fits your buttons / padding */
@@ -87,8 +92,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 48px; /*80*/ 
-    height: 48px; /*28*/
+    width: 80px;
+    height: 28px;
     cursor: pointer;
     position: absolute;
   }
@@ -146,9 +151,6 @@ body {
     position: relative;
     z-index: 1001;
     font-size: 0.9rem;
-  }
-  #canvasContainer {
-    margin-top: calc(16px * 2 + 46px);
   }
   #mobile-notice {
     display: flex;
@@ -367,21 +369,10 @@ body {
 /* --- Desktop (bredare än 600px): toolbar i normalt flöde --- */
 @media screen and (min-width: 601px) {
   #toolbar {
-    position: fixed;
-    top: 40px;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: #D0ACAC;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    /* no position, no top/margin—just styling */
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;  
-    margin-top: 80px;
-    margin-bottom: 24px;
+    /* you can reduce padding if you like on desktop: */
+    padding: 12px 16px;
   }
   .hamburger {
     display: none;
@@ -392,16 +383,5 @@ body {
     justify-content: center;
     align-items: center;
     gap: 12px;
-  }
-  /* Tryck ner resten av innehållet */
-  #canvas {
-    margin-top: 70px;  /* justera efter din toolbar-höjd */
-  }
-  #canvasContainer {
-    margin-top: calc(40px + /*toolbar-höjd*/ 24px + /*padding-botten*/ 46px);
-  }
-  #titleInput,
-  label[for="titleInput"] {
-    margin-top: 70px;
   }
 }

@@ -27,31 +27,31 @@
     </div>
   
 
-  <div id="toolbar">
-    <button class="hamburger" aria-label="Öppna meny" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="toolbar-items">
-      <select id="tableType">
-        <option value="round-6">Runt bord – 6 platser</option>
-        <option value="round-8">Runt bord – 8 platser</option>
-        <option value="rect-4">Rektangulärt bord – 4 platser</option>
-        <option value="rect-6">Rektangulärt bord – 6 platser</option>
-        <option value="rect-8">Rektangulärt bord – 8 platser</option>
-      </select>
-      <button onclick="addSelectedTable()">Lägg till bord</button>
-      <button onclick="rotateSelected()">Rotera bord</button>
-      <button onclick="renameTable()">Döp om bord</button>
-      <button onclick="addGuest()">Lägg till gäst</button>
-      <button onclick="removeSelected()">Ta bort markerad</button>
-      <button onclick="toggleAxes()">Visa/Dölj avstånd</button>
-      <button onclick="saveAsImage()">Spara som bild</button>
-      <button onclick="createGuestList()">Skapa gästlista</button>
-      <button onclick="createChecklist()">Skapa checklista</button>
-      <button id="sumButton" onclick="summarizeOrder()" disabled style="opacity: 0.5; cursor: not-allowed;">Summera beställning</button>
+    <div id="toolbar">
+      <button class="hamburger" aria-label="Öppna meny" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="toolbar-items">
+        <select id="tableType">
+          <option value="round-6">Runt bord – 6 platser</option>
+          <option value="round-8">Runt bord – 8 platser</option>
+          <option value="rect-4">Rektangulärt bord – 4 platser</option>
+          <option value="rect-6">Rektangulärt bord – 6 platser</option>
+          <option value="rect-8">Rektangulärt bord – 8 platser</option>
+        </select>
+        <button onclick="addSelectedTable()">Lägg till bord</button>
+        <button onclick="rotateSelected()">Rotera bord</button>
+        <button onclick="renameTable()">Döp om bord</button>
+        <button onclick="addGuest()">Lägg till gäst</button>
+        <button onclick="removeSelected()">Ta bort markerad</button>
+        <button onclick="toggleAxes()">Visa/Dölj avstånd</button>
+        <button onclick="saveAsImage()">Spara som bild</button>
+        <button onclick="createGuestList()">Skapa gästlista</button>
+        <button onclick="createChecklist()">Skapa checklista</button>
+        <button id="sumButton" onclick="summarizeOrder()" disabled style="opacity: 0.5; cursor: not-allowed;">Summera beställning</button>
+      </div>
     </div>
   </div>
-</div>
 
   <div id="canvasContainer">
     <canvas id="canvas"></canvas>
@@ -59,7 +59,7 @@
   <div id="summaryBox"></div>
   <div id="userFormBox"></div>
 
-  <!-- Modal-överlägg för checklista -->
+<!-- Modal-överlägg för checklista -->
 <div id="modalOverlay"
 style="display:none;
        position:fixed;
@@ -174,7 +174,7 @@ style="display:none;
       if (li) li.remove();
     }
   </script>
-  <!-- Lägg detta precis innan </body> -->
+
 <!-- Modal-överlägg för gästlistan -->
 <div id="guestModalOverlay" class="no-print"
      style="display:none;

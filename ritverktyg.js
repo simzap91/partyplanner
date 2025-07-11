@@ -9,8 +9,6 @@ let selected = null;
 let nextTableNumber = 1;
 let showAxes = false;
 
-
-
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
   const extraWidth = window.innerWidth < 600
@@ -105,9 +103,6 @@ function drawAll(isForExport = false) {
       ctx.fillText(obj.name, obj.x, obj.y + 1);
     }
   }
-   // ← detta stänger for-loopen
-
-
 
    ctx.save();
    ctx.globalAlpha = 0.15;
@@ -181,6 +176,16 @@ function drawAll(isForExport = false) {
 
 }
 
+function updateLayout() {
+  const header = document.getElementById('headerWrapper');
+  const canvas = document.getElementById('canvasContainer');
+  if (!header || !canvas) return;
+
+  canvas.style.marginTop = header.offsetHeight + 'px';
+}
+
+window.addEventListener('load',   updateLayout);
+window.addEventListener('resize', updateLayout);
 
 function addSelectedTable() {
   const type = document.getElementById("tableType").value;
