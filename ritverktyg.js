@@ -417,106 +417,71 @@ canvas.addEventListener("touchend", () => {
   dragTarget = null;
 });
 
-  
-
 drawAll();
 
-// ... all din befintliga kod ovanför drawAll() ...
+function drawScalebars() {
+  const cmToPx = 0.8; // 1 cm = 0.8 px
+  const mToPx = cmToPx * 100; // 1 meter = 80 px
 
-// ritverktyg.js
+  ctx.strokeStyle = "#000";
+  ctx.fillStyle = "#000";
+  ctx.lineWidth = 1;
+  ctx.font = "10px sans-serif";
 
+  // Horisontell skalstock centrerad
+  const startX = 200;
+  const endX = 1400;
+  const baseY = canvas.height - 40;
 
-  
-  function drawScalebars() {
-    const cmToPx = 0.8; // 1 cm = 0.8 px
-    const mToPx = cmToPx * 100; // 1 meter = 80 px
-  
-    ctx.strokeStyle = "#000";
-    ctx.fillStyle = "#000";
-    ctx.lineWidth = 1;
-    ctx.font = "10px sans-serif";
-  
-    // Horisontell skalstock centrerad
-    const startX = 200;
-    const endX = 1400;
-    const baseY = canvas.height - 40;
-  
-    ctx.textAlign = "center";
-    for (let m = 0; m <= (endX - startX) / mToPx; m++) {
-      const x = startX + m * mToPx;
-      if (x > endX) break;
-      ctx.beginPath();
-      ctx.moveTo(x, baseY);
-      ctx.lineTo(x, baseY + 10);
-      ctx.stroke();
-      ctx.fillText(m + " m", x, baseY + 22);
-    }
-  
-    // Vertikal skalstock centrerad
-    const startY = 100;
-    const endY = 600;
-    const baseX = 60;
-  
-    ctx.textAlign = "left";
-    for (let m = 0; m <= (endY - startY) / mToPx; m++) {
-      const y = startY + m * mToPx;
-      if (y > endY) break;
-      ctx.beginPath();
-      ctx.moveTo(baseX - 10, y);
-      ctx.lineTo(baseX, y);
-      ctx.stroke();
-      ctx.fillText(m + " m", baseX + 5, y + 3);
-    }
-  }
-  document.addEventListener('DOMContentLoaded', () => {
-    const hamBtn   = document.querySelector('.hamburger');
-    const toolbar  = document.querySelector('.toolbar-items');
-  
-    if (hamBtn && toolbar) {
-      // 1) Toggle open/close on hamburger
-      hamBtn.addEventListener('click', () => {
-        const isOpen = toolbar.classList.toggle('active');
-        hamBtn.setAttribute('aria-expanded', String(isOpen));
-      });
-  
-      // 2) Close menu after clicking any action button
-      toolbar.querySelectorAll('button').forEach(button => {
-        button.addEventListener('click', () => {
-          toolbar.classList.remove('active');
-          hamBtn.setAttribute('aria-expanded', 'false');
-        });
-      });
-    }
-  });
-  /*
-  document.addEventListener('DOMContentLoaded', () => {
-    const hamBtn = document.querySelector('.hamburger');
-    const toolbar = document.querySelector('.toolbar-items');
-  
-    if (hamBtn && toolbar) {
-      hamBtn.addEventListener('click', () => {
-        const isOpen = toolbar.classList.toggle('active');
-        hamBtn.setAttribute('aria-expanded', isOpen);
-      });
-    }
-  });
-  */
-  // --- Utskriftsfunktion för checklistan ---
-  function printChecklist() {
-    document.body.classList.add('print-checklist-mode');
-    setTimeout(() => {
-      window.print();
-      document.body.classList.remove('print-checklist-mode');
-    }, 100);
+  ctx.textAlign = "center";
+  for (let m = 0; m <= (endX - startX) / mToPx; m++) {
+    const x = startX + m * mToPx;
+    if (x > endX) break;
+    ctx.beginPath();
+    ctx.moveTo(x, baseY);
+    ctx.lineTo(x, baseY + 10);
+    ctx.stroke();
+    ctx.fillText(m + " m", x, baseY + 22);
   }
 
-// --- Utskriftsfunktion för gästlistan ---
-function printGuestList() {
-  // Sätt klass för att visa bara gästlistan
-  document.body.classList.add('print-guestlist-mode');
-  window.print();
+  // Vertikal skalstock centrerad
+  const startY = 100;
+  const endY = 600;
+  const baseX = 60;
+
+  ctx.textAlign = "left";
+  for (let m = 0; m <= (endY - startY) / mToPx; m++) {
+    const y = startY + m * mToPx;
+    if (y > endY) break;
+    ctx.beginPath();
+    ctx.moveTo(baseX - 10, y);
+    ctx.lineTo(baseX, y);
+    ctx.stroke();
+    ctx.fillText(m + " m", baseX + 5, y + 3);
+  }
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const hamBtn   = document.querySelector('.hamburger');
+  const toolbar  = document.querySelector('.toolbar-items');
 
+  if (hamBtn && toolbar) {
+    // 1) Toggle open/close on hamburger
+    hamBtn.addEventListener('click', () => {
+      const isOpen = toolbar.classList.toggle('active');
+      hamBtn.setAttribute('aria-expanded', String(isOpen));
+    });
+
+    // 2) Close menu after clicking any action button
+    toolbar.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', () => {
+        toolbar.classList.remove('active');
+        hamBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+});
+
+// --- Nedladdningsfunktion för checklistan ---
 async function downloadChecklist() {
   const container   = document.getElementById('checklistContainer');
   const closeBtn    = container.querySelector('.close-modal');
@@ -564,6 +529,7 @@ async function downloadChecklist() {
   }
 }
 
+// --- Nedladdningsfunktion för gästlistan ---
 async function downloadGuestList() {
   const container   = document.getElementById('guestListContainer');
   const closeBtn    = container.querySelector('.close-modal');
@@ -605,61 +571,4 @@ async function downloadGuestList() {
     closeBtn.style.display    = '';
     downloadBtn.style.display = '';
   }
-}
-
-/*
-async function downloadGuestList() {
-  const container = document.getElementById('guestListContainer');
-  // Temporarily hide buttons so they don't appear in the image
-  const closeBtn    = container.querySelector('.close-modal');
-  const downloadBtn = container.querySelector('button[onclick="downloadGuestList()"]');
-  closeBtn.style.display = 'none';
-  downloadBtn.style.display = 'none';
-  
-  try {
-    // Render the container to canvas (white background, higher resolution)
-    const canvas = await html2canvas(container, {
-      backgroundColor: '#fff',
-      scale: 2
-    });
-    
-    // Convert to blob and trigger download
-    canvas.toBlob(blob => {
-      const link = document.createElement('a');
-      link.download = 'gastlista.png';                  // file name
-      link.href     = URL.createObjectURL(blob);
-      link.click();
-      URL.revokeObjectURL(link.href);
-    }, 'image/png');
-  } catch (err) {
-    console.error('Could not capture guest list:', err);
-    alert('Något gick fel vid nedladdningen. Prova igen.');
-  } finally {
-    // Restore buttons
-    closeBtn.style.display = '';
-    downloadBtn.style.display = '';
-  }
-}
-*/
-
-// --- Ta bort båda utskrifts-klasserna efter att själva print-dialogen stängts ---
-window.addEventListener('afterprint', () => {
-  document.body.classList.remove('print-checklist-mode');
-  document.body.classList.remove('print-guestlist-mode');
-});
-// Lägg gärna detta i slutet av din <script>-fil eller precis före </body>
-document.addEventListener('DOMContentLoaded', function() {
-    var btn = document.getElementById('close-mobile-notice');
-    var notice = document.getElementById('mobile-notice');
-    btn.addEventListener('click', function() {
-      notice.style.display = 'none';
-    });
-  });
-  // Gör containern lyhörd för scroll på mobil
-document
-.getElementById('canvasContainer')
-.addEventListener('touchmove', () => {
-  /* tom */ 
-}, { passive: true });
-
-  
+} 
