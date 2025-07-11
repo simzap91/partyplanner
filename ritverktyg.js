@@ -564,45 +564,50 @@ async function downloadChecklist() {
   }
 }
 
-/*
-async function downloadChecklist() {
-  const container   = document.getElementById('checklistContainer');
+async function downloadGuestList() {
+  const container   = document.getElementById('guestListContainer');
   const closeBtn    = container.querySelector('.close-modal');
-  const downloadBtn = container.querySelector('button[onclick="downloadChecklist()"]');
-  // the div that holds the input + “Lägg till” button + download-button
-  const controlsDiv = document.getElementById('newChecklistItem').closest('div');
+  const downloadBtn = container.querySelector('button[onclick="downloadGuestList()"]');
 
-  // Hide everything except the <h2> + <ul>
+  // hide the buttons so they don’t appear in the snapshot
   closeBtn.style.display    = 'none';
   downloadBtn.style.display = 'none';
-  controlsDiv.style.display = 'none';
 
   try {
-    const canvas = await html2canvas(container, {
+    // render to an off‐screen canvas
+    const c = await html2canvas(container, {
       backgroundColor: '#fff',
       scale: 2
     });
 
-    canvas.toBlob(blob => {
-      const link = document.createElement('a');
-      link.download = 'checklista.png';
-      link.href     = URL.createObjectURL(blob);
-      link.click();
-      URL.revokeObjectURL(link.href);
-    }, 'image/png');
+    // get a base64 data URL synchronously
+    const dataURL = c.toDataURL('image/png');
+
+    // create a temporary <a>
+    const a = document.createElement('a');
+    a.href     = dataURL;
+    a.download = 'gastlista.png';
+
+    // if download attribute unsupported, open in new tab
+    if (typeof a.download === 'undefined') {
+      window.open(dataURL, '_blank');
+    } else {
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
 
   } catch (err) {
-    console.error('Could not capture checklist:', err);
+    console.error('Could not capture guest list:', err);
     alert('Något gick fel vid nedladdningen. Prova igen.');
   } finally {
-    // restore
+    // restore buttons
     closeBtn.style.display    = '';
     downloadBtn.style.display = '';
-    controlsDiv.style.display = '';
   }
 }
-*/
 
+/*
 async function downloadGuestList() {
   const container = document.getElementById('guestListContainer');
   // Temporarily hide buttons so they don't appear in the image
@@ -635,6 +640,7 @@ async function downloadGuestList() {
     downloadBtn.style.display = '';
   }
 }
+*/
 
 // --- Ta bort båda utskrifts-klasserna efter att själva print-dialogen stängts ---
 window.addEventListener('afterprint', () => {
