@@ -68,13 +68,21 @@ body {
 /* Mobile (≤600px): hamburger toggles the toolbar-items */
 @media (max-width: 600px) {
   #toolbar {
-    position: relative;
-    padding: 12px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* pick a height that fits your buttons / padding */
+    min-height: 56px;
+    padding: 12px 16px;
+    box-sizing: border-box;
   }
   .hamburger {
     display: flex !important;
     position: absolute;
-    top: 12px; right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
     background: #f7e7ce;
     border: 1px solid #d4b98c;
     border-radius: 8px;
@@ -84,8 +92,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 80px;  
-    height: 28px;
+    width: 48px; /*80*/ 
+    height: 48px; /*28*/
     cursor: pointer;
     position: absolute;
   }
@@ -107,13 +115,14 @@ body {
   }
   .toolbar-items {
     display: none;
+    position: absolute;
+    top: 100%;   /* right below the toolbar */
+    left: 0;
+    right: 0;
     flex-direction: column;
     gap: 8px;
     padding: 12px;
     background: #D0ACAC;
-    position: absolute;
-    top: 56px; 
-    right: 0; left: 0;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     box-sizing: border-box;
     z-index: 1002;
