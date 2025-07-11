@@ -69,11 +69,11 @@ body {
 /* Mobile (≤600px): hamburger toggles the toolbar-items */
 @media screen and (max-width: 600px) {
   #toolbar {
-    position: fixed;
-    left: 0;
-    right: 0;
+    position: relative;
+    left: auto;
+    right: auto;
     /* pick a height that fits your buttons / padding */
-    min-height: 56px;
+    min-height: auto;
     padding: 12px 16px;
     box-sizing: border-box;
   }
