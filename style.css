@@ -189,10 +189,7 @@ body {
   body {
     overflow: auto;
   }
- 
-  canvas {
-    display: block;
-  }
+  
   
   canvas {
     display: block;
@@ -812,7 +809,7 @@ body {
   #headerWrapper { position: relative; }
   #toolbar {
     position: fixed;
-    top:  /* höjden på titleBar i px */ ;
+    top:  /*höjden på titleBar i p*/x ;
     left: 0; right: 0;
     /* … övriga regler … */
   }

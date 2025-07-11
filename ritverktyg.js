@@ -13,12 +13,28 @@ let showAxes = false;
 
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
-  const extraWidth = window.innerWidth * 0.5;
+  //const extraWidth = window.innerWidth * 0.5;
+  const extraWidth = window.innerWidth < 600
+    ? window.innerWidth    // makes total width = 2× viewport
+    : window.innerWidth * 0.5;
   const extraHeight = window.innerHeight * 0.5;
+
+  const w = window.innerWidth + extraWidth;
+  const h = window.innerHeight + extraHeight;
+
+  canvas.width  = w * scale;
+  canvas.height = h * scale;
+
+  canvas.style.width  = w + "px";
+  canvas.style.height = h + "px";
+
+  /*
+
   canvas.width = (window.innerWidth + extraWidth) * scale;
   canvas.height = (window.innerHeight + extraHeight) * scale;
   canvas.style.width = (window.innerWidth + extraWidth) + "px";
   canvas.style.height = (window.innerHeight + extraHeight) + "px";
+  */
 
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
   drawAll();
