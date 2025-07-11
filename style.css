@@ -392,30 +392,8 @@ body {
 .hamburger { display: none; }
       
 #mobile-notice {
-    display: none;
-  }
-
-/* --- Mobil (≤600px): visa och positionera hamburgaren --- */
-@media (max-width: 600px) {
-  .hamburger {
-    display: flex;
-    position: absolute;
-    top: 60px;
-    right: 12px;
-    z-index: 1003;
-    /* övriga mobil-specifika regler… */
-    transform: none;  /* ta bort transform: translateY(–50%) om du haft det globalt */
-  }
-
-  .toolbar-items {
-    /* mobil-menyn ska ligga ovanför canvas */
-    position: absolute;
-    top: 50px;
-    right: 0;
-    z-index: 1002;
-  }
+  display: none;
 }
-  
   
 /* --- Desktop (bredare än 600px): toolbar i normalt flöde --- */
 @media screen and (min-width: 601px) {
