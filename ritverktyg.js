@@ -178,10 +178,19 @@ function drawAll(isForExport = false) {
 
 function updateLayout() {
   const header = document.getElementById('headerWrapper');
+  const canvasContainer = document.getElementById('canvasContainer');
+  if (!header || !canvasContainer) return;
+
+  canvasContainer.style.marginTop = header.offsetHeight + 'px';
+
+  // FORCE A REDRAW now that the canvas has moved
+  drawAll();
+  /*
   const canvas = document.getElementById('canvasContainer');
   if (!header || !canvas) return;
 
   canvas.style.marginTop = header.offsetHeight + 'px';
+  */
 }
 
 window.addEventListener('load',   updateLayout);
@@ -353,31 +362,19 @@ function createGuestList() {
     ul.appendChild(li);
   });
 
-  // Visa modal + overlay
   document.getElementById('guestModalOverlay').style.display = 'block';
   document.getElementById('guestListContainer').style.display = 'block';
 }
 
-// --- Lägg till denna funktion under createGuestList() ---
 function closeGuestList() {
   document.getElementById('guestModalOverlay').style.display = 'none';
   document.getElementById('guestListContainer').style.display = 'none';
 }
 
-// --- (Valfritt) Stäng modalen vid Escape ---
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    closeGuestList();
-  }
-});
-
 function toggleAxes() {
     showAxes = !showAxes;
     drawAll();
   }
-  
-  
-  
 
 canvas.addEventListener("mousedown", (e) => {
   const mx = e.offsetX, my = e.offsetY;

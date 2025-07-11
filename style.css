@@ -361,10 +361,6 @@ body {
 .nav-bar a:hover {
   background-color: rgba(208, 172, 172, 1);
 }
-
-#mobile-notice {
-  display: none;
-}
   
 /* --- Desktop (bredare än 600px): toolbar i normalt flöde --- */
 @media screen and (min-width: 601px) {
@@ -383,5 +379,8 @@ body {
     justify-content: center;
     align-items: center;
     gap: 12px;
+  }
+  #mobile-notice {
+    display: none;
   }
 }
