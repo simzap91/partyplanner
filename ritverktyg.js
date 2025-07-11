@@ -37,7 +37,7 @@ window.addEventListener("keydown", (e) => {
       alert("Mätning avbruten.");
     }
   });
-  
+
 /*
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();*/
@@ -193,9 +193,6 @@ function updateLayout() {
   canvas.style.marginTop = header.offsetHeight + 'px';
   */
 }
-
-window.addEventListener('load',   updateLayout);
-window.addEventListener('resize', updateLayout);
 
 function addSelectedTable() {
   const type = document.getElementById("tableType").value;
