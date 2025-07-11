@@ -18,6 +18,35 @@
       align-items: center;
     }
 
+    .nav-bar {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .nav-bar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      gap: 16px;
+    }
+
+    .nav-bar a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      background-color: rgba(208, 172, 172, 0.8);
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .nav-bar a:hover {
+      background-color: rgba(208, 172, 172, 1);
+    }
+
     .intro-box {
       background-color: rgba(255, 182, 193, 0.85);
       padding: 60px 80px;
@@ -47,12 +76,39 @@
     .intro-box a:hover {
       background-color: #f8f8f8;
     }
+    @media screen and (max-width: 600px) {
+  .nav-bar {
+    /* Flytta in från höger, och centrera istället */
+    right: auto; 
+    left: 50%; 
+    transform: translateX(-50%);
+  }
+}
+
   </style>
 </head>
 <body>
+
+  <!-- 🔹 Navigationsmeny -->
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="#">Hem</a></li>
+      <li><a href="ritverktyg.html">Ritverktyg</a></li>
+      <li><a href="galleri.html">Galleri</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+
+    </ul>
+  </nav>
+  
+
+  <!-- 🔸 Innehåll -->
   <div class="intro-box">
     <h1>Kom igång med planeringen</h1>
     <a href="ritverktyg.html">Starta ritverktyget</a>
   </div>
+<!-- 100% privacy-first analytics -->
+<script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+<noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" /></noscript>
+
 </body>
 </html>

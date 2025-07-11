@@ -1,0 +1,537 @@
+body {
+  margin: 0;
+  font-family: 'Georgia', serif;
+  background-color: #fffdf8;
+  color: #4b3b2b;
+}
+
+#toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #D0ACAC;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  font-family: 'Georgia', serif;
+  text-align: center;
+}
+
+#toolbar select,
+#toolbar button:not(#sumButton) {
+  background-color: #f7e7ce;
+  border: 1px solid #d4b98c;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #4b3b2b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  line-height: 1;
+  height: 46px;
+}
+
+#toolbar button:not(#sumButton):hover,
+#toolbar select:hover {
+  background-color: #e6d3b3;
+  border-color: #c2a77a;
+}
+
+#toolbar select {
+  min-width: 240px;
+}
+
+#sumButton {
+  background-color: #d4b98c;
+  color: white;
+  width: 120px;
+  height: 120px;
+  border: none;
+  border-radius: 60px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: inherit; /* ✅ Lägg till detta */
+}
+
+
+#sumButton:hover {
+  background-color: #c2a77a;
+  transform: scale(1.05);
+}
+
+#summaryBox, #userFormBox {
+  max-width: 400px;
+  background: #fffef9;
+  border: 1px solid #d4b98c;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+#summaryBox p, #userFormBox p {
+  margin: 0 0 8px;
+  font-weight: bold;
+  color: #4b3b2b;
+}
+
+#summaryBox select, #summaryBox button,
+#userFormBox input, #userFormBox button, #userFormBox select {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #d4b98c;
+  background-color: #fffdf8;
+  border-radius: 6px;
+}
+
+#summaryBox button,
+#userFormBox button {
+  background-color: #f7e7ce;
+  color: #4b3b2b;
+  padding: 8px 14px;
+  margin-top: 8px;
+  border: 1px solid #d4b98c;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#summaryBox button:hover,
+#userFormBox button:hover {
+  background-color: #e6d3b3;
+}
+
+#summaryBox button:last-of-type {
+  background-color: #6c757d;
+}
+
+.quantity-control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.quantity-control label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.quantity-control div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.quantity-control button {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.quantity-control span {
+  min-width: 24px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.quantity-control small {
+  font-size: 12px;
+  color: #666;
+  margin-left: 4px;
+}
+
+#summaryBox small, #userFormBox small {
+  display: block;
+  margin-top: 10px;
+  color: #555;
+}
+/* Hindrar horisontell scroll på hela sidan */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Gör så att toolbar fyller hela bredden */
+#toolbar {
+  width: 100%;
+  box-sizing: border-box;
+}
+body {
+  overflow: auto;
+}
+
+#summaryBox {
+  padding: 20px 30px; /* Minska topp/botten-padding (tidigare t.ex. 20px 30px?) */
+  max-height: 95vh;   /* Så rutan aldrig blir högre än 90% av skärmen */
+  overflow-y: auto;   /* Visa scroll om innehållet är för långt */
+}
+.nav-bar {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.nav-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background-color: rgba(208, 172, 172, 0.8);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-bar a:hover {
+  background-color: rgba(208, 172, 172, 1);
+}
+
+/* ======== Hamburgermeny-styling ======== */
+.hamburger {
+display: none;
+flex-direction: column;
+justify-content: space-between;
+width: 30px;
+height: 22px;
+background: none;
+border: none;
+cursor: pointer;
+padding: 0;
+}
+.hamburger span {
+display: block;
+height: 4px;
+border-radius: 2px;
+background: #4b3b2b;
+}
+
+/* Desktop: visa toolbar-items som idag, göm hamburgere */
+.toolbar-items {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+align-items: center;
+gap: 12px;
+}
+.hamburger { display: none; }
+
+/* Mobil (≤600px): visa hamburgere, dölj toolbar‐items tills aktiv */
+@media (max-width: 600px) {
+#toolbar {
+  position: relative;
+  padding: 12px;
+}
+.hamburger {
+  display: flex;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+}
+.toolbar-items {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: #D0ACAC;
+  position: absolute;
+  top: 50px;   /* justera efter höjd på #toolbar */
+  right: 0;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.toolbar-items.active {
+  display: flex;
+}
+/* För bättre klickytor */
+.toolbar-items button,
+.toolbar-items select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+}
+}
+@media (max-width: 600px) {
+#toolbar {
+  position: relative;
+  padding: 12px; /* ger lite generell inre marginal */
+}
+.hamburger {
+}
+.toolbar-items {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  background: #D0ACAC;
+  position: absolute;
+  top: 50px; 
+  /* låt den fylla hela bredden minus 24px (12px inre margin på var sida) */
+  left: 12px;
+  right: 12px;
+  box-sizing: border-box;
+  padding: 12px;  /* inre luft runt knapparna */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.toolbar-items.active {
+  display: flex;
+}
+/* och så gör vi knapparna fullbredd inom sin container */
+.toolbar-items button,
+.toolbar-items select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+}
+}
+@media (max-width: 600px) {
+#toolbar {
+  position: relative;
+  padding: 12px; /* behåll */
+}
+.toolbar-items {
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  background: #D0ACAC;
+  position: absolute;
+  top: 50px;       /* justera om du vill ha mer/färre pixlar under raden */
+  left: 0;         /* ändrat från 12px */
+  right: 0;        /* ändrat från 12px */
+  box-sizing: border-box; 
+  padding: 12px;   /* inre luft runt knapparna */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.toolbar-items.active {
+  display: flex;
+}
+.toolbar-items button,
+.toolbar-items select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+}
+}
+@media (max-width: 600px) {
+.hamburger {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 24px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: #4b3b2b;
+  border-radius: 2px;
+}
+}
+@media (max-width: 600px) {
+.hamburger {
+  /* Samma bakgrund, kant och rundning som dina övriga knappar */
+  background: #f3e0bd;        /* knapp-bakgrund */
+  border: 1px solid #dbccab;  /* knapp-kant */
+  border-radius: 8px;         /* rundade hörn */
+  padding: 8px;               /* inre marginal */
+  
+  /* Behåll ikonstrukturen */
+  display: flex !important;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 36px;  
+  height: 28px;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: #4b3b2b;  /* streck-färg */
+  border-radius: 2px;
+}
+
+/* Lägg till lätt hover-effekt */
+.hamburger:hover {
+  background: #eedeb7;
+}
+}
+/* Gör hamburgermenyn bredare och centrera streck + text */
+@media (max-width: 600px) {
+.hamburger {
+  display: flex !important;
+  flex-direction: column;    /* stapla strecken och texten vertikalt */
+  align-items: center;       /* centrera horisontellt */
+  justify-content: center;
+  width: 80px;               /* bredare knapp */
+  padding: 8px;
+  background: #f3e0bd;
+  border: 1px solid #dbccab;
+  border-radius: 8px;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1000;
+}
+
+/* Strecken – lite smalare än knappen för luft runtom */
+.hamburger span {
+  width: 60%;
+  height: 3px;
+  background: #4b3b2b;
+  border-radius: 2px;
+  margin: 2px 0;
+}
+
+/* Texten “MENY” */
+.hamburger .menu-text {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  color: #4b3b2b;
+  line-height: 1;
+}
+
+.hamburger:hover {
+  background: #eedeb7;
+}
+}
+@media (max-width: 600px) {
+/* Sätt en lite mindre bas-textstorlek */
+html {
+  font-size: 14px;
+}
+
+/* Justera verktygsknappar och select */
+#toolbar label,
+#toolbar input,
+.toolbar-items button,
+.toolbar-items select {
+  font-size: 0.9rem;
+}
+
+/* Om du också vill skala ner rubrik-inputen */
+#titleInput {
+  font-size: 0.9rem;
+}
+}
+@media (max-width: 600px) {
+/* Krymp rubrik-etiketten och inmatningsrutan */
+label[for="titleInput"],
+#titleInput {
+  font-size: 0.9rem;    /* lite mindre text */
+}
+
+/* Gör inmatningsfältet lite smalare så det passar mobil */
+#titleInput {
+  width: 100%;          /* fyll ut hela bredden inom sin container */
+  max-width: 300px;     /* behåll maxbredd om du vill */
+  box-sizing: border-box;
+}
+}
+@media (max-width: 600px) {
+/* Se till att titel-fältet ligger över verktygsmenyn */
+#titleInput,
+label[for="titleInput"] {
+  position: relative;
+  z-index: 1001;  /* högre än menyns 1000 */
+}
+}
+
+/* reset any page margins */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-x: hidden; /* your existing rule */
+}
+
+/* 50×50 m world under header+toolbar */
+#canvasContainer {
+  position: absolute;
+  top: 250px;            /* <-- adjust this to exactly header + toolbar height */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fffdf8;
+  overflow: hidden;
+}
+
+/* scrollable viewport */
+#canvasWrapper {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0; /* top/left 40 px if rulers */
+  overflow: auto;
+  touch-action: auto;
+}
+
+/* make sure the drawing canvas sits flush in its wrapper */
+#canvas {
+  display: block;
+  margin: 0;    /* kill that 20px auto */
+  touch-action: pan-x pan-y;
+}
+
+#floatingTitle {
+  position: absolute;
+  top: 40px;              /* distance from the top of canvasContainer */
+  left: 50%;
+  transform: translateX(-50%);
+  font: bold 32px 'Segoe UI', sans-serif;
+  color: #111;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  pointer-events: none;   /* so clicks go “through” to the canvas */
+  z-index: 100;           /* above the canvas scroller */
+}
+
+#toolbar {
+  position: fixed;        /* keep it pinned under the header */
+  top: 40px;              /* (or whatever your header height is) */
+  left: 0;                /* span from the very left edge */
+  right: 0;               /* to the very right edge */
+  width: 100vw;           /* force full viewport width */
+  box-sizing: border-box; /* include any padding inside that width */
+  margin: 0;              /* clear out any auto-margins */
+  z-index: 1000;          /* stay on top of everything */
+}
