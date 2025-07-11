@@ -469,6 +469,27 @@ drawAll();
     }
   }
   document.addEventListener('DOMContentLoaded', () => {
+    const hamBtn   = document.querySelector('.hamburger');
+    const toolbar  = document.querySelector('.toolbar-items');
+  
+    if (hamBtn && toolbar) {
+      // 1) Toggle open/close on hamburger
+      hamBtn.addEventListener('click', () => {
+        const isOpen = toolbar.classList.toggle('active');
+        hamBtn.setAttribute('aria-expanded', String(isOpen));
+      });
+  
+      // 2) Close menu after clicking any action button
+      toolbar.querySelectorAll('button').forEach(button => {
+        button.addEventListener('click', () => {
+          toolbar.classList.remove('active');
+          hamBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  });
+  /*
+  document.addEventListener('DOMContentLoaded', () => {
     const hamBtn = document.querySelector('.hamburger');
     const toolbar = document.querySelector('.toolbar-items');
   
@@ -479,6 +500,7 @@ drawAll();
       });
     }
   });
+  */
   // --- Utskriftsfunktion för checklistan ---
   function printChecklist() {
     document.body.classList.add('print-checklist-mode');
