@@ -38,10 +38,6 @@ window.addEventListener("keydown", (e) => {
     }
   });
 
-/*
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();*/
-
 function drawAll(isForExport = false) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#fffdf8";
