@@ -1,234 +1,357 @@
+
 body {
-    margin: 0;
-    font-family: 'Georgia', serif;
-    background-color: #fffdf8;
-    color: #4b3b2b;
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Georgia', serif;
+  background-color: #fffdf8;
+  color: #4b3b2b;
+  overflow-x: hidden;
+}
+
+#headerWrapper {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1010;
+  display: flex;
+  flex-direction: column;
+  background: #eee;            /* or transparent if you only want the titleRow bg */
+}
+.titleRow {
+  padding: 10px;
+  background: #eee;
+}
+
+#toolbar {
+  display: relative;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #D0ACAC;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  position: fixed;          /* stays inside #headerWrapper */
+  width: 100%;
+  top:  /*höjden på titleBar i p*/x ;
+  left: 0; right: 0;
+  box-sizing: border-box;
+  min-height: 120px;            /* ensure one row of buttons always fits */
+  z-index: 1002;
+  font-family: 'Georgia', serif;
+  text-align: center;
+}
+
+#canvasContainer {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 120px);
+  z-index: 0;
+  margin-top: calc(16px * 2 + 46px); /* calc( 40px + 70px ); */
+  overflow: auto !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
+
+#canvas {
+  display: block;
+  margin: 0;              /* no auto-centering or extra gaps */
+  background-color: #fffdf8;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
+}
+
+/* Desktop: hide hamburger, show toolbar items */
+.hamburger { display: none; }
+.toolbar-items { display: flex; }
+
+/* Mobile (≤600px): hamburger toggles the toolbar-items */
+@media (max-width: 600px) {
   #toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    padding: 16px;
-    background: #D0ACAC;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    font-family: 'Georgia', serif;
-    text-align: center;
+    position: relative;
+    padding: 12px;
   }
-  
-  #toolbar select,
-  #toolbar button:not(#sumButton) {
-    background-color: #f7e7ce;
+  .hamburger {
+    display: flex !important;
+    position: absolute;
+    top: 12px; right: 12px;
+    background: #f7e7ce;
     border: 1px solid #d4b98c;
-    padding: 6px 16px;
     border-radius: 8px;
+    padding: 8px;
+    z-index: 1003;
+
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;  
+    height: 28px;
+    cursor: pointer;
+    position: absolute;
+  }
+  .hamburger span {
+    width: 60%;
+    height: 3px;
+    background: #4b3b2b;
+    border-radius: 2px;
+    margin: 2px 0;
+  }
+  .hamburger .menu-text {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: #4b3b2b;
+    line-height: 1;
+  }
+  .hamburger:hover {
+    background: #eedeb7;
+  }
+  .toolbar-items {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background: #D0ACAC;
+    position: absolute;
+    top: 56px; 
+    right: 0; left: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+    z-index: 1002;
+  }
+  .toolbar-items.active {
+    display: flex;
+  }
+  #toolbar label,
+  #toolbar input,
+  .toolbar-items button,
+  .toolbar-items select {
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  html {
     font-size: 14px;
+  }
+  #titleInput {
+    width: 100%;          /* fyll ut hela bredden inom sin container */
+    max-width: 300px;     /* behåll maxbredd om du vill */
+    box-sizing: border-box;
+  }
+  #titleInput,
+  label[for="titleInput"] {
+    position: relative;
+    z-index: 1001;
+    font-size: 0.9rem;
+  }
+  #mobile-notice {
+    display: flex;
+    position: fixed;
+    top: 60px;               /* justera så den hamnar under toolbaren */
+    left: 8px;
+    right: 8px;
+    padding: 12px 16px;
+    background: #f7e7ce;
+    border: 1px solid #d4b98c;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    z-index: 1001;
     font-family: inherit;
     color: #4b3b2b;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    line-height: 1;
-    height: 46px;
-  }
-  
-  #toolbar button:not(#sumButton):hover,
-  #toolbar select:hover {
-    background-color: #e6d3b3;
-    border-color: #c2a77a;
-  }
-  
-  #toolbar select {
-    min-width: 240px;
-  }
-  
-  #sumButton {
-    background-color: #d4b98c;
-    color: white;
-    width: 120px;
-    height: 120px;
-    border: none;
-    border-radius: 60px;
-    font-size: 14px;
-    font-weight: bold;
-    margin-left: 10px;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    font-family: inherit; /* ✅ Lägg till detta */
-  }
-  
-  
-  #sumButton:hover {
-    background-color: #c2a77a;
-    transform: scale(1.05);
-  }
-  
-  #canvas {
-    border: none;
-    background-color: #fffdf8;
-    margin: 20px auto;
-    display: block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-  }
-  
-  #summaryBox, #userFormBox {
-    max-width: 400px;
-    background: #fffef9;
-    border: 1px solid #d4b98c;
-    padding: 20px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-    z-index: 10;
-  }
-  
-  #summaryBox p, #userFormBox p {
-    margin: 0 0 8px;
-    font-weight: bold;
-    color: #4b3b2b;
-  }
-  
-  #summaryBox select, #summaryBox button,
-  #userFormBox input, #userFormBox button, #userFormBox select {
-    margin-top: 12px;
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #d4b98c;
-    background-color: #fffdf8;
-    border-radius: 6px;
-  }
-  
-  #summaryBox button,
-  #userFormBox button {
-    background-color: #f7e7ce;
-    color: #4b3b2b;
-    padding: 8px 14px;
-    margin-top: 8px;
-    border: 1px solid #d4b98c;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  #summaryBox button:hover,
-  #userFormBox button:hover {
-    background-color: #e6d3b3;
-  }
-  
-  #summaryBox button:last-of-type {
-    background-color: #6c757d;
-  }
-  
-  .quantity-control {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-    padding: 10px;
-    background-color: #f7f7f7;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-  }
-  
-  .quantity-control label {
-    font-weight: bold;
-    margin-bottom: 6px;
-  }
-  
-  .quantity-control div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 4px;
-  }
-  
-  .quantity-control button {
-    width: 30px;
-    height: 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 4px;
-    background-color: #ddd;
-    cursor: pointer;
-  }
-  
-  .quantity-control span {
-    min-width: 24px;
-    text-align: center;
-    font-family: monospace;
-  }
-  
-  .quantity-control small {
-    font-size: 12px;
-    color: #666;
-    margin-left: 4px;
-  }
-  
-  #summaryBox small, #userFormBox small {
-    display: block;
-    margin-top: 10px;
-    color: #555;
-  }
-/* Hindrar horisontell scroll på hela sidan */
-body {
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-  }
-  
-  /* Gör så att toolbar fyller hela bredden */
-  #toolbar {
-    width: 100%;
-    box-sizing: border-box;
-  }
-  body {
-    overflow: auto;
-  }
-  
-  
-  canvas {
-    display: block;
-    margin: 0;
   }
 
-  #summaryBox {
-    padding: 20px 30px; /* Minska topp/botten-padding (tidigare t.ex. 20px 30px?) */
-    max-height: 95vh;   /* Så rutan aldrig blir högre än 90% av skärmen */
-    overflow-y: auto;   /* Visa scroll om innehållet är för långt */
-  }
-  .nav-bar {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .nav-bar ul {
-    list-style: none;
-    margin: 0;
+  #mobile-notice button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    color: #4b3b2b;
     padding: 0;
-    display: flex;
-    gap: 16px;
   }
-  
-  .nav-bar a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    background-color: rgba(208, 172, 172, 0.8);
-    padding: 8px 14px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .nav-bar a:hover {
-    background-color: rgba(208, 172, 172, 1);
-  }
+}
+
+#toolbar select,
+#toolbar button:not(#sumButton) {
+  background-color: #f7e7ce;
+  border: 1px solid #d4b98c;
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #4b3b2b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  line-height: 1;
+  height: 46px;
+}
+
+#toolbar button:not(#sumButton):hover,
+#toolbar select:hover {
+  background-color: #e6d3b3;
+  border-color: #c2a77a;
+}
+
+#toolbar select {
+  min-width: 240px;
+}
+
+#sumButton {
+  background-color: #d4b98c;
+  color: white;
+  width: 120px;
+  height: 120px;
+  border: none;
+  border-radius: 60px;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-family: inherit; /* ✅ Lägg till detta */
+}
+
+#sumButton:hover {
+  background-color: #c2a77a;
+  transform: scale(1.05);
+}
+
+#summaryBox, #userFormBox {
+  max-width: 400px;
+  background: #fffef9;
+  border: 1px solid #d4b98c;
+  padding: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+#summaryBox p, #userFormBox p {
+  margin: 0 0 8px;
+  font-weight: bold;
+  color: #4b3b2b;
+}
+
+#summaryBox select, #summaryBox button,
+#userFormBox input, #userFormBox button, #userFormBox select {
+  margin-top: 12px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #d4b98c;
+  background-color: #fffdf8;
+  border-radius: 6px;
+}
+
+#summaryBox button,
+#userFormBox button {
+  background-color: #f7e7ce;
+  color: #4b3b2b;
+  padding: 8px 14px;
+  margin-top: 8px;
+  border: 1px solid #d4b98c;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#summaryBox button:hover,
+#userFormBox button:hover {
+  background-color: #e6d3b3;
+}
+
+#summaryBox button:last-of-type {
+  background-color: #6c757d;
+}
+
+.quantity-control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.quantity-control label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.quantity-control div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.quantity-control button {
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.quantity-control span {
+  min-width: 24px;
+  text-align: center;
+  font-family: monospace;
+}
+
+.quantity-control small {
+  font-size: 12px;
+  color: #666;
+  margin-left: 4px;
+}
+
+#summaryBox small, #userFormBox small {
+  display: block;
+  margin-top: 10px;
+  color: #555;
+}
+
+#summaryBox {
+  padding: 20px 30px; /* Minska topp/botten-padding (tidigare t.ex. 20px 30px?) */
+  max-height: 95vh;   /* Så rutan aldrig blir högre än 90% av skärmen */
+  overflow-y: auto;   /* Visa scroll om innehållet är för långt */
+}
+.nav-bar {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.nav-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 16px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  background-color: rgba(208, 172, 172, 0.8);
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-bar a:hover {
+  background-color: rgba(208, 172, 172, 1);
+}
  
   /* ======== Hamburgermeny-styling ======== */
 .hamburger {
@@ -258,559 +381,89 @@ body {
   gap: 12px;
 }
 .hamburger { display: none; }
-
-/* Mobil (≤600px): visa hamburgere, dölj toolbar‐items tills aktiv */
-@media (max-width: 600px) {
-  #toolbar {
-    position: relative;
-    padding: 12px;
-  }
-  .hamburger {
-    display: flex;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 10;
-  }
-  .toolbar-items {
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    padding: 12px;
-    background: #D0ACAC;
-    position: absolute;
-    top: 50px;   /* justera efter höjd på #toolbar */
-    right: 0;
-    width: 100%;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  .toolbar-items.active {
-    display: flex;
-  }
-  /* För bättre klickytor */
-  .toolbar-items button,
-  .toolbar-items select {
-    width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-}
-@media (max-width: 600px) {
-  #toolbar {
-    position: relative;
-    padding: 12px; /* ger lite generell inre marginal */
-  }
-  .hamburger {
-  }
-  .toolbar-items {
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    background: #D0ACAC;
-    position: absolute;
-    top: 50px; 
-    /* låt den fylla hela bredden minus 24px (12px inre margin på var sida) */
-    left: 12px;
-    right: 12px;
-    box-sizing: border-box;
-    padding: 12px;  /* inre luft runt knapparna */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  .toolbar-items.active {
-    display: flex;
-  }
-  /* och så gör vi knapparna fullbredd inom sin container */
-  .toolbar-items button,
-  .toolbar-items select {
-    width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-}
-@media (max-width: 600px) {
-  #toolbar {
-    position: relative;
-    padding: 12px; /* behåll */
-  }
-  .toolbar-items {
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    background: #D0ACAC;
-    position: absolute;
-    top: 50px;       /* justera om du vill ha mer/färre pixlar under raden */
-    left: 0;         /* ändrat från 12px */
-    right: 0;        /* ändrat från 12px */
-    box-sizing: border-box; 
-    padding: 12px;   /* inre luft runt knapparna */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  .toolbar-items.active {
-    display: flex;
-  }
-  .toolbar-items button,
-  .toolbar-items select {
-    width: 100%;
-    font-size: 1rem;
-    padding: 10px;
-  }
-}
-@media (max-width: 600px) {
-  .hamburger {
-    display: flex !important;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 24px;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 1000;
-  }
-  .hamburger span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background: #4b3b2b;
-    border-radius: 2px;
-  }
-}
-@media (max-width: 600px) {
-  .hamburger {
-    /* Samma bakgrund, kant och rundning som dina övriga knappar */
-    background: #f3e0bd;        /* knapp-bakgrund */
-    border: 1px solid #dbccab;  /* knapp-kant */
-    border-radius: 8px;         /* rundade hörn */
-    padding: 8px;               /* inre marginal */
-    
-    /* Behåll ikonstrukturen */
-    display: flex !important;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 36px;  
-    height: 28px;
-    cursor: pointer;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 1000;
-  }
-  .hamburger span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background: #4b3b2b;  /* streck-färg */
-    border-radius: 2px;
-  }
-  
-  /* Lägg till lätt hover-effekt */
-  .hamburger:hover {
-    background: #eedeb7;
-  }
-}
-/* Gör hamburgermenyn bredare och centrera streck + text */
-@media (max-width: 600px) {
-  .hamburger {
-    display: flex !important;
-    flex-direction: column;    /* stapla strecken och texten vertikalt */
-    align-items: center;       /* centrera horisontellt */
-    justify-content: center;
-    width: 80px;               /* bredare knapp */
-    padding: 8px;
-    background: #f3e0bd;
-    border: 1px solid #dbccab;
-    border-radius: 8px;
-    cursor: pointer;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    z-index: 1000;
-  }
-
-  /* Strecken – lite smalare än knappen för luft runtom */
-  .hamburger span {
-    width: 60%;
-    height: 3px;
-    background: #4b3b2b;
-    border-radius: 2px;
-    margin: 2px 0;
-  }
-
-  /* Texten “MENY” */
-  .hamburger .menu-text {
-    margin-top: 6px;
-    font-size: 0.9rem;
-    color: #4b3b2b;
-    line-height: 1;
-  }
-
-  .hamburger:hover {
-    background: #eedeb7;
-  }
-}
-@media (max-width: 600px) {
-  /* Sätt en lite mindre bas-textstorlek */
-  html {
-    font-size: 14px;
-  }
-
-  /* Justera verktygsknappar och select */
-  #toolbar label,
-  #toolbar input,
-  .toolbar-items button,
-  .toolbar-items select {
-    font-size: 0.9rem;
-  }
-
-  /* Om du också vill skala ner rubrik-inputen */
-  #titleInput {
-    font-size: 0.9rem;
-  }
-}
-@media (max-width: 600px) {
-  /* Krymp rubrik-etiketten och inmatningsrutan */
-  label[for="titleInput"],
-  #titleInput {
-    font-size: 0.9rem;    /* lite mindre text */
-  }
-
-  /* Gör inmatningsfältet lite smalare så det passar mobil */
-  #titleInput {
-    width: 100%;          /* fyll ut hela bredden inom sin container */
-    max-width: 300px;     /* behåll maxbredd om du vill */
-    box-sizing: border-box;
-  }
-}
-@media (max-width: 600px) {
-  /* Se till att titel-fältet ligger över verktygsmenyn */
-  #titleInput,
-  label[for="titleInput"] {
-    position: relative;
-    z-index: 1001;  /* högre än menyns 1000 */
-  }
-}
-/* Utskriftsregler för gästlist-modalen */
-/* 1) Dölj allt som standard vid utskrift */
-@media print {
-  body * {
-    display: none !important;
-  }
-  /* Se till att inga UI-knappar syns */
-  .no-print {
-    display: none !important;
-  }
-}
-
-
-/* 2) Endast checklistan får synas vid printChecklist() */
-@media print {
-  body.print-checklist-mode #checklistContainer,
-  body.print-checklist-mode #checklistContainer * {
-    display: block !important;
-  }
-
-  /* Dölj alla interaktiva delar i checklistan */
-  body.print-checklist-mode #checklistContainer .remove-item,
-  body.print-checklist-mode #checklistContainer #newChecklistItem,
-  body.print-checklist-mode #checklistContainer button[onclick="addChecklistItem()"],
-  body.print-checklist-mode #checklistContainer .no-print {
-    display: none !important;
-  }
-
-  /* Se till att checkbox + etikett är inline (på samma rad) */
-  body.print-checklist-mode #checklistContainer li label,
-  body.print-checklist-mode #checklistContainer li label input[type="checkbox"] {
-    display: inline-block !important;
-  }
-
-  /* Justera listan så varje punkt bara är en rad */
-  body.print-checklist-mode #checklistContainer ul {
-    padding-left: 1.2em !important;
-  }
-  body.print-checklist-mode #checklistContainer li {
-    margin-bottom: 0.5em !important;
-  }
-}
-
-
-/* 3) Endast gästlistan får synas vid printGuestList() */
-@media print {
-  /* Visa containern och allt i den */
-  body.print-guestlist-mode #guestListContainer,
-  body.print-guestlist-mode #guestListContainer * {
-    display: block !important;
-  }
-
-  /* Dölj alla .no-print inom gästlistan (t.ex. Skriv ut-knappen) */
-  body.print-guestlist-mode #guestListContainer .no-print {
-    display: none !important;
-  }
-}
       
-/* Grundstil – göm som standard */
 #mobile-notice {
     display: none;
   }
-  
-  /* Endast på mobil: visa rutan */
-  @media (max-width: 600px) {
-    #mobile-notice {
-      display: flex;
-      position: fixed;
-      top: 60px;               /* justera så den hamnar under toolbaren */
-      left: 8px;
-      right: 8px;
-      padding: 12px 16px;
-      background: #f7e7ce;
-      border: 1px solid #d4b98c;
-      border-radius: 8px;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      z-index: 1001;
-      font-family: inherit;
-      color: #4b3b2b;
-    }
-  
-    #mobile-notice button {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      line-height: 1;
-      cursor: pointer;
-      color: #4b3b2b;
-      padding: 0;
-    }
+
+/* --- Mobil (≤600px): visa och positionera hamburgaren --- */
+@media (max-width: 600px) {
+  .hamburger {
+    display: flex;
+    position: absolute;
+    top: 60px;
+    right: 12px;
+    z-index: 1003;
+    /* övriga mobil-specifika regler… */
+    transform: none;  /* ta bort transform: translateY(–50%) om du haft det globalt */
   }
-  #canvasContainer {
-    width: 100vw;
-    height: calc(100vh - 120px);     /* anpassa efter din toolbar-höjd */
-    overflow: auto !important;
-    -webkit-overflow-scrolling: touch;  /* mjuk scroll på iOS */
-    touch-action: pan-x pan-y;          /* tillåt både horisontell och vertikal scroll */
-  }
-  
-  #canvas {
-    display: block;
-    margin: 20px auto;
-    background-color: #fffdf8;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    touch-action: auto;   /* låter pek-drag bubbla upp till containern */
-  }
-  /* Se till att verktygsfält och hamburgermeny ligger över canvas */
-#toolbar {
-    position: relative;
+
+  .toolbar-items {
+    /* mobil-menyn ska ligga ovanför canvas */
+    position: absolute;
+    top: 50px;
+    right: 0;
     z-index: 1002;
   }
+}
   
-  @media (max-width: 600px) {
-    .toolbar-items {
-      z-index: 1002;
-    }
-    .hamburger {
-      z-index: 1003;
-    }
-  }
-/* --- Lägg längst ner i din CSS --- */
-
-/* Se till att canvas‐containern ligger under toolbaren */
-#canvasContainer {
-    position: relative;
-    z-index: 0;              /* lägre än toolbaren */
-    overflow: scroll;         /* inte auto – säkerställer scroll på alla enheter */
-    -webkit-overflow-scrolling: touch;
-  }
   
-  /* Gör så toolbar + meny alltid ligger över canvas */
-  #toolbar {
-    position: relative;
-    z-index: 10;
-  }
+/* --- Desktop (bredare än 600px): toolbar i normalt flöde --- */
+@media screen and (min-width: 601px) {
   .hamburger {
-    position: relative;
-    z-index: 11;
-  }
-  .toolbar-items {
-    position: absolute;       /* du har redan absolute mobil */
-    z-index: 12;
-  }
-    
-  /* --- Desktop: ingen hamburgare alls --- */
-.hamburger {
     display: none;
   }
-  
-  /* --- Mobil (≤600px): visa och positionera hamburgaren --- */
-  @media (max-width: 600px) {
-    .hamburger {
-      display: flex;
-      position: absolute;
-      top: 60px;
-      right: 12px;
-      z-index: 1003;
-      /* övriga mobil-specifika regler… */
-      transform: none;  /* ta bort transform: translateY(–50%) om du haft det globalt */
-    }
-  
-    .toolbar-items {
-      /* mobil-menyn ska ligga ovanför canvas */
-      position: absolute;
-      top: 50px;
-      right: 0;
-      z-index: 1002;
-    }
-  }
-  /* --- Desktop (bredare än 600px): toolbar i normalt flöde --- */
-@media (min-width: 601px) {
-    #toolbar {
-      position: static;    /* normal placering under titel-boxen */
-      margin-top: 80px;    /* lite luft uppifrån */
-      z-index: auto;       /* ta bort alla z-index som drar upp den */
-    }
-  }
-  #toolbar {
-    /* ... dina övriga regler ... */
-    min-height: 120px; /* eller vad som behövs för att rymma två rader */
-  }
-  .toolbar-items {
-    background: #D0ACAC;
-    padding: 16px;
-    border-radius: 8px;
-  }
-  /* ta då bort bakgrunden från #toolbar */
-  #toolbar {
-    background: none;
-  }
-/* ge hamburgarknappen samma bakgrund */
-.hamburger {
-    background-color: #f7e7ce;
-    border: 1px solid #d4b98c;
-    border-radius: 8px;
-    padding: 8px;
-    /* behåll dina befintliga mobil-regler för position, z-index etc */
-  }
-  #headerWrapper {
-    position: relative;
-    z-index: 1010;  /* högre än den fasta toolbaren */
-  }
-  
-/* LÄGG LÄNGST UPP I din style.css: */
-/* --- Mobil (≤600px): toolbar fixed överst --- */
-@media screen and (max-width: 600px) {
-    #toolbar {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 1000;
-      /* behåll dina rosa bakgrund/box-shadow här */
-    }
-    /* Skjuter ner allt innehåll under den fixade toolbaren */
-    #canvasContainer {
-      margin-top: calc(16px * 2 + 46px);
-    }
-  }
-  
-  /* --- Desktop (≥601px): normal ”flödes-toolbar” --- */
-  @media screen and (min-width: 601px) {
-    #toolbar {
-      position: static;    /* normal placering under headerWrapper */
-      margin-bottom: 16px; /* lite luft */
-      z-index: auto;
-    }
-  }
-  
-/* Flytta ner innehållet så att det inte hamnar under toolbar: */
-#canvasContainer {
-    margin-top: calc(16px * 2 + 46px); /* padding × 2 + knapp-höjd ≈ toolbar-höjd */
-    /* alternativt en fast höjd, t.ex. margin-top: 80px; */
-  }
-/* Mobil menyrad (samma rosa som #toolbar) */
-@media (max-width: 600px) {
-    .toolbar-items {
-      background: #D0ACAC;
-      width: 100%;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-    .hamburger {
-      /* ligger automatiskt inom #toolbar, så bakgrund syns bakom */
-      /* om du vill ge den egen bakgrund: */
-      background: #f7e7ce;
-      border: 1px solid #d4b98c;
-      border-radius: 8px;
-    }
-  }
-  
-  @media (min-width: 601px) {
-    /* Gör toolbaren kortare och ge den luft under sig */
-    #toolbar {
-      padding: 8px 16px;    /* mindre höjd på baren */
-      margin-bottom: 16px;  /* tryck ner allt innehåll med 16px */
-    }
-  }
-  /* Bara på desktop (>600px) */
-@media screen and (min-width: 601px) {
-    #toolbar {
-      /* krympt padding om du vill göra baren lite mindre i höjdled */
-      padding: 12px 16px;  
-  
-      /* ge luft under toolbaren så att allt innehåll (canvas etc) skjuts ner */
-      margin-bottom: 24px;
-    }
-  }
-  /* ───── Desktop: fixad toolbar högst upp ───── */
-@media (min-width: 601px) {
-    #toolbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: #D0ACAC;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px; /* styr barens höjd */
-    }
-  
-    /* Tryck ner resten av innehållet */
-    #canvasContainer,
-    #canvas {
-      margin-top: 70px;  /* justera efter din toolbar-höjd */
-    }
-    /* Om du har en HTML-rubrik högst upp: */
-    #titleInput,
-    label[for="titleInput"] {
-      margin-top: 70px;
-    }
-  }
-  @media screen and (min-width: 601px) {
-    #toolbar {
-      position: fixed;
-      top: 40px;           /* istället för top: 0 */
-      left: 0;
-      right: 0;
-      /* resten som förut… */
-    }
-  
-    /* och skjuta ner innehållet så det inte ligger under verktygsfältet */
-    #canvasContainer {
-      margin-top: calc(40px + /*toolbar-höjd*/ 24px + /*padding-botten*/ 46px);
-      /* om du räknat ut padding-top (12px) ×2 + knapp-höjd 46px = 70px,
-         och rubrikrad 40px → total 110px, så margin-top:110px; */
-    }
-  }
-  #headerWrapper { position: relative; }
   #toolbar {
     position: fixed;
-    top:  /*höjden på titleBar i p*/x ;
-    left: 0; right: 0;
-    /* … övriga regler … */
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: #D0ACAC;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;  
+    margin-top: 80px;
+    margin-bottom: 24px;
   }
-      
+  /* Tryck ner resten av innehållet */
+  #canvas {
+    margin-top: 70px;  /* justera efter din toolbar-höjd */
+  }
+  #canvasContainer {
+    margin-top: calc(40px + /*toolbar-höjd*/ 24px + /*padding-botten*/ 46px);
+  }
+  #titleInput,
+  label[for="titleInput"] {
+    margin-top: 70px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #toolbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    /* behåll dina rosa bakgrund/box-shadow här */
+  }
+  /* Skjuter ner allt innehåll under den fixade toolbaren */
+  #canvasContainer {
+    margin-top: calc(16px * 2 + 46px);
+  }
+}
+
+/*
+.toolbar-items {
+  background: #D0ACAC;
+  padding: 16px;
+  border-radius: 8px;
+  }
+ 
+  #toolbar {
+  background: none;
+  }
+*/
