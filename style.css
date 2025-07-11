@@ -69,7 +69,7 @@ body {
 /* Mobile (≤600px): hamburger toggles the toolbar-items */
 @media screen and (max-width: 600px) {
   #toolbar {
-    position: relative;
+    position: static;
     left: auto;
     right: auto;
     /* pick a height that fits your buttons / padding */
@@ -165,7 +165,7 @@ body {
     align-items: center;
     justify-content: space-between;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    z-index: 1001;
+    z-index: 1005;
     font-family: inherit;
     color: #4b3b2b;
   }
