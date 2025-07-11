@@ -155,7 +155,7 @@ body {
   #mobile-notice {
     display: flex;
     position: fixed;
-    top: 60px;               /* justera så den hamnar under toolbaren */
+    top: 80px;               /* justera så den hamnar under toolbaren */
     left: 8px;
     right: 8px;
     padding: 12px 16px;

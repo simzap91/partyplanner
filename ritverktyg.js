@@ -543,6 +543,8 @@ function drawScalebars() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
+  const closeBtn = document.getElementById('close-mobile-notice');
+  const notice   = document.getElementById('mobile-notice');
 
   if (hamBtn && toolbar) {
     // 1) Toggle open/close on hamburger
@@ -557,6 +559,12 @@ document.addEventListener('DOMContentLoaded', () => {
         toolbar.classList.remove('active');
         hamBtn.setAttribute('aria-expanded', 'false');
       });
+    });
+  }
+
+  if (closeBtn && notice) {
+    closeBtn.addEventListener('click', () => {
+      notice.style.display = 'none';
     });
   }
 });
