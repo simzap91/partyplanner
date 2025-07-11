@@ -22,7 +22,6 @@ body {
 }
 
 #toolbar {
-  display: relative;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
@@ -61,12 +60,8 @@ body {
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
 }
 
-/* Desktop: hide hamburger, show toolbar items */
-.hamburger { display: none; }
-.toolbar-items { display: flex; }
-
 /* Mobile (≤600px): hamburger toggles the toolbar-items */
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
   #toolbar {
     position: fixed;
     top: 0;
@@ -151,6 +146,9 @@ body {
     position: relative;
     z-index: 1001;
     font-size: 0.9rem;
+  }
+  #canvasContainer {
+    margin-top: calc(16px * 2 + 46px);
   }
   #mobile-notice {
     display: flex;
@@ -361,45 +359,13 @@ body {
 .nav-bar a:hover {
   background-color: rgba(208, 172, 172, 1);
 }
- 
-  /* ======== Hamburgermeny-styling ======== */
-.hamburger {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 30px;
-  height: 22px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-.hamburger span {
-  display: block;
-  height: 4px;
-  border-radius: 2px;
-  background: #4b3b2b;
-}
 
-/* Desktop: visa toolbar-items som idag, göm hamburgere */
-.toolbar-items {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-}
-.hamburger { display: none; }
-      
 #mobile-notice {
   display: none;
 }
   
 /* --- Desktop (bredare än 600px): toolbar i normalt flöde --- */
 @media screen and (min-width: 601px) {
-  .hamburger {
-    display: none;
-  }
   #toolbar {
     position: fixed;
     top: 40px;
@@ -417,6 +383,16 @@ body {
     margin-top: 80px;
     margin-bottom: 24px;
   }
+  .hamburger {
+    display: none;
+  }
+  .toolbar-items { 
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
   /* Tryck ner resten av innehållet */
   #canvas {
     margin-top: 70px;  /* justera efter din toolbar-höjd */
@@ -429,28 +405,3 @@ body {
     margin-top: 70px;
   }
 }
-
-@media screen and (max-width: 600px) {
-  #toolbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    /* behåll dina rosa bakgrund/box-shadow här */
-  }
-  /* Skjuter ner allt innehåll under den fixade toolbaren */
-  #canvasContainer {
-    margin-top: calc(16px * 2 + 46px);
-  }
-}
-
-/*
-.toolbar-items {
-  background: #D0ACAC;
-  padding: 16px;
-  border-radius: 8px;
-  }
- 
-  #toolbar {
-  background: none;
-  }
-*/
