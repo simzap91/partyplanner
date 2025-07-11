@@ -331,14 +331,6 @@ function saveAsImage() {
   link.click();
 }
 
-/*
-function saveAsImage() {
-  const link = document.createElement('a');
-  link.download = 'bordsplacering.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-}*/
-
 // --- Ersätt befintlig createGuestList() med detta ---
 function createGuestList() {
   const guests = objects.filter(o => o.type === "guest");
@@ -664,4 +656,4 @@ async function downloadGuestList() {
     closeBtn.style.display    = '';
     downloadBtn.style.display = '';
   }
-} 
+}
