@@ -38,8 +38,9 @@ window.addEventListener("keydown", (e) => {
     }
   });
   
+/*
 window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+resizeCanvas();*/
 
 function drawAll(isForExport = false) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -504,8 +505,6 @@ canvas.addEventListener("touchend", () => {
   dragTarget = null;
 });
 
-drawAll();
-
 function drawScalebars() {
   const cmToPx = 0.8; // 1 cm = 0.8 px
   const mToPx = cmToPx * 100; // 1 meter = 80 px
@@ -547,6 +546,7 @@ function drawScalebars() {
     ctx.fillText(m + " m", baseX + 5, y + 3);
   }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
@@ -659,3 +659,13 @@ async function downloadGuestList() {
     downloadBtn.style.display = '';
   }
 }
+
+window.addEventListener('load', () => {
+  resizeCanvas();
+  updateLayout();
+});
+
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  updateLayout();
+});
