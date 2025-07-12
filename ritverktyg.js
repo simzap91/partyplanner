@@ -30,6 +30,7 @@ function resizeCanvas() {
 
   window.scrollTo((canvas.width - window.innerWidth) / 2, 0);
 }
+
 window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && measuring) {
       measuring = false;
@@ -38,6 +39,136 @@ window.addEventListener("keydown", (e) => {
     }
   });
 
+function drawAll() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#fffdf8";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "#111";
+  ctx.font = "bold 32px 'Segoe UI', sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
+  ctx.shadowOffsetX = 1;
+  ctx.shadowOffsetY = 1;
+  ctx.shadowBlur = 1;
+
+  for (const obj of objects) {
+    ctx.lineWidth = obj === selected ? 3 : 1;
+    ctx.strokeStyle = "#000";
+
+    if (obj.type === "rect") {
+      ctx.save();
+      ctx.translate(obj.x + obj.w / 2, obj.y + obj.h / 2);
+      ctx.rotate((obj.rotation || 0) * Math.PI / 180);
+      ctx.fillStyle = obj.color || "#ead8b6";
+      ctx.fillRect(-obj.w / 2, -obj.h / 2, obj.w, obj.h);
+      ctx.strokeRect(-obj.w / 2, -obj.h / 2, obj.w, obj.h);
+      ctx.fillStyle = "#000";
+      ctx.font = "12px sans-serif";
+      ctx.fillText(`Bord ${obj.tableNumber}`, 0, -6);
+      ctx.fillText(`${obj.seats} platser`, 0, 12);
+      ctx.restore();
+    } else if (obj.type === "circle") {
+      ctx.beginPath();
+      ctx.fillStyle = obj.color || "#ead8b6";
+      ctx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#000";
+      ctx.font = "12px sans-serif";
+      ctx.fillText(`Bord ${obj.tableNumber}`, obj.x, obj.y - 6);
+      ctx.fillText(`${obj.seats} platser`, obj.x, obj.y + 12);
+    } else if (obj.type === "guest") {
+      ctx.beginPath();
+      ctx.fillStyle = "#fffffe";
+      ctx.arc(obj.x, obj.y, 20, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#d4b98c";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      ctx.fillStyle = "#000";
+      ctx.font = "12px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(obj.name, obj.x, obj.y + 1);
+    }
+  }
+
+   ctx.save();
+   ctx.globalAlpha = 0.15;
+   ctx.fillStyle = "#333";
+   ctx.font = "bold 48px 'Segoe UI', sans-serif";
+   ctx.textAlign = "right";
+   ctx.textBaseline = "bottom";
+   
+   // Flytta ner till ca 95% av canvasens höjd och bredd
+   const x = canvas.width * 0.49;
+   const y = canvas.height * 0.50;
+   
+   ctx.fillText("EverAfterbyEster", x, y);
+   if (showAxes) {
+    const meterToPx = 80;
+    const viewCenterX = window.scrollX + window.innerWidth / 2;
+    const viewCenterY = window.scrollY + window.innerHeight / 2;
+  
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([5, 3]);
+  
+    // Rita x-axeln
+    ctx.beginPath();
+    ctx.moveTo(0, viewCenterY);
+    ctx.lineTo(canvas.width, viewCenterY);
+    ctx.stroke();
+  
+    // Rita y-axeln
+    ctx.beginPath();
+    ctx.moveTo(viewCenterX, 0);
+    ctx.lineTo(viewCenterX, canvas.height);
+    ctx.stroke();
+  
+    ctx.setLineDash([]);
+    ctx.fillStyle = "#000";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "top";
+  
+    // Märkningar längs x-axeln
+    for (let x = -10; x <= 20; x++) {
+      const px = viewCenterX + x * meterToPx;
+      if (px < 0 || px > canvas.width) continue;
+      ctx.beginPath();
+      ctx.moveTo(px, viewCenterY - 5);
+      ctx.lineTo(px, viewCenterY + 5);
+      ctx.stroke();
+      if (x !== 0) ctx.fillText(`${x} m`, px, viewCenterY + 8);
+    }
+  
+    // Märkningar längs y-axeln
+    ctx.textAlign = "left";
+    ctx.textBaseline = "middle";
+    for (let y = -10; y <= 10; y++) {
+      const py = viewCenterY + y * meterToPx;
+      if (py < 0 || py > canvas.height) continue;
+      ctx.beginPath();
+      ctx.moveTo(viewCenterX - 5, py);
+      ctx.lineTo(viewCenterX + 5, py);
+      ctx.stroke();
+      if (y !== 0) ctx.fillText(`${-y} m`, viewCenterX + 8, py);
+    }
+    ctx.restore();
+  }
+   ctx.restore();
+}
+
+function onTitleChange() {
+  const text = document.getElementById('titleInput').value;
+  document.getElementById('titleDisplay').textContent = text;
+}
+
+/*
 function drawAll(isForExport = false) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#fffdf8";
@@ -165,13 +296,11 @@ function drawAll(isForExport = false) {
       ctx.stroke();
       if (y !== 0) ctx.fillText(`${-y} m`, viewCenterX + 8, py);
     }
-  
     ctx.restore();
   }
-  
    ctx.restore();
-
 }
+*/
 
 function updateLayout() {
   const header = document.getElementById('headerWrapper');
@@ -255,70 +384,78 @@ function renameTable() {
 }
 
 function saveAsImage() {
-  const scale  = window.devicePixelRatio || 1;
-  const pxPerM = 80;      // same scale you’re using throughout
-  const pad    = 40;      // CSS-px padding on each side
-  const minW   = 26 * pxPerM;  // default 60 m width in px
-  const minH   = 19 * pxPerM;  // default 40 m height in px
+  const scale   = window.devicePixelRatio || 1;
+  const pxPerM  = 80;      // world → CSS-px scale
+  const pad     = 20;      // desired gutter in px
+  const maxPadM = 50;      // max gutter in meters
+  const maxPad  = maxPadM * pxPerM;
 
-  // 1) Find bounding box of objects
-  let minX = Infinity, minY = Infinity;
-  let maxX = -Infinity, maxY = -Infinity;
+  const minW = 15 * pxPerM;  // 15 m minimum width
+  const minH = 10 * pxPerM;  // 10 m minimum height
 
-  objects.forEach(obj => {
-    if (obj.type === 'circle' || obj.type === 'guest') {
-      const r = obj.type === 'guest' ? 20 : obj.r;
-      minX = Math.min(minX, obj.x - r);
-      minY = Math.min(minY, obj.y - r);
-      maxX = Math.max(maxX, obj.x + r);
-      maxY = Math.max(maxY, obj.y + r);
-    } else { // rect
-      const angle = ((obj.rotation||0) * Math.PI)/180;
-      const cx = obj.x + obj.w/2, cy = obj.y + obj.h/2;
-      const dx = Math.abs(Math.cos(angle)*obj.w/2) + Math.abs(Math.sin(angle)*obj.h/2);
-      const dy = Math.abs(Math.sin(angle)*obj.w/2) + Math.abs(Math.cos(angle)*obj.h/2);
-      minX = Math.min(minX, cx - dx);
-      minY = Math.min(minY, cy - dy);
-      maxX = Math.max(maxX, cx + dx);
-      maxY = Math.max(maxY, cy + dy);
+  const worldW = canvas.width  / scale;
+  const worldH = canvas.height / scale;
+
+  let regionX0, regionY0, regionX1, regionY1;
+  const padPx = Math.min(pad, maxPad);
+
+  if (objects.length === 0) {
+    // No objects → fixed 15×10 m top-left
+    regionX0 = 0; regionY0 = 0;
+    regionX1 = Math.min(minW, worldW);
+    regionY1 = Math.min(minH, worldH);
+
+  } else {
+    // Compute the bounding box of all objects
+    let minX = Infinity, minY = Infinity;
+    let maxX = -Infinity, maxY = -Infinity;
+    for (const obj of objects) {
+      if (obj.type === 'circle' || obj.type === 'guest') {
+        const r = obj.type === 'guest' ? 20 : obj.r;
+        minX = Math.min(minX, obj.x - r);
+        minY = Math.min(minY, obj.y - r);
+        maxX = Math.max(maxX, obj.x + r);
+        maxY = Math.max(maxY, obj.y + r);
+      } else {
+        const angle = (obj.rotation||0) * Math.PI/180;
+        const cx = obj.x + obj.w/2, cy = obj.y + obj.h/2;
+        const dx = Math.abs(Math.cos(angle)*obj.w/2)
+                 + Math.abs(Math.sin(angle)*obj.h/2);
+        const dy = Math.abs(Math.sin(angle)*obj.w/2)
+                 + Math.abs(Math.cos(angle)*obj.h/2);
+        minX = Math.min(minX, cx - dx);
+        minY = Math.min(minY, cy - dy);
+        maxX = Math.max(maxX, cx + dx);
+        maxY = Math.max(maxY, cy + dy);
+      }
     }
-  });
 
-  // 2) If no objects, fall back to a centered default region
-  const worldCssW = canvas.width / scale;
-  const worldCssH = canvas.height / scale;
-  if (minX === Infinity) {
-    // center a default box
-    const cx = worldCssW/2, cy = worldCssH/2;
-    minX = cx - minW/2;
-    minY = cy - minH/2;
-    maxX = cx + minW/2;
-    maxY = cy + minH/2;
+    // WIDTH: Always at least minW, expand only if needed
+    const expandedMaxX = Math.min(worldW, maxX + padPx);
+    if (expandedMaxX <= minW) {
+      regionX0 = 0;
+      regionX1 = Math.min(minW, worldW);
+    } else {
+      regionX0 = Math.max(0, minX - padPx);
+      regionX1 = expandedMaxX;
+    }
+
+    // HEIGHT: Always at least minH, expand only if needed
+    const expandedMaxY = Math.min(worldH, maxY + padPx);
+    if (expandedMaxY <= minH) {
+      regionY0 = 0;
+      regionY1 = Math.min(minH, worldH);
+    } else {
+      regionY0 = Math.max(0, minY - padPx);
+      regionY1 = expandedMaxY;
+    }
   }
 
-  // 3) Add padding
-  minX = Math.max(0,   minX - pad);
-  minY = Math.max(0,   minY - pad);
-  maxX = Math.min(worldCssW, maxX + pad);
-  maxY = Math.min(worldCssH, maxY + pad);
+  // Compute final CSS-px dimensions
+  const w = regionX1 - regionX0;
+  const h = regionY1 - regionY0;
 
-  // 4) Enforce minimum size
-  let w = maxX - minX;
-  let h = maxY - minY;
-  if (w < minW) {
-    const dw = (minW - w)/2;
-    minX = Math.max(0, minX - dw);
-    maxX = Math.min(worldCssW, maxX + dw);
-    w = maxX - minX;
-  }
-  if (h < minH) {
-    const dh = (minH - h)/2;
-    minY = Math.max(0, minY - dh);
-    maxY = Math.min(worldCssH, maxY + dh);
-    h = maxY - minY;
-  }
-
-  // 5) Render that region to an offscreen canvas
+  // Render to offscreen canvas
   const exportCanvas = document.createElement('canvas');
   exportCanvas.width  = w * scale;
   exportCanvas.height = h * scale;
@@ -326,13 +463,26 @@ function saveAsImage() {
   ec.setTransform(scale, 0, 0, scale, 0, 0);
   ec.drawImage(
     canvas,
-    minX * scale, minY * scale,
-    w * scale,   h * scale,
+    regionX0 * scale, regionY0 * scale,
+    w * scale,         h * scale,
     0, 0,
     w, h
   );
 
-  // 6) Download it
+  // Stamp the title at top center
+  ec.save();
+  ec.fillStyle    = '#111';
+  ec.font         = "bold 32px 'Segoe UI', sans-serif";
+  ec.textAlign    = 'center';
+  ec.textBaseline = 'top';
+  ec.fillText(
+    document.getElementById('titleInput').value,
+    w / 2,
+    10
+  );
+  ec.restore();
+
+  // Trigger download
   const link = document.createElement('a');
   link.download = 'bordsplacering.png';
   link.href     = exportCanvas.toDataURL('image/png');

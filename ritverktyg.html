@@ -18,14 +18,16 @@
   <div id="headerWrapper">
 
     <!-- Din rubrikrad -->
-    <!-- <div style="padding: 10px; background: #eee;"> -->
     <div class="titleRow">
       <label for="titleInput">Rubrik:</label>
-      <input type="text" id="titleInput" value="Anna & Noah 2026-07-12"
-             oninput="drawAll()"
-             style="width: 300px; padding: 4px; font-family: 'Georgia', serif;">
+      <input
+        type="text"
+        id="titleInput"
+        value="Anna & Noah 2026-07-12"
+        oninput="onTitleChange()"
+      />
+      <div id="titleDisplay">Anna & Noah 2026-07-12</div>
     </div>
-  
 
     <div id="toolbar">
       <button class="hamburger" aria-label="Öppna meny" aria-expanded="false">
