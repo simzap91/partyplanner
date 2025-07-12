@@ -32,8 +32,32 @@ body {
   padding: var(--space-md) var(--space-md) var(--space-lg);
 }
 
+#titleInput {
+  width: 100%;
+  max-width: 300px;     /* behåll maxbredd om du vill */
+  padding: 4px;
+  font-family: 'Georgia', serif;
+  box-sizing: border-box;
+}
+#titleInput,
+label[for="titleInput"] {
+  position: relative;
+  z-index: 1005;
+  font-size: 0.9rem;
+}
+
+#titleDisplay {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+}
+
 #toolbar {
-  position: relative; /*static*/
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -148,16 +172,6 @@ body {
   font-size: 0.9rem;
   padding: 10px;
 }
-#titleInput {
-  max-width: 300px;     /* behåll maxbredd om du vill */
-  box-sizing: border-box;
-}
-#titleInput,
-label[for="titleInput"] {
-  position: relative;
-  z-index: 1005;
-  font-size: 0.9rem;
-}
 
 #canvasContainer {
   position: relative;
@@ -175,21 +189,6 @@ label[for="titleInput"] {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
-}
-
-#titleInput {
-  width: 100%;
-  padding: 4px;
-  font-family: 'Georgia', serif;
-}
-
-#titleDisplay {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
 }
 
 #mobile-notice {
@@ -383,6 +382,9 @@ label[for="titleInput"] {
 @media screen and (min-width: 601px) {
   #titleInput {
     width: 300px;
+  }
+  #titleDisplay {
+    display: flex;
   }
   #toolbar {
     position: relative;
