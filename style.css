@@ -33,7 +33,7 @@ body {
 }
 
 #toolbar {
-  position: static;
+  position: relative; /*static*/
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
