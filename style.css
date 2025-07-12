@@ -39,7 +39,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: var(--space-sm);
-  padding: var(--space-md);
+  padding: var(--space-md) 0;
   background: --bg-toolbar;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   width: 100%;
@@ -53,9 +53,8 @@ body {
 .hamburger {
   display: flex;
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 16px;
+  top: var(--space-md);
+  right: var(--space-md);
   background: #f7e7ce;
   border: 1px solid #d4b98c;
   border-radius: 8px;
@@ -67,7 +66,6 @@ body {
   width: 80px;
   height: 28px;
   cursor: pointer;
-  position: absolute;
 }
 .hamburger span {
   width: 60%;
@@ -108,14 +106,13 @@ body {
   display: none;
   justify-content: center;
   width: 100%;
-  padding: var(--space-md) 0;
-  background-color: var(--bg-toolbar);
+  /*background-color: var(--bg-toolbar);*/
   z-index: 1001; /* Just below the toolbar */
 }
 .toolbar-items #sumButton {
   display: block; /* Ensure it's visible in mobile menu */
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   margin: 12px auto; /* Center with top/bottom margin */
   border-radius: 60px;
   /* Keep all other sumButton styles */
@@ -125,8 +122,8 @@ body {
 #sumButton {
   background-color: #d4b98c;
   color: white;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border: none;
   border-radius: 60px;
   font-size: 14px;
@@ -135,7 +132,7 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, transform 0.2s ease;
   font-family: inherit;
-  margin: 0; /* Remove the previous margin-left */
+  margin: 0;
 }
 
 #sumButton:hover {
@@ -392,9 +389,6 @@ label[for="titleInput"] {
     left: 0; right: 0;
     min-height: 120px;            /* ensure one row of buttons always fits */
   }
-  .button-row {
-    display: flex;
-  }
   .hamburger {
     display: none;
   }
@@ -412,6 +406,10 @@ label[for="titleInput"] {
   }
   .toolbar-items #sumButton {
     display: none; /* Hide from desktop toolbar-items */
+  }
+  .button-row {
+    display: flex;
+    padding: var(--space-lg) var(--space-sm) 0 0;
   }
   #mobile-notice {
     display: none;
