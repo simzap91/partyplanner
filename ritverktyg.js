@@ -289,6 +289,61 @@ function saveAsImage() {
       }
     }
 
+    // 2) WIDTH: if right‐edge ≤ minW, keep minW, else expand to maxX+pad
+    if (maxX <= minW) {
+      regionX0 = 0;
+      regionX1 = Math.min(minW, worldW);
+    } else {
+      regionX0 = Math.max(0, minX - padPx);
+      regionX1 = Math.min(worldW, maxX + padPx);
+    }
+
+    // 3) HEIGHT: same for bottom‐edge
+    if (maxY <= minH) {
+      regionY0 = 0;
+      regionY1 = Math.min(minH, worldH);
+    } else {
+      regionY0 = Math.max(0, minY - padPx);
+      regionY1 = Math.min(worldH, maxY + padPx);
+    }
+  }
+
+  // 4) render to offscreen canvas
+  const w = regionX1 - regionX0;
+  const h = regionY1 - regionY0;
+  const exportCanvas = document.createElement('canvas');
+  exportCanvas.width  = w * scale;
+  exportCanvas.height = h * scale;
+  const ec = exportCanvas.getContext('2d');
+  ec.setTransform(scale, 0, 0, scale, 0, 0);
+  ec.drawImage(
+    canvas,
+    regionX0 * scale, regionY0 * scale,
+    w * scale,         h * scale,
+    0, 0,
+    w, h
+  );
+
+  // 5) stamp title
+  ec.save();
+  ec.fillStyle    = '#111';
+  ec.font         = "bold 32px 'Segoe UI', sans-serif";
+  ec.textAlign    = 'center';
+  ec.textBaseline = 'top';
+  ec.fillText(
+    document.getElementById('titleInput').value,
+    w / 2,
+    10
+  );
+  ec.restore();
+
+  // 6) download
+  const link = document.createElement('a');
+  link.download = 'bordsplacering.png';
+  link.href     = exportCanvas.toDataURL('image/png');
+  link.click();
+
+    /*
     // WIDTH: Always at least minW, expand only if needed
     const expandedMaxX = Math.min(worldW, maxX + padPx);
     if (expandedMaxX <= minW) {
@@ -346,6 +401,7 @@ function saveAsImage() {
   link.download = 'bordsplacering.png';
   link.href     = exportCanvas.toDataURL('image/png');
   link.click();
+  */
 }
 
 // --- Ersätt befintlig createGuestList() med detta ---
