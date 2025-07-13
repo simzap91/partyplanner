@@ -529,6 +529,8 @@ label[for="titleInput"] {
   /* Ensure sticky works on iOS */ /*HÄR*/
   #headerWrapper {
     position: -webkit-sticky;
+    width: 100%;
+    top: 0;
   }
   
   /* Prevent double-fixed conflicts */
@@ -538,7 +540,7 @@ label[for="titleInput"] {
   }
 
   input, textarea, select {
-    font-size: 16px;
-    min-height: 44px;
+    font-size: 16px !important;
+    min-height: 44px !important;
   }
 }
