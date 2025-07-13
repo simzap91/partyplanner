@@ -174,14 +174,22 @@ label[for="titleInput"] {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  display: none; /* Hidden by default */
+  display: flex;
   flex-direction: column;
   gap: 10px;
   z-index: 1000;
+  opacity: 1; /* Always visible */
+  transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-.floating-buttons.visible {
-  display: flex; /* Show when needed */
+.floating-buttons.disabled {
+  filter: grayscale(80%);
+  opacity: 0.5;
+}
+
+.floating-buttons.disabled button {
+  pointer-events: none; /* Disable clicks */
+  cursor: not-allowed;
 }
 
 .floating-buttons button {
@@ -193,12 +201,26 @@ label[for="titleInput"] {
   color: var(--color-text);
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .floating-buttons button .material-icons {
   font-size: 24px;
   color: var(--color-text);
+  transition: color 0.3s ease; /* Smooth color transition */
+}
+
+.floating-buttons.disabled button .material-icons {
+  color: rgba(75, 59, 43, 0.4); /* 40% opacity of your --color-text */
+}
+
+.floating-buttons:not(.disabled) button .material-icons {
+  color: var(--color-text); /* Full color when active */
+}
+
+.floating-buttons.disabled button:hover {
+  transform: none !important; /* Disable hover effects */
+  background-color: var(--bg-toolbar) !important;
 }
 
 .material-icons {

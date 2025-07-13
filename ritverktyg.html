@@ -6,7 +6,7 @@
   <!-- Detect screen format -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Icon Font Loading -->
+  <!-- Icon Font Loading-->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -245,19 +245,17 @@
     </div>
   </div>
 
-  <div class="floating-buttons" id="floatingButtons">
-    <button onclick="rotateSelected()" title="Rotate">
+  <div class="floating-buttons disabled" id="floatingButtons">
+    <button onclick="rotateSelected()" disabled>
       <span class="material-icons">rotate_right</span>
     </button>
-    <button onclick="renameTable()" title="Rename">
+    <button onclick="renameTable()" disabled>
       <span class="material-icons">drive_file_rename_outline</span>
     </button>
-    <button onclick="removeSelected()" title="Delete">
+    <button onclick="removeSelected()" disabled>
       <span class="material-icons">delete_outline</span>
     </button>
   </div>
-
-
 
   <!-- 100% privacy-first analytics -->
   <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
