@@ -173,7 +173,7 @@ function updateLayout() {
   const canvasContainer = document.getElementById('canvasContainer');
   if (!header || !canvasContainer) return;
 
-  canvasContainer.style.marginTop = header.offsetHeight + 'px';
+  //canvasContainer.style.marginTop = header.offsetHeight + 'px'; //HÄR
 
   drawAll();
 }
