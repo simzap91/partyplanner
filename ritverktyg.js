@@ -250,6 +250,120 @@ function renameTable() {
 }
 
 function saveAsImage() {
+  const scale    = window.devicePixelRatio || 1;
+  const pxPerM   = 80;
+  const pad      = 20;
+  const maxPadM  = 50;
+  const maxPad   = maxPadM * pxPerM;
+
+  // ↓ new: height reserved for the title area (in CSS-px)
+  const titleArea = 40;
+
+  // ↓ half-size on mobile if you still have that logic…
+  const isMobile = window.innerWidth <= 600;
+  const baseMinW = 15 * pxPerM;
+  const baseMinH = 10 * pxPerM;
+  const minW     = isMobile ? baseMinW / 2 : baseMinW;
+  const minH     = isMobile ? baseMinH / 2 : baseMinH;
+
+  const worldW = canvas.width  / scale;
+  const worldH = canvas.height / scale;
+
+  let regionX0, regionY0, regionX1, regionY1;
+  const padPx = Math.min(pad, maxPad);
+
+  // 1) Determine our crop region (same logic as before)
+  if (objects.length === 0) {
+    regionX0 = 0;
+    regionY0 = 0;
+    regionX1 = Math.min(minW, worldW);
+    regionY1 = Math.min(minH, worldH);
+  } else {
+    let minX = Infinity, minY = Infinity;
+    let maxX = -Infinity, maxY = -Infinity;
+    for (const obj of objects) {
+      if (obj.type === 'circle' || obj.type === 'guest') {
+        const r = obj.type === 'guest' ? 20 : obj.r;
+        minX = Math.min(minX, obj.x - r);
+        minY = Math.min(minY, obj.y - r);
+        maxX = Math.max(maxX, obj.x + r);
+        maxY = Math.max(maxY, obj.y + r);
+      } else {
+        const angle = (obj.rotation||0) * Math.PI/180;
+        const cx = obj.x + obj.w/2, cy = obj.y + obj.h/2;
+        const dx = Math.abs(Math.cos(angle)*obj.w/2)
+                 + Math.abs(Math.sin(angle)*obj.h/2);
+        const dy = Math.abs(Math.sin(angle)*obj.w/2)
+                 + Math.abs(Math.cos(angle)*obj.h/2);
+        minX = Math.min(minX, cx - dx);
+        minY = Math.min(minY, cy - dy);
+        maxX = Math.max(maxX, cx + dx);
+        maxY = Math.max(maxY, cy + dy);
+      }
+    }
+
+    // width
+    if (maxX <= minW) {
+      regionX0 = 0;
+      regionX1 = Math.min(minW, worldW);
+    } else {
+      regionX0 = Math.max(0, minX - padPx);
+      regionX1 = Math.min(worldW, maxX + padPx);
+    }
+    // height
+    if (maxY <= minH) {
+      regionY0 = 0;
+      regionY1 = Math.min(minH, worldH);
+    } else {
+      regionY0 = Math.max(0, minY - padPx);
+      regionY1 = Math.min(worldH, maxY + padPx);
+    }
+  }
+
+  // 2) Draw into an offscreen canvas that’s taller by titleArea
+  const w = regionX1 - regionX0;
+  const h = regionY1 - regionY0;
+  const exportCanvas = document.createElement('canvas');
+  exportCanvas.width  = w * scale;
+  exportCanvas.height = (h + titleArea) * scale;
+  const ec = exportCanvas.getContext('2d');
+  ec.setTransform(scale, 0, 0, scale, 0, 0);
+
+  // 2a) fill the top stripe with the canvas bg
+  ec.fillStyle = '#fffdf8';
+  ec.fillRect(0, 0, w, titleArea);
+
+  // 2b) draw the table‐layout region below
+  ec.drawImage(
+    canvas,
+    regionX0 * scale, regionY0 * scale,
+    w * scale,         h * scale,
+    0,                 titleArea,
+    w,                 h
+  );
+
+  // 3) Stamp the title into that top stripe
+  ec.save();
+  ec.fillStyle    = '#111';
+  ec.font         = "bold 24px 'Segoe UI', sans-serif";  // smaller text
+  ec.textAlign    = 'center';
+  ec.textBaseline = 'middle';
+  ec.fillText(
+    document.getElementById('titleInput').value,
+    w / 2,           // center horizontally
+    titleArea / 2    // center vertically in the stripe
+  );
+  ec.restore();
+
+  // 4) Trigger download
+  const link = document.createElement('a');
+  link.download = 'bordsplacering.png';
+  link.href     = exportCanvas.toDataURL('image/png');
+  link.click();
+}
+
+/*
+function saveAsImage() {
   const scale   = window.devicePixelRatio || 1;
   const pxPerM  = 80;
   const pad     = 20;      // gutter in CSS-px
@@ -357,6 +471,7 @@ function saveAsImage() {
   link.href     = exportCanvas.toDataURL('image/png');
   link.click();
 }
+*/
 
 /*
 function saveAsImage() {
