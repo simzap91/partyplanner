@@ -307,16 +307,10 @@ function updateLayout() {
   const canvasContainer = document.getElementById('canvasContainer');
   if (!header || !canvasContainer) return;
 
-  canvasContainer.style.marginTop = header.offsetHeight + 'px';
+  // canvasContainer.style.marginTop = header.offsetHeight + 'px'; //TEST
 
   // FORCE A REDRAW now that the canvas has moved
   drawAll();
-  /*
-  const canvas = document.getElementById('canvasContainer');
-  if (!header || !canvas) return;
-
-  canvas.style.marginTop = header.offsetHeight + 'px';
-  */
 }
 
 function addSelectedTable() {
@@ -813,10 +807,10 @@ async function downloadGuestList() {
 
 window.addEventListener('load', () => {
   resizeCanvas();
-  updateLayout();
+  //updateLayout(); //TEST
 });
 
 window.addEventListener('resize', () => {
   resizeCanvas();
-  updateLayout();
+  //updateLayout(); //TEST
 });
