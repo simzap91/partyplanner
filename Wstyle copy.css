@@ -22,19 +22,20 @@ body {
   top: 0; left: 0; right: 0;
   display: flex;
   flex-direction: column;
-  background: #eee;            /* or transparent if you only want the titleRow bg */
+  background: #eee;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   z-index: 1010;
+  will-change: transform; /*TEST*/
 }
 .titleRow {
-  display: flex;
-  align-items: center;    /* vertically center label+input */
-  gap: var(--space-sm);   /* space between label and input */
-  padding: var(--space-md) var(--space-md) var(--space-lg);
+  padding: var(--space-md);
+  background: var(--bg-toolbar);
+  z-index: 1015;
 }
 
 #titleInput {
   width: 100%;
-  max-width: 300px;     /* behåll maxbredd om du vill */
+  max-width: 300px;
   padding: 4px;
   font-family: 'Georgia', serif;
   box-sizing: border-box;
@@ -57,28 +58,22 @@ label[for="titleInput"] {
 }
 
 #toolbar {
-  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  position: relative;
+  background: var(--bg-toolbar);
+  min-height: 60px;
+  justify-content: flex-end;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-md) 0;
-  background: --bg-toolbar;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 0 var(--space-md);
   width: 100%;
-  left: auto; right: auto;
   box-sizing: border-box;
-  min-height: auto;
-  z-index: 1002;
   font-family: 'Georgia', serif;
   text-align: center;
+  z-index: 1002; 
 }
 .hamburger {
   display: flex;
-  position: absolute;
-  top: var(--space-md);
-  right: var(--space-md);
+  position: relative;
   background: #f7e7ce;
   border: 1px solid #d4b98c;
   border-radius: 8px;
@@ -90,6 +85,7 @@ label[for="titleInput"] {
   width: 80px;
   height: 28px;
   cursor: pointer;
+  margin: 0;
 }
 .hamburger span {
   width: 60%;
@@ -110,19 +106,19 @@ label[for="titleInput"] {
 .toolbar-items {
   display: none;
   position: absolute;
-  top: 100%;   /* right below the toolbar */
+  top: 100%;
   left: 0;
   right: 0;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
+  gap: var(--space-sm);
+  padding: var(--space-md);
   background: #D0ACAC;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   box-sizing: border-box;
-  z-index: 1002;
+  z-index: 1005;
 }
 .toolbar-items.active {
-  display: flex;
+  display: block;
 }
 /* New button row container */
 .button-row {
@@ -131,7 +127,7 @@ label[for="titleInput"] {
   justify-content: center;
   width: 100%;
   /*background-color: var(--bg-toolbar);*/
-  z-index: 1001; /* Just below the toolbar */
+  z-index: 1001;
 }
 .toolbar-items #sumButton {
   display: block; /* Ensure it's visible in mobile menu */
@@ -184,9 +180,9 @@ label[for="titleInput"] {
 
 #canvas {
   display: block;
-  margin: 0;              /* no auto-centering or extra gaps */
+  margin: 0;    /* no auto-centering or extra gaps */
   background-color: #fffdf8;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 1);
   cursor: pointer;
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
 }
@@ -380,16 +376,27 @@ label[for="titleInput"] {
 
 /* --- Desktop --- */
 @media screen and (min-width: 601px) {
+  .titleRow {
+    display: flex;
+    align-items: center;    /* vertically center label+input */
+    gap: var(--space-sm);   /* space between label and input */
+    padding: var(--space-md);
+  }
   #titleInput {
     width: 300px;
   }
   #titleDisplay {
     display: flex;
   }
+
   #toolbar {
     position: relative;
     left: 0; right: 0;
-    min-height: 120px;            /* ensure one row of buttons always fits */
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) 0;
+    min-height: 100px;
   }
   .hamburger {
     display: none;
@@ -402,7 +409,6 @@ label[for="titleInput"] {
     right: auto;
     flex-direction: row;    /* line up items in a row */
     gap: 12px;              /* your spacing between buttons */
-    padding: 0;             /* you can bring back any desktop padding on #toolbar itself */
     background: transparent;/* let #toolbar’s background show through */
     box-shadow: none;       /* or a lighter shadow if you still want one */
   }
@@ -411,9 +417,42 @@ label[for="titleInput"] {
   }
   .button-row {
     display: flex;
-    padding: var(--space-lg) var(--space-sm) 0 0;
+    padding: var(--space-sm) var(--space-sm) 0 0;
   }
   #mobile-notice {
     display: none;
+  }
+}
+
+/*iOS spec*/
+@supports (-webkit-touch-callout: none) {
+  #headerWrapper {
+    position: sticky !important;
+    width: 100%;
+    top: 0 !important;
+  }
+  #canvasContainer {
+    margin-top: 0 !important;
+  }
+  html {
+    overscroll-behavior-y: contain !important;
+  }
+  /* Fix for Safari's sticky+shadow bug */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bg-toolbar);
+    z-index: 1011; /* Above header */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    pointer-events: none;
+  }
+
+  input, textarea, select {
+    font-size: 16px !important; /* Critical for iOS */
+    min-height: 44px !important; /* Apple's recommended tap target */
   }
 }

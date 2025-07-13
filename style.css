@@ -169,6 +169,43 @@ label[for="titleInput"] {
   padding: 10px;
 }
 
+/* Floating Action Buttons */
+.floating-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.floating-buttons.visible {
+  display: flex; /* Show when needed */
+}
+
+.floating-buttons button {
+  background-color: var(--bg-panel);
+  border: 1px solid #d4b98c;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Georgia', serif;
+  color: var(--color-text);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: all 0.2s ease;
+}
+
+.floating-buttons button .material-icons {
+  font-size: 24px;
+  color: var(--color-text);
+}
+
+.floating-buttons button:hover {
+  background-color: #e6d3b3;
+  transform: translateY(-2px);
+}
+
 #canvasContainer {
   position: relative;
   width: 100%;

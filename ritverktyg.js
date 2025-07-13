@@ -178,6 +178,12 @@ function updateLayout() {
   drawAll();
 }
 
+function updateFloatingButtons() {
+  const floatingButtons = document.getElementById('floatingButtons');
+  floatingButtons.classList.toggle('visible', selected !== null);
+}
+
+
 function addSelectedTable() {
   const type = document.getElementById("tableType").value;
   const standardHeight = 75;
@@ -222,6 +228,7 @@ function removeSelected() {
     if (index > -1) objects.splice(index, 1);
     selected = null;
     drawAll();
+    updateFloatingButtons();
   }
 }
 
@@ -503,6 +510,7 @@ canvas.addEventListener("mousedown", (e) => {
         offsetX = rx;
         offsetY = ry;
         drawAll();
+        updateFloatingButtons();
         return;
       }
     } else if (obj.type === "circle" || obj.type === "guest") {
@@ -514,11 +522,13 @@ canvas.addEventListener("mousedown", (e) => {
         offsetX = dx;
         offsetY = dy;
         drawAll();
+        updateFloatingButtons();
         return;
       }
     }
   }
   drawAll();
+  updateFloatingButtons();
 });
 
 canvas.addEventListener("mousemove", (e) => {
@@ -535,7 +545,17 @@ canvas.addEventListener("mousemove", (e) => {
   drawAll();
 });
 
-canvas.addEventListener("mouseup", () => dragTarget = null);
+//canvas.addEventListener("mouseup", () => dragTarget = null);
+
+canvas.addEventListener("mouseup", () => {
+  if (!dragTarget && selected) {
+    // Clear selection when clicking empty space
+    selected = null;
+    drawAll();
+    updateFloatingButtons(); // ADD THIS LINE
+  }
+  dragTarget = null;
+});
 
 canvas.addEventListener("touchstart", (e) => {
   const touch = e.touches[0];
@@ -558,6 +578,7 @@ canvas.addEventListener("touchstart", (e) => {
         offsetX = rx;
         offsetY = ry;
         drawAll();
+        updateFloatingButtons();
         return;
       }
     } else if (obj.type === "circle" || obj.type === "guest") {
@@ -569,11 +590,13 @@ canvas.addEventListener("touchstart", (e) => {
         offsetX = dx;
         offsetY = dy;
         drawAll();
+        updateFloatingButtons();
         return;
       }
     }
   }
   drawAll();
+  updateFloatingButtons();
 }, { passive: true });
 
 canvas.addEventListener("touchmove", (e) => {
