@@ -35,7 +35,7 @@ body {
 
 #titleInput {
   width: 100%;
-  max-width: 300px;     /* behåll maxbredd om du vill */
+  max-width: 300px;
   padding: 4px;
   font-family: 'Georgia', serif;
   box-sizing: border-box;
@@ -61,7 +61,7 @@ label[for="titleInput"] {
   display: flex;
   position: relative;
   background: var(--bg-toolbar);
-  min-height: 60px; /* Fixed height for mobile toolbar */
+  min-height: 60px;
   justify-content: flex-end;
   align-items: center;
   padding: 0 var(--space-md);
@@ -106,7 +106,7 @@ label[for="titleInput"] {
 .toolbar-items {
   display: none;
   position: absolute;
-  top: 100%;   /* right below the toolbar */
+  top: 100%;
   left: 0;
   right: 0;
   flex-direction: column;
@@ -118,7 +118,7 @@ label[for="titleInput"] {
   z-index: 1005;
 }
 .toolbar-items.active {
-  display: block; /* eller flex? */
+  display: block;
 }
 /* New button row container */
 .button-row {
@@ -127,7 +127,7 @@ label[for="titleInput"] {
   justify-content: center;
   width: 100%;
   /*background-color: var(--bg-toolbar);*/
-  z-index: 1001; /* Just below the toolbar */
+  z-index: 1001;
 }
 .toolbar-items #sumButton {
   display: block; /* Ensure it's visible in mobile menu */
@@ -428,6 +428,7 @@ label[for="titleInput"] {
 @supports (-webkit-touch-callout: none) {
   #headerWrapper {
     position: sticky !important;
+    width: 100%;
     top: 0 !important;
   }
   #canvasContainer {
@@ -448,5 +449,10 @@ label[for="titleInput"] {
     z-index: 1011; /* Above header */
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     pointer-events: none;
+  }
+
+  input, textarea, select {
+    font-size: 16px !important; /* Critical for iOS */
+    min-height: 44px !important; /* Apple's recommended tap target */
   }
 }
