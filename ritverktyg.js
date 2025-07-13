@@ -8,6 +8,7 @@ let offsetY = 0;
 let selected = null;
 let nextTableNumber = 1;
 let showAxes = false;
+let hasCentered = false;  // HÄR
 
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
@@ -28,7 +29,11 @@ function resizeCanvas() {
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
   drawAll();
 
-  window.scrollTo((canvas.width - window.innerWidth) / 2, 0);
+  if (!hasCentered) {
+    window.scrollTo((canvas.width - window.innerWidth) / 2, 0);  // HÄR
+    hasCentered = true;
+  }
+  //window.scrollTo((canvas.width - window.innerWidth) / 2, 0); // HÄR
 }
 
 window.addEventListener("keydown", (e) => {
