@@ -436,4 +436,17 @@ label[for="titleInput"] {
   html {
     overscroll-behavior-y: contain !important;
   }
+  /* Fix for Safari's sticky+shadow bug */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--bg-toolbar);
+    z-index: 1011; /* Above header */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    pointer-events: none;
+  }
 }
