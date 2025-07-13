@@ -742,13 +742,6 @@ window.addEventListener('load', () => {
   updateFloatingButtons();
 });
 
-/*
-window.addEventListener('resize', () => { //HÄR
-  resizeCanvas();
-  updateLayout();
-});
-*/
-
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
   updateLayout();
