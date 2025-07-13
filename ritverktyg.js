@@ -207,17 +207,6 @@ function updateFloatingButtons() {
   });
 }
 
-/*
-function updateFloatingButtons() {
-  const floatingButtons = document.getElementById('floatingButtons');
-  const isDisabled = (selected === null);
-  
-  floatingButtons.classList.toggle('disabled', isDisabled);
-  floatingButtons.querySelectorAll('button').forEach(btn => {
-    btn.disabled = isDisabled;
-  });
-}*/
-
 function addSelectedTable() {
   const type = document.getElementById("tableType").value;
   const standardHeight = 75;
