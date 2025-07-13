@@ -201,6 +201,25 @@ label[for="titleInput"] {
   color: var(--color-text);
 }
 
+.material-icons {
+  font-family: 'Material Icons', 'Arial', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  width: 24px; /* Fixed width */
+  height: 24px; /* Fixed height */
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+}
+
 .floating-buttons button:hover {
   background-color: #e6d3b3;
   transform: translateY(-2px);
