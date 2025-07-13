@@ -168,148 +168,13 @@ function onTitleChange() {
   document.getElementById('titleDisplay').textContent = text;
 }
 
-/*
-function drawAll(isForExport = false) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#fffdf8";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#111";
-  ctx.font = "bold 32px 'Segoe UI', sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
-  ctx.shadowOffsetX = 1;
-  ctx.shadowOffsetY = 1;
-  ctx.shadowBlur = 1;
-
-  const titleText = document.getElementById("titleInput").value;
-  const centerX = isForExport
-    ? canvas.width / 2
-    : window.scrollX + window.innerWidth / 2;
-
-  ctx.fillText(titleText, centerX, 50);
-  ctx.shadowColor = "transparent";
-
-  for (const obj of objects) {
-    ctx.lineWidth = obj === selected ? 3 : 1;
-    ctx.strokeStyle = "#000";
-
-    if (obj.type === "rect") {
-      ctx.save();
-      ctx.translate(obj.x + obj.w / 2, obj.y + obj.h / 2);
-      ctx.rotate((obj.rotation || 0) * Math.PI / 180);
-      ctx.fillStyle = obj.color || "#ead8b6";
-      ctx.fillRect(-obj.w / 2, -obj.h / 2, obj.w, obj.h);
-      ctx.strokeRect(-obj.w / 2, -obj.h / 2, obj.w, obj.h);
-      ctx.fillStyle = "#000";
-      ctx.font = "12px sans-serif";
-      ctx.fillText(`Bord ${obj.tableNumber}`, 0, -6);
-      ctx.fillText(`${obj.seats} platser`, 0, 12);
-      ctx.restore();
-    } else if (obj.type === "circle") {
-      ctx.beginPath();
-      ctx.fillStyle = obj.color || "#ead8b6";
-      ctx.arc(obj.x, obj.y, obj.r, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-      ctx.fillStyle = "#000";
-      ctx.font = "12px sans-serif";
-      ctx.fillText(`Bord ${obj.tableNumber}`, obj.x, obj.y - 6);
-      ctx.fillText(`${obj.seats} platser`, obj.x, obj.y + 12);
-    } else if (obj.type === "guest") {
-      ctx.beginPath();
-      ctx.fillStyle = "#fffffe";
-      ctx.arc(obj.x, obj.y, 20, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.strokeStyle = "#d4b98c";
-      ctx.lineWidth = 1.5;
-      ctx.stroke();
-      ctx.fillStyle = "#000";
-      ctx.font = "12px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(obj.name, obj.x, obj.y + 1);
-    }
-  }
-
-   ctx.save();
-   ctx.globalAlpha = 0.15;
-   ctx.fillStyle = "#333";
-   ctx.font = "bold 48px 'Segoe UI', sans-serif";
-   ctx.textAlign = "right";
-   ctx.textBaseline = "bottom";
-   
-   // Flytta ner till ca 95% av canvasens höjd och bredd
-   const x = canvas.width * 0.49;
-   const y = canvas.height * 0.50;
-   
-   ctx.fillText("EverAfterbyEster", x, y);
-   if (showAxes) {
-    const meterToPx = 80;
-    const viewCenterX = window.scrollX + window.innerWidth / 2;
-    const viewCenterY = window.scrollY + window.innerHeight / 2;
-  
-    ctx.save();
-    ctx.globalAlpha = 1;
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([5, 3]);
-  
-    // Rita x-axeln
-    ctx.beginPath();
-    ctx.moveTo(0, viewCenterY);
-    ctx.lineTo(canvas.width, viewCenterY);
-    ctx.stroke();
-  
-    // Rita y-axeln
-    ctx.beginPath();
-    ctx.moveTo(viewCenterX, 0);
-    ctx.lineTo(viewCenterX, canvas.height);
-    ctx.stroke();
-  
-    ctx.setLineDash([]);
-    ctx.fillStyle = "#000";
-    ctx.font = "10px sans-serif";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "top";
-  
-    // Märkningar längs x-axeln
-    for (let x = -10; x <= 20; x++) {
-      const px = viewCenterX + x * meterToPx;
-      if (px < 0 || px > canvas.width) continue;
-      ctx.beginPath();
-      ctx.moveTo(px, viewCenterY - 5);
-      ctx.lineTo(px, viewCenterY + 5);
-      ctx.stroke();
-      if (x !== 0) ctx.fillText(`${x} m`, px, viewCenterY + 8);
-    }
-  
-    // Märkningar längs y-axeln
-    ctx.textAlign = "left";
-    ctx.textBaseline = "middle";
-    for (let y = -10; y <= 10; y++) {
-      const py = viewCenterY + y * meterToPx;
-      if (py < 0 || py > canvas.height) continue;
-      ctx.beginPath();
-      ctx.moveTo(viewCenterX - 5, py);
-      ctx.lineTo(viewCenterX + 5, py);
-      ctx.stroke();
-      if (y !== 0) ctx.fillText(`${-y} m`, viewCenterX + 8, py);
-    }
-    ctx.restore();
-  }
-   ctx.restore();
-}
-*/
-
 function updateLayout() {
   const header = document.getElementById('headerWrapper');
   const canvasContainer = document.getElementById('canvasContainer');
   if (!header || !canvasContainer) return;
 
-  // canvasContainer.style.marginTop = header.offsetHeight + 'px'; //TEST
+  canvasContainer.style.marginTop = header.offsetHeight + 'px';
 
-  // FORCE A REDRAW now that the canvas has moved
   drawAll();
 }
 
@@ -807,10 +672,10 @@ async function downloadGuestList() {
 
 window.addEventListener('load', () => {
   resizeCanvas();
-  //updateLayout(); //TEST
+  updateLayout();
 });
 
 window.addEventListener('resize', () => {
   resizeCanvas();
-  //updateLayout(); //TEST
+  updateLayout();
 });

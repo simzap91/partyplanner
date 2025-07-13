@@ -18,8 +18,7 @@ body {
 }
 
 #headerWrapper {
-  position: sticky; /*TEST*/
-  /*position: fixed;*/ /*TEST*/
+  position: fixed;
   top: 0; left: 0; right: 0;
   display: flex;
   flex-direction: column;
@@ -183,7 +182,7 @@ label[for="titleInput"] {
   display: block;
   margin: 0;    /* no auto-centering or extra gaps */
   background-color: #fffdf8;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 1);
   cursor: pointer;
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
 }
@@ -422,5 +421,19 @@ label[for="titleInput"] {
   }
   #mobile-notice {
     display: none;
+  }
+}
+
+/*iOS spec*/
+@supports (-webkit-touch-callout: none) {
+  #headerWrapper {
+    position: sticky !important;
+    top: 0 !important;
+  }
+  #canvasContainer {
+    margin-top: 0 !important;
+  }
+  html {
+    overscroll-behavior-y: contain !important;
   }
 }
