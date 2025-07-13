@@ -497,15 +497,15 @@ label[for="titleInput"] {
 /*iOS spec*/
 @supports (-webkit-touch-callout: none) {
   #headerWrapper {
-    position: sticky !important;
+    /*position: sticky !important;*/
     width: 100%;
-    top: 0 !important;
+    top: 0;
   }
   #canvasContainer {
-    margin-top: 0 !important;
+    margin-top: 0;
   }
   html {
-    overscroll-behavior-y: contain !important;
+    overscroll-behavior-y: contain;
   }
   /* Fix for Safari's sticky+shadow bug */
   body::before {
@@ -522,7 +522,7 @@ label[for="titleInput"] {
   }
 
   input, textarea, select {
-    font-size: 16px !important; /* Critical for iOS */
-    min-height: 44px !important; /* Apple's recommended tap target */
+    font-size: 16px; /* Critical for iOS */
+    min-height: 44px; /* Apple's recommended tap target */
   }
 }
