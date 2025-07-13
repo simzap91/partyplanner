@@ -12,7 +12,7 @@ let showAxes = false;
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
   const extraWidth = window.innerWidth < 600
-    ? window.innerWidth    // makes total width = 2× viewport
+    ? window.innerWidth  * 2
     : window.innerWidth * 0.5;
   const extraHeight = window.innerHeight * 0.5;
 
