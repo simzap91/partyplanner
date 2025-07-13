@@ -177,6 +177,37 @@ function updateLayout() {
 
   drawAll();
 }
+
+function updateFloatingButtons() {
+  const floatingButtons = document.getElementById('floatingButtons');
+  const buttons = floatingButtons.querySelectorAll('button');
+  
+  if (!selected) {
+    // No selection - disable all buttons
+    floatingButtons.classList.add('disabled');
+    buttons.forEach(btn => btn.disabled = true);
+    return;
+  }
+
+  floatingButtons.classList.remove('disabled');
+  
+  // Enable/disable buttons based on selected type
+  buttons.forEach(btn => {
+    const action = btn.getAttribute('onclick');
+    
+    if (selected.type === "guest") {
+      btn.disabled = (action !== "removeSelected()");
+    } 
+    else if (selected.type === "circle") {
+      btn.disabled = (action === "rotateSelected()");
+    } 
+    else { // rect or other types
+      btn.disabled = false;
+    }
+  });
+}
+
+/*
 function updateFloatingButtons() {
   const floatingButtons = document.getElementById('floatingButtons');
   const isDisabled = (selected === null);
@@ -185,7 +216,7 @@ function updateFloatingButtons() {
   floatingButtons.querySelectorAll('button').forEach(btn => {
     btn.disabled = isDisabled;
   });
-}
+}*/
 
 function addSelectedTable() {
   const type = document.getElementById("tableType").value;
@@ -232,6 +263,12 @@ function removeSelected() {
     selected = null;
     drawAll();
     updateFloatingButtons();
+
+    // If there are no more tables (rectangles or circles) on the canvas, reset numbering
+    const hasAnyTable = objects.some(obj => obj.type === 'rect' || obj.type === 'circle');
+    if (!hasAnyTable) {
+      nextTableNumber = 1;
+    }
   }
 }
 

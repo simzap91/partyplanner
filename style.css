@@ -1,6 +1,7 @@
 :root {
   --bg-page: #fffdf8; --color-text: #4b3b2b;
   --bg-toolbar: #D0ACAC; --bg-panel: #f7e7ce;
+  --color-border: #d4b98c;
   --space-sm: 8px;    --space-md: 16px;   --space-lg: 24px;
 }
 
@@ -12,8 +13,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Georgia', serif;
-  background-color: --bg-page;
-  color: --color-text;
+  background-color: var(--bg-page);
+  color: var(--color-text);
   overflow-x: hidden;
 }
 
@@ -74,8 +75,8 @@ label[for="titleInput"] {
 .hamburger {
   display: flex;
   position: relative;
-  background: #f7e7ce;
-  border: 1px solid #d4b98c;
+  background: var(--bg-panel);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 8px;
   z-index: 1015;
@@ -90,14 +91,14 @@ label[for="titleInput"] {
 .hamburger span {
   width: 60%;
   height: 3px;
-  background: #4b3b2b;
+  background: var(--color-text);
   border-radius: 2px;
   margin: 2px 0;
 }
 .hamburger .menu-text {
   margin-top: 6px;
   font-size: 0.9rem;
-  color: #4b3b2b;
+  color: var(--color-text);
   line-height: 1;
 }
 .hamburger:hover {
@@ -112,7 +113,7 @@ label[for="titleInput"] {
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-md);
-  background: #D0ACAC;
+  background: var(--bg-toolbar);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   box-sizing: border-box;
   z-index: 1005;
@@ -126,7 +127,6 @@ label[for="titleInput"] {
   display: none;
   justify-content: center;
   width: 100%;
-  /*background-color: var(--bg-toolbar);*/
   z-index: 1001;
 }
 .toolbar-items #sumButton {
@@ -140,7 +140,7 @@ label[for="titleInput"] {
 
 /* Modified sumButton style to match requirements */
 #sumButton {
-  background-color: #d4b98c;
+  background-color: var(--color-border);
   color: white;
   width: 100px;
   height: 100px;
@@ -169,7 +169,7 @@ label[for="titleInput"] {
   padding: 10px;
 }
 
-/* Floating Action Buttons */
+/* Floating Action Buttons - Core Styles */
 .floating-buttons {
   position: fixed;
   bottom: 20px;
@@ -178,73 +178,65 @@ label[for="titleInput"] {
   flex-direction: column;
   gap: 10px;
   z-index: 1000;
-  opacity: 1; /* Always visible */
-  transition: opacity 0.3s ease, filter 0.3s ease;
-}
-
-.floating-buttons.disabled {
-  filter: grayscale(80%);
-  opacity: 0.5;
-}
-
-.floating-buttons.disabled button {
-  pointer-events: none; /* Disable clicks */
-  cursor: not-allowed;
 }
 
 .floating-buttons button {
   background-color: var(--bg-panel);
-  border: 1px solid #d4b98c;
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   padding: 12px 16px;
   font-family: 'Georgia', serif;
   color: var(--color-text);
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: all 0.3s ease;
 }
 
+/* Button States */
+.floating-buttons button:not(:disabled) {
+  opacity: 1;
+  filter: none;
+}
+
+.floating-buttons button:disabled {
+  opacity: 0.5;
+  filter: grayscale(80%);
+  background-color: rgba(208, 172, 172, 0.3);
+  border-color: rgba(212, 184, 140, 0.4);
+  pointer-events: none;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Icons */
 .floating-buttons button .material-icons {
   font-size: 24px;
   color: var(--color-text);
-  transition: color 0.3s ease; /* Smooth color transition */
+  transition: color 0.3s ease;
 }
 
-.floating-buttons.disabled button .material-icons {
-  color: rgba(75, 59, 43, 0.4); /* 40% opacity of your --color-text */
+.floating-buttons button:disabled .material-icons {
+  color: rgba(75, 59, 43, 0.3);
 }
 
-.floating-buttons:not(.disabled) button .material-icons {
-  color: var(--color-text); /* Full color when active */
+/* Hover Effects */
+.floating-buttons button:not(:disabled):hover {
+  background-color: #e6d3b3;
+  transform: translateY(-2px);
 }
 
-.floating-buttons.disabled button:hover {
-  transform: none !important; /* Disable hover effects */
-  background-color: var(--bg-toolbar) !important;
-}
-
+/* Material Icons Base (keep this) */
 .material-icons {
-  font-family: 'Material Icons', 'Arial', sans-serif;
+  font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
   display: inline-block;
-  width: 24px; /* Fixed width */
-  height: 24px; /* Fixed height */
+  width: 24px;
+  height: 24px;
   line-height: 1;
-  text-transform: none;
-  letter-spacing: normal;
-  word-wrap: normal;
-  white-space: nowrap;
-  direction: ltr;
-  /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;
-  /* Support for Safari and Chrome. */
   text-rendering: optimizeLegibility;
-}
-
-.floating-buttons button:hover {
-  background-color: #e6d3b3;
-  transform: translateY(-2px);
 }
 
 #canvasContainer {
@@ -259,7 +251,7 @@ label[for="titleInput"] {
 #canvas {
   display: block;
   margin: 0;    /* no auto-centering or extra gaps */
-  background-color: #fffdf8;
+  background-color: var(--bg-page);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 1);
   cursor: pointer;
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
@@ -272,15 +264,15 @@ label[for="titleInput"] {
   left: 8px;
   right: 8px;
   padding: 12px 16px;
-  background: #f7e7ce;
-  border: 1px solid #d4b98c;
+  background: var(--bg-panel);
+  border: 1px solid var(--color-border);
   border-radius: 8px;
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   z-index: 1020;
   font-family: inherit;
-  color: #4b3b2b;
+  color: var(--color-text);
 }
 #mobile-notice button {
   background: none;
@@ -288,19 +280,19 @@ label[for="titleInput"] {
   font-size: 1.2rem;
   line-height: 1;
   cursor: pointer;
-  color: #4b3b2b;
+  color: var(--color-text);
   padding: 0;
 }
 
 #toolbar select,
 #toolbar button:not(#sumButton) {
-  background-color: #f7e7ce;
-  border: 1px solid #d4b98c;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--color-border);
   padding: 6px 16px;
   border-radius: 8px;
   font-size: 14px;
   font-family: inherit;
-  color: #4b3b2b;
+  color: var(--color-text);
   cursor: pointer;
   transition: all 0.3s ease;
   line-height: 1;
@@ -320,7 +312,7 @@ label[for="titleInput"] {
 #summaryBox, #userFormBox {
   max-width: 400px;
   background: #fffef9;
-  border: 1px solid #d4b98c;
+  border: 1px solid var(--color-border);
   padding: 20px;
   position: fixed;
   top: 50%;
@@ -334,7 +326,7 @@ label[for="titleInput"] {
 #summaryBox p, #userFormBox p {
   margin: 0 0 8px;
   font-weight: bold;
-  color: #4b3b2b;
+  color: var(--color-text);
 }
 
 #summaryBox select, #summaryBox button,
@@ -343,18 +335,18 @@ label[for="titleInput"] {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
-  border: 1px solid #d4b98c;
-  background-color: #fffdf8;
+  border: 1px solid var(--color-border);
+  background-color: var(--bg-page);
   border-radius: 6px;
 }
 
 #summaryBox button,
 #userFormBox button {
-  background-color: #f7e7ce;
-  color: #4b3b2b;
+  background-color: var(--bg-panel);
+  color: var(--color-text);
   padding: 8px 14px;
   margin-top: 8px;
-  border: 1px solid #d4b98c;
+  border: 1px solid var(--color-border);
   border-radius: 6px;
   cursor: pointer;
 }
