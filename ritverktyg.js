@@ -746,3 +746,9 @@ window.addEventListener('orientationchange', () => {
   resizeCanvas();
   updateLayout();
 });
+
+window.addEventListener('pageshow', () => { // HÄR
+  // re-center horizontally too, if you still want that:
+  const centerX = (canvas.width - window.innerWidth) / 2;
+  window.scrollTo(centerX, 0);
+});
