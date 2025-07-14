@@ -739,18 +739,18 @@ async function downloadGuestList() {
 
 window.addEventListener('load', () => {
   resizeCanvas();
-  updateLayout();
+  //updateLayout();
   updateFloatingButtons();
 });
 
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
-  updateLayout();
+  //updateLayout();
 });
 
 window.addEventListener('pageshow', () => { // HÄR
   resizeCanvas();
-  updateLayout();
+  //updateLayout();
 
   const centerX = (canvas.width - window.innerWidth) / 2;
   window.scrollTo(centerX, 0);
