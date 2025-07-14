@@ -415,10 +415,45 @@ function closeGuestList() {
   document.getElementById('guestListContainer').style.display = 'none';
 }
 
+function createChecklist() {
+  document.getElementById('modalOverlay').style.display = 'block';
+  document.getElementById('checklistContainer').style.display = 'block';
+}
+
+function closeChecklist() {
+  document.getElementById('modalOverlay').style.display = 'none';
+  document.getElementById('checklistContainer').style.display = 'none';
+}
+
+function addChecklistItem() {
+  const ul = document.getElementById('checklist');
+  const text = document.getElementById('newChecklistItem').value.trim();
+  if (!text) return;
+
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <label>
+      <input type="checkbox"> ${text}
+    </label>
+    <button class="remove-item">Ta bort</button>
+    `;
+  
+  li.querySelector('.remove-item')
+    .addEventListener('click', removeChecklistItem);
+  
+  ul.appendChild(li);
+  document.getElementById('newChecklistItem').value = '';
+}
+
+function removeChecklistItem(event) {
+  const li = event.target.closest('li');
+  if (li) li.remove();
+}
+
 function toggleAxes() {
-    showAxes = !showAxes;
-    drawAll();
-  }
+  showAxes = !showAxes;
+  drawAll();
+}
 
 canvas.addEventListener("mousedown", (e) => {
   const mx = e.offsetX, my = e.offsetY;
@@ -610,6 +645,32 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('close-mobile-notice');
   const notice   = document.getElementById('mobile-notice');
 
+  // open modal
+  document
+    .getElementById('openChecklistBtn')
+    .addEventListener('click', createChecklist);
+
+  // add item
+  document
+    .getElementById('addChecklistItemBtn')
+    .addEventListener('click', addChecklistItem);
+
+  // download
+  document
+    .getElementById('downloadChecklistBtn')
+    .addEventListener('click', downloadChecklist);
+
+  // close modal via “×” button or backdrop
+  document
+    .getElementById('closeChecklistBtn')
+    .addEventListener('click', closeChecklist);
+  document
+    .getElementById('modalOverlay')
+    .addEventListener('click', closeChecklist);
+
+  document.querySelectorAll('#checklist .remove-item')
+    .forEach(btn => btn.addEventListener('click', removeChecklistItem));
+
   updateFloatingButtons();
 
   if (hamBtn && toolbar) {
@@ -635,38 +696,41 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// --- Nedladdningsfunktion för checklistan ---
 async function downloadChecklist() {
   const container   = document.getElementById('checklistContainer');
-  const closeBtn    = container.querySelector('.close-modal');
-  const downloadBtn = container.querySelector('button[onclick="downloadChecklist()"]');
-  const controlsDiv = document.getElementById('newChecklistItem').closest('div');
+  const closeBtn    = document.getElementById('closeChecklistBtn');
+  const downloadBtn = document.getElementById('downloadChecklistBtn');
+  const controlsDiv = container.querySelector('.controls');
 
-  // Hide UI chrome
+  // 1) Hide UI chrome
   closeBtn.style.display    = 'none';
   downloadBtn.style.display = 'none';
   controlsDiv.style.display = 'none';
 
+  // 2) Temporarily disable the max-height + scrolling so the container
+  //    will grow to fit everything
+  const oldMaxH     = container.style.maxHeight;
+  const oldOverflow = container.style.overflowY;
+  container.style.maxHeight  = 'none';
+  container.style.overflowY  = 'visible';
+  container.scrollTop        = 0;    // scroll to top in case it was scrolled
+
   try {
-    // Render to a canvas
+    // 3) Render the full container (now un-clipped) to a canvas
     const c = await html2canvas(container, {
       backgroundColor: '#fff',
       scale: 2
     });
 
-    // 1) Synchronously get a base64 data URL
+    // 4) Build a PNG and trigger download
     const dataURL = c.toDataURL('image/png');
+    const a       = document.createElement('a');
+    a.href        = dataURL;
+    a.download    = 'checklista.png';
 
-    // 2) Create a temporary anchor
-    const a = document.createElement('a');
-    a.href = dataURL;
-    a.download = 'checklista.png';
-
-    // 3) If download isn't supported, open in a new tab
     if (typeof a.download === 'undefined') {
       window.open(dataURL, '_blank');
     } else {
-      // append it so Firefox on Android will honor the click
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -676,10 +740,12 @@ async function downloadChecklist() {
     console.error('Could not capture checklist:', err);
     alert('Något gick fel vid nedladdningen. Prova igen.');
   } finally {
-    // restore UI chrome
+    // 5) Restore UI and scrolling constraints
     closeBtn.style.display    = '';
     downloadBtn.style.display = '';
     controlsDiv.style.display = '';
+    container.style.maxHeight  = oldMaxH;
+    container.style.overflowY  = oldOverflow;
   }
 }
 

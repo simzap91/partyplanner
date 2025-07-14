@@ -444,6 +444,113 @@ label[for="titleInput"] {
   background-color: rgba(208, 172, 172, 1);
 }
 
+/* 1. The semi-transparent backdrop covers the whole viewport */
+#modalOverlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 10000;
+}
+
+/* 2. The checklist modal—responsive width + max-height */
+#checklistContainer {
+  display: none;
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #f9f7f1;
+  border: 1px solid #ddd;
+  padding: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 10001;
+
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;         /* never taller than 80% of viewport */
+  overflow-y: auto;         /* scroll if very long */
+  border-radius: 8px;
+}
+
+/* 3. Close button in top-right */
+#checklistContainer .close-modal {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#checklistContainer .remove-item,
+#checklistContainer .controls button {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}
+
+/* 4. Checklist items align neatly */
+#checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#checklistContainer h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+#checklist li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid #e0dcd5;
+}
+#checklist li:last-child {
+  border-bottom: none;
+}
+
+/* 5. Inside each li: label+checkbox on left, remove-button on right */
+#checklist li label {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+#checklist li label input[type="checkbox"] {
+  margin-right: 12px;
+  width: 18px;
+  height: 18px;
+}
+#checklist li .remove-item {
+  background: #f3e0bd;
+  border: 1px solid #dbccab;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* 6. Bottom controls: new-item + buttons */
+#checklistContainer .controls {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+#checklistContainer .controls input[type="text"] {
+  flex: 1;
+  padding: 6px 8px;
+  border: 1px solid #dbccab;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+#checklistContainer .controls button {
+  background: #f3e0bd;
+  border: 1px solid #dbccab;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 /* --- Desktop --- */
 @media screen and (min-width: 601px) {
   .titleRow {
@@ -492,36 +599,23 @@ label[for="titleInput"] {
   #mobile-notice {
     display: none;
   }
-}
 
-/*iOS spec*/
-/*
-@supports (-webkit-touch-callout: none) {
-  #headerWrapper {
-    position: sticky !important;
-    width: 100%;
-    top: 0;
+  #checklistContainer {
+    padding: 16px;
   }
-  #canvasContainer {
-    margin-top: 0;
+  #checklistContainer h2 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
   }
-  html {
-    overscroll-behavior-y: contain;
+  #checklist li {
+    padding: 8px 0;
   }
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--bg-toolbar);
-    z-index: 1011;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    pointer-events: none;
+  #checklistContainer .remove-item,
+  #checklistContainer .controls button {
+    padding: 6px 12px;
+    font-size: 1rem;
   }
 }
-*/
 
 @supports (-webkit-touch-callout: none) {
   /* Ensure sticky works on iOS */ /*HÄR*/
@@ -531,14 +625,14 @@ label[for="titleInput"] {
     top: 0;
   }
 
-  /*HÄR*/
+  /*Hindra scroll-to-refresh i telefon*/
   html, body {
     height: 100%;
     overflow: hidden;             /* prevent body from scrolling */
   }
   #canvasContainer {
     height: 100%;
-    overflow-y: auto;             /* your own scrollable area */
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
   /*HIT*/
