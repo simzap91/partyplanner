@@ -727,6 +727,29 @@ async function downloadGuestList() {
   }
 }
 
+function snapToTop() {
+  const centerX = (canvas.width - window.innerWidth) / 2;
+  window.scrollTo(centerX, 0);
+}
+
+function resetLayout() {
+  resizeCanvas();
+  // Give the browser one paint to settle its bounce
+  requestAnimationFrame(snapToTop);
+  // And a tiny timeout for good measure
+  setTimeout(snapToTop, 50);
+}
+
+// On first load
+window.addEventListener('load', resetLayout);
+
+// After pull-to-refresh or bfcache restores
+window.addEventListener('pageshow', resetLayout);
+
+// If user truly rotates
+window.addEventListener('orientationchange', resetLayout);
+/*
+
 window.addEventListener('load', () => {
   resizeCanvas();
   updateFloatingButtons();
@@ -748,3 +771,4 @@ window.addEventListener('pageshow', () => { // HÄR
     window.scrollTo(centerX, 0);
   });
 });
+*/
