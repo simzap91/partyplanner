@@ -469,6 +469,7 @@ label[for="titleInput"] {
   width: 90%;
   max-width: 400px;
   max-height: 80vh;         /* never taller than 80% of viewport */
+  overflow-x: hidden;
   overflow-y: auto;         /* scroll if very long */
   border-radius: 8px;
 }
@@ -551,6 +552,13 @@ label[for="titleInput"] {
   flex-shrink: 0;
 }
 
+#checklistContainer ul,
+#checklist li,
+#checklist li label {
+  min-width: 0;          /* enables flex items to shrink below their content’s width */
+  white-space: normal;   /* wrap long text onto multiple lines */
+}
+
 /* --- Desktop --- */
 @media screen and (min-width: 601px) {
   .titleRow {
@@ -601,6 +609,7 @@ label[for="titleInput"] {
   }
 
   #checklistContainer {
+    overflow-x: auto;
     padding: 16px;
   }
   #checklistContainer h2 {
