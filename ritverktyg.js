@@ -294,10 +294,10 @@ function saveAsImage() {
   const maxPadM  = 50;
   const maxPad   = maxPadM * pxPerM;
 
-  // ↓ new: height reserved for the title area (in CSS-px)
+  // height reserved for the title area (in CSS-px)
   const titleArea = 40;
 
-  // ↓ half-size on mobile if you still have that logic…
+  // half-size on mobile
   const isMobile = window.innerWidth <= 600;
   const baseMinW = 15 * pxPerM;
   const baseMinH = 10 * pxPerM;
@@ -749,7 +749,9 @@ window.addEventListener('orientationchange', () => {
 });
 
 window.addEventListener('pageshow', () => { // HÄR
-  // re-center horizontally too, if you still want that:
+  resizeCanvas();
+  updateLayout();
+
   const centerX = (canvas.width - window.innerWidth) / 2;
   window.scrollTo(centerX, 0);
 });
