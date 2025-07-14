@@ -177,16 +177,6 @@ function onTitleChange() {
   document.getElementById('titleDisplay').textContent = text;
 }
 
-function updateLayout() {
-  const header = document.getElementById('headerWrapper');
-  const canvasContainer = document.getElementById('canvasContainer');
-  if (!header || !canvasContainer) return;
-
-  //canvasContainer.style.marginTop = header.offsetHeight + 'px'; //HÄR
-
-  drawAll();
-}
-
 function updateFloatingButtons() {
   const floatingButtons = document.getElementById('floatingButtons');
   const buttons = floatingButtons.querySelectorAll('button');
@@ -739,19 +729,22 @@ async function downloadGuestList() {
 
 window.addEventListener('load', () => {
   resizeCanvas();
-  //updateLayout();
   updateFloatingButtons();
+
+  const centerX = (canvas.width - window.innerWidth) / 2;
+  window.scrollTo(centerX, 0);
 });
 
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
-  //updateLayout();
 });
 
 window.addEventListener('pageshow', () => { // HÄR
   resizeCanvas();
-  //updateLayout();
 
-  const centerX = (canvas.width - window.innerWidth) / 2;
-  window.scrollTo(centerX, 0);
+  // Let the UI finish its bounce‐back before we snap
+  requestAnimationFrame(() => {
+    const centerX = (canvas.width - window.innerWidth) / 2;
+    window.scrollTo(centerX, 0);
+  });
 });
