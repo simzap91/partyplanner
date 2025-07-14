@@ -727,6 +727,17 @@ async function downloadGuestList() {
   }
 }
 
+window.addEventListener('load', () => {
+  resizeCanvas();
+  updateFloatingButtons();
+});
+
+window.addEventListener('orientationchange', () => {
+  resizeCanvas();
+});
+
+/*
+
 function snapToTop() {
   const centerX = (canvas.width - window.innerWidth) / 2;
   window.scrollTo(centerX, 0);
@@ -748,6 +759,7 @@ window.addEventListener('pageshow', resetLayout);
 
 // If user truly rotates
 window.addEventListener('orientationchange', resetLayout);
+*/
 /*
 
 window.addEventListener('load', () => {
