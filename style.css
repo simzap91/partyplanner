@@ -530,6 +530,18 @@ label[for="titleInput"] {
     width: 100%;
     top: 0;
   }
+
+  /*HÄR*/
+  html, body {
+    height: 100%;
+    overflow: hidden;             /* prevent body from scrolling */
+  }
+  #canvasContainer {
+    height: 100%;
+    overflow-y: auto;             /* your own scrollable area */
+    -webkit-overflow-scrolling: touch;
+  }
+  /*HIT*/
   
   /* Prevent double-fixed conflicts */
   body {
