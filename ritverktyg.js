@@ -15,7 +15,11 @@ function resizeCanvas() {
   const extraWidth = window.innerWidth < 600
     ? window.innerWidth  * 2
     : window.innerWidth * 0.5;
-  const extraHeight = window.innerHeight * 0.5;
+  //const extraHeight = window.innerHeight * 0.5; //HÄR
+
+  const extraHeight = window.innerWidth < 600
+    ? window.innerHeight * 1
+    : window.innerHeight * 0.5;
 
   const w = window.innerWidth + extraWidth;
   const h = window.innerHeight + extraHeight;
@@ -396,7 +400,6 @@ function saveAsImage() {
   link.click();
 }
 
-// --- Ersätt befintlig createGuestList() med detta ---
 function createGuestList() {
   const guests = objects.filter(o => o.type === "guest");
   if (guests.length === 0) {
@@ -564,8 +567,6 @@ canvas.addEventListener("touchmove", (e) => {
   
     drawAll();
   }, { passive: false });
-  
-  
 
 canvas.addEventListener("touchend", () => {
   dragTarget = null;
