@@ -257,34 +257,6 @@ label[for="titleInput"] {
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
 }
 
-/*
-#mobile-notice {
-  display: flex;
-  position: fixed;
-  top: 80px;
-  left: 8px;
-  right: 8px;
-  padding: 12px 16px;
-  background: var(--bg-panel);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 1020;
-  font-family: inherit;
-  color: var(--color-text);
-}
-#mobile-notice button {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  line-height: 1;
-  cursor: pointer;
-  color: var(--color-text);
-  padding: 0;
-}*/
-
 /* Base: mobile-first */
 #siteNotice {
   display: none;              /* hidden until JS shows it */
@@ -651,13 +623,9 @@ label[for="titleInput"] {
     display: flex;
     padding: var(--space-sm) var(--space-sm) 0 0;
   }
-  /*
-  #mobile-notice {
-    display: none;
-  }*/
 
   #siteNotice {
-    top: calc(174px + 16px + 108px);
+    top: calc(174px);
     padding: 24px;
     max-width: 500px;
     left: calc(50% - 250px);

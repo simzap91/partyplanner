@@ -795,13 +795,6 @@ document.addEventListener('DOMContentLoaded', () => {
   close.addEventListener('click', () => {
     notice.style.display = 'none';
   });
-
-  /*
-  if (closeBtn && notice) {
-    closeBtn.addEventListener('click', () => {
-      notice.style.display = 'none';
-    });
-  }*/
 });
 
 window.addEventListener('load', () => {
