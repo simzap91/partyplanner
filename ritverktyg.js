@@ -747,18 +747,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show the notice when page loads
   if (notice) notice.style.display = 'block';
 
-  // Handle close button - using both click and touch events for mobile
   if (closeBtn) {
-    // Add both touch and click events
-    closeBtn.addEventListener('click', closeNotice);
-    closeBtn.addEventListener('touchend', closeNotice);
-  }
-  
-  function closeNotice(e) {
-    // Prevent default to avoid any potential touch-related issues
-    e.preventDefault();
-    const notice = document.getElementById('siteNotice');
-    if (notice) notice.style.display = 'none';
+    // Use pointer events instead of click/touch separately
+    closeBtn.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      notice.style.display = 'none';
+    });
   }
 
   // open modal

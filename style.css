@@ -268,7 +268,7 @@ label[for="titleInput"] {
   border: 1px solid var(--color-border);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 1030;
+  z-index: 1050;
   box-sizing: border-box;
   overflow-x: hidden;         /* no sideways scroll */
   overflow-y: auto;           /* vertical scroll if very tall */
@@ -290,6 +290,7 @@ label[for="titleInput"] {
   padding: 0;
   user-select: none;
   -webkit-user-select: none;
+  touch-action: manipulation;
   min-width: 48px;
   min-height: 48px;
 }
