@@ -810,12 +810,3 @@ window.addEventListener('load', () => {
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
 });
-
-// Delegate any click on the “×” to closing the notice:
-document.addEventListener('click', function(e) {
-  // If the user clicked our close button (by ID or class), hide the notice
-  if (e.target.matches('#closeSiteNoticeBtn, .close-site-notice')) {
-    const notice = document.getElementById('siteNotice');
-    if (notice) notice.style.display = 'none';
-  }
-});
