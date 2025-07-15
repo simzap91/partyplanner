@@ -556,13 +556,10 @@ function initSiteNotice() {
   // always re-show on load or reload
   notice.style.display = 'block';
 
-  // remove any old listener, then re-attach
-  closeBtn.replaceWith(closeBtn.cloneNode(true));
-  document
-    .getElementById('closeSiteNoticeBtn')
-    .addEventListener('click', () => {
-      notice.style.display = 'none';
-    });
+  // 2) Overwrite whatever was there before
+  closeBtn.onclick = () => {
+    notice.style.display = 'none';
+  };
 }
 
 function toggleAxes() {
@@ -757,8 +754,6 @@ function drawScalebars() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
-  const closeBtn  = document.getElementById('closeSiteNoticeBtn');
-  const notice = document.getElementById('siteNotice');
 
   // open modal
   document
