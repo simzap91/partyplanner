@@ -738,19 +738,20 @@ function drawScalebars() {
   }
 }
 
+/*
 function bindClose() {
   const closeBtn = document.getElementById('closeSiteNoticeBtn');
   const notice   = document.getElementById('siteNotice');
   if (closeBtn && notice) {
     closeBtn.onclick = () => notice.style.display = 'none';
   }
-}
+}*/
 
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
  
-  bindClose();
+  //bindClose();
 
   // open modal
   document
@@ -809,4 +810,4 @@ window.addEventListener('orientationchange', () => {
 });
 
 // …and again on bfcache restore / pull-to-refresh
-window.addEventListener('pageshow', bindClose);
+//window.addEventListener('pageshow', bindClose);

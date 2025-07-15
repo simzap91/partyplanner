@@ -257,11 +257,11 @@ label[for="titleInput"] {
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
 }
 
-/* Base: mobile-first */
+/*
 #siteNotice {
-  display: none;              /* hidden until JS shows it */
+  display: none;
   position: fixed;
-  top: calc(56px + 16px);               /* just under your #toolbar */
+  top: calc(56px + 16px);
   left: 8px; right: 8px;
   padding: 16px;
   background: var(--bg-panel);
@@ -270,14 +270,13 @@ label[for="titleInput"] {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   z-index: 1050;
   box-sizing: border-box;
-  overflow-x: hidden;         /* no sideways scroll */
-  overflow-y: auto;           /* vertical scroll if very tall */
-  max-height: calc(100vh - 96px); /* leave room for top toolbar */
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 96px);
   font-family: inherit;
   color: var(--color-text);
 }
 
-/* Close button in top-right */
 #siteNotice .close-site-notice {
   position: absolute;
   top: 8px; right: 8px;
@@ -295,7 +294,6 @@ label[for="titleInput"] {
   min-height: 48px;
 }
 
-/* Typographic spacing */
 #siteNotice h2 {
   margin: 0 0 8px;
   font-size: 1.3rem;
@@ -311,7 +309,7 @@ label[for="titleInput"] {
 #siteNotice ol li {
   margin-bottom: 6px;
   line-height: 1.4;
-}
+}*/
 
 #toolbar select,
 #toolbar button:not(#sumButton) {
@@ -628,7 +626,7 @@ label[for="titleInput"] {
     display: flex;
     padding: var(--space-sm) var(--space-sm) 0 0;
   }
-
+  /*
   #siteNotice {
     top: calc(174px);
     padding: 24px;
@@ -646,7 +644,7 @@ label[for="titleInput"] {
   #siteNotice ol li {
     margin-bottom: 8px;
     font-size: 1.1rem;
-  }
+  }*/
 
   #checklistContainer {
     overflow-x: auto;
