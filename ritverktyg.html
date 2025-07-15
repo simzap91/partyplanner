@@ -20,11 +20,11 @@
   
 </head>
 <body>
-  <!-- Mobil‐notis högst upp -->
+  <!-- Mobil‐notis högst upp
   <div id="mobile-notice">
     <span>Mobilversionen är inte riktigt klar än, testa gärna på dator.</span>
     <button id="close-mobile-notice" aria-label="Stäng">×</button>
-  </div>
+  </div> -->
 
   <!-- Wrapper runt rubrik + toolbar -->
   <div id="headerWrapper">
@@ -65,6 +65,18 @@
         <button id="sumButton" onclick="summarizeOrder()" disabled style="opacity: 0.5; cursor: not-allowed;">Summera beställning</button>
       </div>
     </div>
+  </div>
+
+  <!-- Site-wide notice panel -->
+  <div id="siteNotice">
+    <button class="close-site-notice" aria-label="Stäng meddelande">×</button>
+    <h2>Välkommen!</h2>
+    <p>Här är en snabb genomgång av hur du använder verktyget:</p>
+    <ol>
+      <li>Välj bordstyp i menyn och klicka "Lägg till bord".</li>
+      <li>Dra borden dit du vill på planen med fingret eller musen.</li>
+      <li>Klicka på "Summera beställning" för att få en översikt.</li>
+    </ol>
   </div>
 
   <div id="canvasContainer">

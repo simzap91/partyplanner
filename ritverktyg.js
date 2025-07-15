@@ -741,8 +741,8 @@ function drawScalebars() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
-  const closeBtn = document.getElementById('close-mobile-notice');
-  const notice   = document.getElementById('mobile-notice');
+  const notice = document.getElementById('siteNotice');
+  const close  = notice.querySelector('.close-site-notice');
 
   // open modal
   document
@@ -788,11 +788,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Show the notice on page load
+  notice.style.display = 'block';
+
+  // Close when user clicks the × or anywhere inside it?
+  close.addEventListener('click', () => {
+    notice.style.display = 'none';
+  });
+
+  /*
   if (closeBtn && notice) {
     closeBtn.addEventListener('click', () => {
       notice.style.display = 'none';
     });
-  }
+  }*/
 });
 
 window.addEventListener('load', () => {
