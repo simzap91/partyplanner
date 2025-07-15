@@ -741,14 +741,12 @@ function drawScalebars() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
-  
-  // Show the notice when page loads
   const notice = document.getElementById('siteNotice');
-  if (notice) notice.style.display = 'block';
-
-  // Handle close button click
   const closeBtn = document.getElementById('closeSiteNoticeBtn');
   
+  // Show the notice when page loads
+  if (notice) notice.style.display = 'block';
+
   // Handle close button - using both click and touch events for mobile
   if (closeBtn) {
     // Add both touch and click events

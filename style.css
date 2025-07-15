@@ -288,6 +288,10 @@ label[for="titleInput"] {
   cursor: pointer;
   color: var(--color-text);
   padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  min-width: 48px;
+  min-height: 48px;
 }
 
 /* Typographic spacing */
