@@ -741,8 +741,8 @@ function drawScalebars() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
-  const notice = document.getElementById('siteNotice');
   const closeBtn  = document.getElementById('closeSiteNoticeBtn');
+  const notice = document.getElementById('siteNotice');
 
   // open modal
   document
@@ -791,10 +791,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Show the notice on page load
   notice.style.display = 'block';
 
-  // Close when user clicks the × or anywhere inside it?
-  closeBtn.addEventListener('click', () => {
-    notice.style.display = 'none';
-  });
+  if (closeBtn && notice) {
+    closeBtn.addEventListener('click', () => {
+      notice.style.display = 'none';
+    });
+  }
 });
 
 window.addEventListener('load', () => {
@@ -804,4 +805,13 @@ window.addEventListener('load', () => {
 
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
+});
+
+window.addEventListener('pageshow', () => {
+  if (closeBtn && notice) {
+    notice.style.display = 'block';
+    closeBtn.addEventListener('click', () => {
+      notice.style.display = 'none';
+    });
+  }
 });
