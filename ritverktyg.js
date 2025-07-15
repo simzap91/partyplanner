@@ -738,22 +738,19 @@ function drawScalebars() {
   }
 }
 
+function bindClose() {
+  const closeBtn = document.getElementById('closeSiteNoticeBtn');
+  const notice   = document.getElementById('siteNotice');
+  if (closeBtn && notice) {
+    closeBtn.onclick = () => notice.style.display = 'none';
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
-  const notice = document.getElementById('siteNotice');
-  const closeBtn = document.getElementById('closeSiteNoticeBtn');
-  
-  // Show the notice when page loads
-  if (notice) notice.style.display = 'block';
-
-  if (closeBtn) {
-    // Use pointer events instead of click/touch separately
-    closeBtn.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      notice.style.display = 'none';
-    });
-  }
+ 
+  bindClose();
 
   // open modal
   document
@@ -810,3 +807,6 @@ window.addEventListener('load', () => {
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
 });
+
+// …and again on bfcache restore / pull-to-refresh
+window.addEventListener('pageshow', bindClose);
