@@ -549,6 +549,22 @@ async function downloadGuestList() {
   }
 }
 
+function initSiteNotice() {
+  const notice   = document.getElementById('siteNotice');
+  const closeBtn = document.getElementById('closeSiteNoticeBtn');
+
+  // always re-show on load or reload
+  notice.style.display = 'block';
+
+  // remove any old listener, then re-attach
+  closeBtn.replaceWith(closeBtn.cloneNode(true));
+  document
+    .getElementById('closeSiteNoticeBtn')
+    .addEventListener('click', () => {
+      notice.style.display = 'none';
+    });
+}
+
 function toggleAxes() {
   showAxes = !showAxes;
   drawAll();
@@ -788,14 +804,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Show the notice on page load
-  notice.style.display = 'block';
-
-  if (closeBtn && notice) {
-    closeBtn.addEventListener('click', () => {
-      notice.style.display = 'none';
-    });
-  }
+  initSiteNotice();
 });
 
 window.addEventListener('load', () => {
@@ -807,11 +816,4 @@ window.addEventListener('orientationchange', () => {
   resizeCanvas();
 });
 
-window.addEventListener('pageshow', () => {
-  if (closeBtn && notice) {
-    notice.style.display = 'block';
-    closeBtn.addEventListener('click', () => {
-      notice.style.display = 'none';
-    });
-  }
-});
+window.addEventListener('pageshow', initSiteNotice);
