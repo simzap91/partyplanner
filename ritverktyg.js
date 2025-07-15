@@ -549,19 +549,6 @@ async function downloadGuestList() {
   }
 }
 
-function initSiteNotice() {
-  const notice   = document.getElementById('siteNotice');
-  const closeBtn = document.getElementById('closeSiteNoticeBtn');
-
-  // always re-show on load or reload
-  notice.style.display = 'block';
-
-  // 2) Overwrite whatever was there before
-  closeBtn.onclick = () => {
-    notice.style.display = 'none';
-  };
-}
-
 function toggleAxes() {
   showAxes = !showAxes;
   drawAll();
@@ -754,6 +741,27 @@ function drawScalebars() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
+  
+  // Show the notice when page loads
+  const notice = document.getElementById('siteNotice');
+  if (notice) notice.style.display = 'block';
+
+  // Handle close button click
+  const closeBtn = document.getElementById('closeSiteNoticeBtn');
+  
+  // Handle close button - using both click and touch events for mobile
+  if (closeBtn) {
+    // Add both touch and click events
+    closeBtn.addEventListener('click', closeNotice);
+    closeBtn.addEventListener('touchend', closeNotice);
+  }
+  
+  function closeNotice(e) {
+    // Prevent default to avoid any potential touch-related issues
+    e.preventDefault();
+    const notice = document.getElementById('siteNotice');
+    if (notice) notice.style.display = 'none';
+  }
 
   // open modal
   document
