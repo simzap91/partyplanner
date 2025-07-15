@@ -742,7 +742,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
   const notice = document.getElementById('siteNotice');
-  const close  = notice.querySelector('.close-site-notice');
+  const closeBtn  = document.getElementById('closeSiteNoticeBtn');
 
   // open modal
   document
@@ -792,7 +792,7 @@ document.addEventListener('DOMContentLoaded', () => {
   notice.style.display = 'block';
 
   // Close when user clicks the × or anywhere inside it?
-  close.addEventListener('click', () => {
+  closeBtn.addEventListener('click', () => {
     notice.style.display = 'none';
   });
 });
