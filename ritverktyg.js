@@ -772,10 +772,6 @@ function showSiteNotice() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
- 
-  // Call showSiteNotice here to ensure it appears and is functional
-  // when the DOM is ready, for a fresh page load.
-  showSiteNotice();
 
   // open modal
   document
@@ -836,15 +832,8 @@ window.addEventListener('orientationchange', () => {
 // might not fire, but pageshow will. We need to re-show the notice and re-bind
 // its events to ensure functionality after bfcache restoration.
 window.addEventListener('pageshow', (event) => {
-  // Check if the page is loaded from the bfcache
-  if (event.persisted) {
-      console.log('Page loaded from BFcache. Re-showing notice and re-binding events.');
-      showSiteNotice();
-  } else {
-      // For non-bfcache pageshow (e.g., initial load or full reload),
-      // DOMContentLoaded already handles it, but calling it again won't hurt
-      // as showSiteNotice and bindClose are idempotent.
-      console.log('Page loaded normally or via full reload.');
-      showSiteNotice();
-  }
+  // This will run on initial load, reload, and bfcache restore,
+  // guaranteeing the notice and its button always work.
+  console.log('Page is being displayed. Ensuring site notice is functional.');
+  showSiteNotice();
 });
