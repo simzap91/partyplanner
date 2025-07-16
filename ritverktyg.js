@@ -738,40 +738,25 @@ function drawScalebars() {
   }
 }
 
-/*
-function bindClose() { //NYTT
-  const closeBtn = document.getElementById('closeSiteNoticeBtn');
-  const notice = document.getElementById('siteNotice');
-  if (closeBtn && notice) {
-      closeBtn.onclick = () => {
-          notice.style.display = 'none';
-          // Optionally, store in localStorage that the user has closed the notice
-          // so it doesn't reappear on subsequent visits within the same session or permanently.
-          localStorage.setItem('siteNoticeClosed', 'true');
-      };
-  }
-}
-
-function showSiteNotice() { //NYTT
-  const notice = document.getElementById('siteNotice');
-  // Check if the user has previously closed the notice
-  if (notice && localStorage.getItem('siteNoticeClosed') !== 'true') {
-      notice.style.display = 'block';
-      bindClose(); // Ensure the close button is bound when the notice is shown
-  }
-}
-*/
-
-// It hides the notice when clicked.
+// This function binds the click event to the close button of the site notice.
+// It uses addEventListener for more robust event handling.
 function bindClose() {
   const closeBtn = document.getElementById('closeSiteNoticeBtn');
   const notice = document.getElementById('siteNotice');
   if (closeBtn && notice) {
-      closeBtn.onclick = () => {
-          notice.style.display = 'none';
-          // IMPORTANT: Removed localStorage.setItem('siteNoticeClosed', 'true');
-          // This ensures the notice will reappear on the next page reload.
-      };
+      // Remove any existing click listeners to prevent duplicate bindings
+      // This is important if bindClose is called multiple times for the same element
+      closeBtn.removeEventListener('click', hideSiteNotice); // Ensure we remove the specific handler
+      // Add the new click listener
+      closeBtn.addEventListener('click', hideSiteNotice);
+  }
+}
+
+// Handler function to hide the site notice
+function hideSiteNotice() {
+  const notice = document.getElementById('siteNotice');
+  if (notice) {
+      notice.style.display = 'none';
   }
 }
 
@@ -788,10 +773,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
  
-  // Call showSiteNotice here to display it on initial load if not closed
-  // and bind the close button.
-  //showSiteNotice(); //NYTT
-  bindClose();
+  // Call showSiteNotice here to ensure it appears and is functional
+  // when the DOM is ready, for a fresh page load.
+  showSiteNotice();
 
   // open modal
   document
@@ -841,9 +825,26 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
   resizeCanvas();
   updateFloatingButtons();
-  showSiteNotice(); // Call showSiteNotice to make it reappear on every load
 });
 
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
+});
+
+// CRITICAL FIX: This event fires when the page is loaded from the browser's
+// back/forward cache (bfcache). In this scenario, DOMContentLoaded and load
+// might not fire, but pageshow will. We need to re-show the notice and re-bind
+// its events to ensure functionality after bfcache restoration.
+window.addEventListener('pageshow', (event) => {
+  // Check if the page is loaded from the bfcache
+  if (event.persisted) {
+      console.log('Page loaded from BFcache. Re-showing notice and re-binding events.');
+      showSiteNotice();
+  } else {
+      // For non-bfcache pageshow (e.g., initial load or full reload),
+      // DOMContentLoaded already handles it, but calling it again won't hurt
+      // as showSiteNotice and bindClose are idempotent.
+      console.log('Page loaded normally or via full reload.');
+      showSiteNotice();
+  }
 });
