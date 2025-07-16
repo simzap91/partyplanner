@@ -747,11 +747,36 @@ function bindClose() {
   }
 }*/
 
+function bindClose() {
+  const closeBtn = document.getElementById('closeSiteNoticeBtn');
+  const notice = document.getElementById('siteNotice');
+  if (closeBtn && notice) {
+      closeBtn.onclick = () => {
+          notice.style.display = 'none';
+          // Optionally, store in localStorage that the user has closed the notice
+          // so it doesn't reappear on subsequent visits within the same session or permanently.
+          localStorage.setItem('siteNoticeClosed', 'true');
+      };
+  }
+}
+
+function showSiteNotice() {
+  const notice = document.getElementById('siteNotice');
+  // Check if the user has previously closed the notice
+  if (notice && localStorage.getItem('siteNoticeClosed') !== 'true') {
+      notice.style.display = 'block';
+      bindClose(); // Ensure the close button is bound when the notice is shown
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
  
   //bindClose();
+  // Call showSiteNotice here to display it on initial load if not closed
+  // and bind the close button.
+  showSiteNotice();
 
   // open modal
   document
@@ -801,8 +826,6 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
   resizeCanvas();
   updateFloatingButtons();
-  const notice = document.getElementById('siteNotice');
-  if (notice) notice.style.display = 'block';
 });
 
 window.addEventListener('orientationchange', () => {
@@ -810,4 +833,8 @@ window.addEventListener('orientationchange', () => {
 });
 
 // …and again on bfcache restore / pull-to-refresh
-//window.addEventListener('pageshow', bindClose);
+window.addEventListener('pageshow', () => {
+  // Re-evaluate whether to show the notice on pageshow
+  // This is important for back/forward cache scenarios
+  showSiteNotice();
+});
