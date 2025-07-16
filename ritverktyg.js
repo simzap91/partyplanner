@@ -739,15 +739,7 @@ function drawScalebars() {
 }
 
 /*
-function bindClose() {
-  const closeBtn = document.getElementById('closeSiteNoticeBtn');
-  const notice   = document.getElementById('siteNotice');
-  if (closeBtn && notice) {
-    closeBtn.onclick = () => notice.style.display = 'none';
-  }
-}*/
-
-function bindClose() {
+function bindClose() { //NYTT
   const closeBtn = document.getElementById('closeSiteNoticeBtn');
   const notice = document.getElementById('siteNotice');
   if (closeBtn && notice) {
@@ -760,7 +752,7 @@ function bindClose() {
   }
 }
 
-function showSiteNotice() {
+function showSiteNotice() { //NYTT
   const notice = document.getElementById('siteNotice');
   // Check if the user has previously closed the notice
   if (notice && localStorage.getItem('siteNoticeClosed') !== 'true') {
@@ -768,15 +760,38 @@ function showSiteNotice() {
       bindClose(); // Ensure the close button is bound when the notice is shown
   }
 }
+*/
+
+// It hides the notice when clicked.
+function bindClose() {
+  const closeBtn = document.getElementById('closeSiteNoticeBtn');
+  const notice = document.getElementById('siteNotice');
+  if (closeBtn && notice) {
+      closeBtn.onclick = () => {
+          notice.style.display = 'none';
+          // IMPORTANT: Removed localStorage.setItem('siteNoticeClosed', 'true');
+          // This ensures the notice will reappear on the next page reload.
+      };
+  }
+}
+
+// This function displays the site notice and ensures the close button is bound.
+function showSiteNotice() {
+  const notice = document.getElementById('siteNotice');
+  if (notice) {
+      notice.style.display = 'block'; // Make the notice visible
+      bindClose(); // Ensure the close button's event listener is attached
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
  
-  //bindClose();
   // Call showSiteNotice here to display it on initial load if not closed
   // and bind the close button.
-  showSiteNotice();
+  //showSiteNotice(); //NYTT
+  bindClose();
 
   // open modal
   document
@@ -826,15 +841,9 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
   resizeCanvas();
   updateFloatingButtons();
+  showSiteNotice(); // Call showSiteNotice to make it reappear on every load
 });
 
 window.addEventListener('orientationchange', () => {
   resizeCanvas();
-});
-
-// …and again on bfcache restore / pull-to-refresh
-window.addEventListener('pageshow', () => {
-  // Re-evaluate whether to show the notice on pageshow
-  // This is important for back/forward cache scenarios
-  showSiteNotice();
 });
