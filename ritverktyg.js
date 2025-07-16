@@ -738,11 +738,49 @@ function drawScalebars() {
   }
 }
 
+// ALLT TILL MARKERING ÄR FÖR TESTA STÄNG KNAPP //
+
+function isTouchDevice() {
+  return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+}
+
+function bindClose() {
+  const closeBtn = document.getElementById('closeSiteNoticeBtn');
+  if (closeBtn) {
+    
+    const eventType = isTouchDevice() ? 'touchstart' : 'click';
+    
+    closeBtn.removeEventListener('click', hideSiteNotice);
+    closeBtn.removeEventListener('touchstart', hideSiteNotice);
+    
+    closeBtn.addEventListener(eventType, hideSiteNotice);
+  }
+}
+
+function hideSiteNotice(event) {
+  if (event.type === 'touchstart') {
+    event.preventDefault();
+  }
+  
+  const notice = document.getElementById('siteNotice');
+  if (notice) {
+    notice.style.display = 'none';
+  }
+}
+
+function showSiteNotice() {
+  const notice = document.getElementById('siteNotice');
+  if (notice) {
+    notice.style.display = 'block';
+    bindClose();
+  }
+}
+
+// HIT //
+
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
-  const closeBtn = document.getElementById('close-mobile-notice');
-  const notice   = document.getElementById('mobile-notice');
 
   // open modal
   document
@@ -787,11 +825,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-  if (closeBtn && notice) {
-    closeBtn.addEventListener('click', () => {
-      notice.style.display = 'none';
-    });
-  }
 });
 
 window.addEventListener('load', () => {
@@ -803,14 +836,9 @@ window.addEventListener('orientationchange', () => {
   resizeCanvas();
 });
 
-//NEW
-// CRITICAL FIX: This event fires when the page is loaded from the browser's
-// back/forward cache (bfcache). In this scenario, DOMContentLoaded and load
-// might not fire, but pageshow will. We need to re-show the notice and re-bind
-// its events to ensure functionality after bfcache restoration.
+// ÄVEN DENNA ÄR FÖR STÄNGKNAPP-PROBLEM //
+
 window.addEventListener('pageshow', (event) => {
-  // This will run on initial load, reload, and bfcache restore,
-  // guaranteeing the notice and its button always work.
   console.log('Page is being displayed. Ensuring site notice is functional.');
   showSiteNotice();
 });
