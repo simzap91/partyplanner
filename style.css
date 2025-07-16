@@ -257,7 +257,6 @@ label[for="titleInput"] {
   touch-action: auto;     /* allow swipes on empty space to scroll the wrapper */
 }
 
-/*
 #siteNotice {
   display: none;
   position: fixed;
@@ -309,7 +308,7 @@ label[for="titleInput"] {
 #siteNotice ol li {
   margin-bottom: 6px;
   line-height: 1.4;
-}*/
+}
 
 #toolbar select,
 #toolbar button:not(#sumButton) {
@@ -626,7 +625,7 @@ label[for="titleInput"] {
     display: flex;
     padding: var(--space-sm) var(--space-sm) 0 0;
   }
-  /*
+  
   #siteNotice {
     top: calc(174px);
     padding: 24px;
@@ -644,7 +643,7 @@ label[for="titleInput"] {
   #siteNotice ol li {
     margin-bottom: 8px;
     font-size: 1.1rem;
-  }*/
+  }
 
   #checklistContainer {
     overflow-x: auto;
