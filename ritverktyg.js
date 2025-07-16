@@ -738,25 +738,38 @@ function drawScalebars() {
   }
 }
 
-// This function binds the click event to the close button of the site notice.
-// It uses addEventListener for more robust event handling.
+// Helper function to check for touch devices
+function isTouchDevice() {
+  return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+}
+
+// MODIFIED: This function now binds the correct event.
 function bindClose() {
   const closeBtn = document.getElementById('closeSiteNoticeBtn');
-  const notice = document.getElementById('siteNotice');
-  if (closeBtn && notice) {
-      // Remove any existing click listeners to prevent duplicate bindings
-      // This is important if bindClose is called multiple times for the same element
-      closeBtn.removeEventListener('click', hideSiteNotice); // Ensure we remove the specific handler
-      // Add the new click listener
-      closeBtn.addEventListener('click', hideSiteNotice);
+  if (closeBtn) {
+    // Determine the event type based on the device
+    const eventType = isTouchDevice() ? 'touchstart' : 'click';
+    
+    // To be safe, remove any potential old listeners for both events
+    closeBtn.removeEventListener('click', hideSiteNotice);
+    closeBtn.removeEventListener('touchstart', hideSiteNotice);
+    
+    // Add the new, correct event listener
+    closeBtn.addEventListener(eventType, hideSiteNotice);
   }
 }
 
 // Handler function to hide the site notice
-function hideSiteNotice() {
+// MODIFIED: Added event.preventDefault() for touch events
+function hideSiteNotice(event) {
+  // Prevent the browser from also firing a 'click' event after the touch
+  if (event.type === 'touchstart') {
+    event.preventDefault();
+  }
+  
   const notice = document.getElementById('siteNotice');
   if (notice) {
-      notice.style.display = 'none';
+    notice.style.display = 'none';
   }
 }
 
@@ -764,8 +777,8 @@ function hideSiteNotice() {
 function showSiteNotice() {
   const notice = document.getElementById('siteNotice');
   if (notice) {
-      notice.style.display = 'block'; // Make the notice visible
-      bindClose(); // Ensure the close button's event listener is attached
+    notice.style.display = 'block'; // Make the notice visible
+    bindClose(); // Ensure the close button's event listener is attached
   }
 }
 
