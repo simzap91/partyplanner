@@ -88,6 +88,7 @@ label[for="titleInput"] {
   width: 80px;
   height: 28px;
   cursor: pointer;
+  pointer-events: auto;
   margin: 0;
 }
 .hamburger span {
@@ -109,6 +110,7 @@ label[for="titleInput"] {
 .toolbar-items {
   display: none;
   position: absolute;
+  pointer-events: none;
   top: 100%;
   left: 0;
   right: 0;
@@ -122,44 +124,11 @@ label[for="titleInput"] {
 }
 .toolbar-items.active {
   display: block;
+  pointer-events: auto;
 }
-
-/*
-
-.sum-btn {
-  background-color: var(--button-highlight);
-  color: #fff;
-  width: 100px;
-  height: 100px;
-  border: none;
-  border-radius: 60px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,.15);
-  transition: background-color .3s, transform .2s;
-}
-
-.sum-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-
-.sum-btn.is-live{
-  background: var(--button-highlight);
-}
-
-.sum-btn.is-live:hover,
-.sum-btn.is-live:focus-visible{
-  background: var(--button-highlight-hover);
-  transform: scale(1.05);
-}
-*/
 
 #toolbar select,
-#toolbar button {
+#toolbar button:not(.sum-btn):not(.hamburger) {
   background-color: var(--bg-panel);
   border: 1px solid var(--color-border);
   padding: 6px 16px;
@@ -174,7 +143,7 @@ label[for="titleInput"] {
 }
 
 /* Hover for normal buttons */
-#toolbar button:hover:not(.sum-btn),
+#toolbar button:hover:not(.sum-btn):not(.hamburger),
 #toolbar select:hover {
   background-color: #e6d3b3;
   border-color: #c2a77a;
@@ -193,7 +162,7 @@ label[for="titleInput"] {
 }
 
 /* 3. Disabled state — keep highlight, just fade */
-.sum-btn[disabled]{
+#toolbar button.sum-btn[disabled]{
   opacity: .5;
   cursor: not-allowed;
   box-shadow: none;
