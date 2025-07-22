@@ -2,6 +2,8 @@
   --bg-page: #fffdf8; --color-text: #4b3b2b;
   --bg-toolbar: #D0ACAC; --bg-panel: #f7e7ce;
   --color-border: #d4b98c;
+  --button-highlight: #C88F4A;
+  --button-highlight-hover: #B47D3F;
   --space-sm: 8px;    --space-md: 16px;   --space-lg: 24px;
 }
 
@@ -121,27 +123,12 @@ label[for="titleInput"] {
 .toolbar-items.active {
   display: block;
 }
-/* New button row container */
-.button-row {
-  position: relative;
-  display: none;
-  justify-content: center;
-  width: 100%;
-  z-index: 1001;
-}
-.toolbar-items #sumButton {
-  display: block; /* Ensure it's visible in mobile menu */
-  width: 100px;
-  height: 100px;
-  margin: 12px auto; /* Center with top/bottom margin */
-  border-radius: 60px;
-  /* Keep all other sumButton styles */
-}
 
-/* Modified sumButton style to match requirements */
-#sumButton {
-  background-color: var(--color-border);
-  color: white;
+/*
+
+.sum-btn {
+  background-color: var(--button-highlight);
+  color: #fff;
   width: 100px;
   height: 100px;
   border: none;
@@ -149,15 +136,68 @@ label[for="titleInput"] {
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  font-family: inherit;
-  margin: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,.15);
+  transition: background-color .3s, transform .2s;
 }
 
-#sumButton:hover {
-  background-color: #c2a77a;
+.sum-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.sum-btn.is-live{
+  background: var(--button-highlight);
+}
+
+.sum-btn.is-live:hover,
+.sum-btn.is-live:focus-visible{
+  background: var(--button-highlight-hover);
   transform: scale(1.05);
+}
+*/
+
+#toolbar select,
+#toolbar button {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--color-border);
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  line-height: 1;
+  height: 46px;
+}
+
+/* Hover for normal buttons */
+#toolbar button:hover:not(.sum-btn),
+#toolbar select:hover {
+  background-color: #e6d3b3;
+  border-color: #c2a77a;
+}
+
+#toolbar button.sum-btn {
+  background-color: var(--button-highlight);
+  color:#fff;
+  font-weight:bold;
+}
+
+/* Hover/focus for enabled sum button */
+#toolbar button.sum-btn:not([disabled]):hover,
+#toolbar button.sum-btn:not([disabled]):focus-visible{
+  background-color: var(--button-highlight-hover);
+}
+
+/* 3. Disabled state — keep highlight, just fade */
+.sum-btn[disabled]{
+  opacity: .5;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 #toolbar label,
@@ -167,6 +207,10 @@ label[for="titleInput"] {
   width: 100%;
   font-size: 0.9rem;
   padding: 10px;
+}
+
+#toolbar select {
+  min-width: 240px;
 }
 
 /* Floating Action Buttons - Core Styles */
@@ -308,31 +352,6 @@ label[for="titleInput"] {
 #siteNotice ol li {
   margin-bottom: 6px;
   line-height: 1.4;
-}
-
-#toolbar select,
-#toolbar button:not(#sumButton) {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--color-border);
-  padding: 6px 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-family: inherit;
-  color: var(--color-text);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  line-height: 1;
-  height: 46px;
-}
-
-#toolbar button:not(#sumButton):hover,
-#toolbar select:hover {
-  background-color: #e6d3b3;
-  border-color: #c2a77a;
-}
-
-#toolbar select {
-  min-width: 240px;
 }
 
 #summaryBox, #userFormBox {
@@ -608,22 +627,15 @@ label[for="titleInput"] {
     display: none;
   }
   .toolbar-items {
-    display: flex;          /* override “display:none” */
-    position: static;       /* undo absolute positioning */
-    top: auto;              /* clear the mobile top:100% */
+    display: flex;
+    position: static;
+    top: auto;
     left: auto;
     right: auto;
-    flex-direction: row;    /* line up items in a row */
-    gap: 12px;              /* your spacing between buttons */
-    background: transparent;/* let #toolbar’s background show through */
-    box-shadow: none;       /* or a lighter shadow if you still want one */
-  }
-  .toolbar-items #sumButton {
-    display: none; /* Hide from desktop toolbar-items */
-  }
-  .button-row {
-    display: flex;
-    padding: var(--space-sm) var(--space-sm) 0 0;
+    flex-direction: row;
+    gap: 12px;
+    background: transparent;
+    box-shadow: none;
   }
   
   #siteNotice {

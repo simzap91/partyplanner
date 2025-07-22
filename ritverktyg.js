@@ -206,6 +206,24 @@ function updateFloatingButtons() {
   });
 }
 
+// Sum-button
+function canSummarize() {
+  // Condition: At least 1 table or guest needed to summarize
+  return objects.some(o => o.type === 'rect' || o.type === 'circle' || o.type === 'guest');
+}
+
+function updateSumButtonState() {
+  setSumButtonEnabled(canSummarize());
+}
+
+function setSumButtonEnabled(enabled) {
+  document.querySelectorAll('.sum-btn').forEach(btn => {
+    btn.disabled = !enabled;
+    btn.setAttribute('aria-disabled', String(!enabled));
+  });
+}
+// HIT
+
 function addSelectedTable() {
   const type = document.getElementById("tableType").value;
   const standardHeight = 75;
@@ -233,6 +251,7 @@ function addSelectedTable() {
     obj.tableNumber = nextTableNumber++;
     objects.push(obj);
     drawAll();
+    updateSumButtonState();
   }
 }
 
@@ -241,6 +260,7 @@ function addGuest() {
   if (name) {
     objects.push({ type: "guest", x: 300, y: 300, name });
     drawAll();
+    updateSumButtonState();
   }
 }
 
@@ -251,6 +271,7 @@ function removeSelected() {
     selected = null;
     drawAll();
     updateFloatingButtons();
+    updateSumButtonState();
 
     // If there are no more tables (rectangles or circles) on the canvas, reset numbering
     const hasAnyTable = objects.some(obj => obj.type === 'rect' || obj.type === 'circle');
@@ -606,14 +627,12 @@ canvas.addEventListener("mousemove", (e) => {
   drawAll();
 });
 
-//canvas.addEventListener("mouseup", () => dragTarget = null);
-
 canvas.addEventListener("mouseup", () => {
   if (!dragTarget && selected) {
     // Clear selection when clicking empty space
     selected = null;
     drawAll();
-    updateFloatingButtons(); // ADD THIS LINE
+    updateFloatingButtons();
   }
   dragTarget = null;
 });
@@ -740,39 +759,29 @@ function drawScalebars() {
 
 // ALLT TILL MARKERING ÄR FÖR TESTA STÄNG KNAPP //
 
-function isTouchDevice() {
-  return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-}
-
 function bindClose() {
-  const closeBtn = document.getElementById('closeSiteNoticeBtn');
-  if (closeBtn) {
-    
-    const eventType = isTouchDevice() ? 'touchstart' : 'click';
-    
-    closeBtn.removeEventListener('click', hideSiteNotice);
-    closeBtn.removeEventListener('touchstart', hideSiteNotice);
-    
-    closeBtn.addEventListener(eventType, hideSiteNotice);
-  }
+  const btn = document.getElementById('closeSiteNoticeBtn');
+  if (!btn) return;
+
+  // Remove any old listeners in a single shot
+  const clone = btn.cloneNode(true);
+  btn.parentNode.replaceChild(clone, btn);
+
+  // Pointer events cover mouse + touch
+  clone.addEventListener('pointerup', hideSiteNotice, { passive: false });
 }
 
-function hideSiteNotice(event) {
-  if (event.type === 'touchstart') {
-    event.preventDefault();
-  }
-  
+function hideSiteNotice(e) {
+  e.preventDefault();
   const notice = document.getElementById('siteNotice');
-  if (notice) {
-    notice.style.display = 'none';
-  }
+  if (notice) notice.style.display = 'none'; // or: notice.hidden = true;
 }
 
+// 3. Don’t rebind here anymore
 function showSiteNotice() {
   const notice = document.getElementById('siteNotice');
   if (notice) {
-    notice.style.display = 'block';
-    bindClose();
+    notice.style.display = 'block'; // or: notice.hidden = false;
   }
 }
 
@@ -781,6 +790,9 @@ function showSiteNotice() {
 document.addEventListener('DOMContentLoaded', () => {
   const hamBtn   = document.querySelector('.hamburger');
   const toolbar  = document.querySelector('.toolbar-items');
+
+  bindClose();
+  showSiteNotice();
 
   // open modal
   document
@@ -808,6 +820,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#checklist .remove-item')
     .forEach(btn => btn.addEventListener('click', removeChecklistItem));
 
+  document.querySelectorAll('.sum-btn').forEach(btn => {
+    btn.addEventListener('click', summarizeOrder);
+  });
+
+  updateSumButtonState();
   updateFloatingButtons();
 
   if (hamBtn && toolbar) {
@@ -838,7 +855,11 @@ window.addEventListener('orientationchange', () => {
 
 // ÄVEN DENNA ÄR FÖR STÄNGKNAPP-PROBLEM //
 
-window.addEventListener('pageshow', (event) => {
-  console.log('Page is being displayed. Ensuring site notice is functional.');
-  showSiteNotice();
+window.addEventListener('pageshow', e => {
+  if (e.persisted) {
+    // Only run when coming from the back/forward cache
+    // e.g. ensure the notice is hidden if user closed it
+    const dismissed = localStorage.getItem('noticeDismissed') === '1';
+    if (!dismissed) showSiteNotice();
+  }
 });
