@@ -110,7 +110,6 @@ label[for="titleInput"] {
 .toolbar-items {
   display: none;
   position: absolute;
-  pointer-events: none;
   top: 100%;
   left: 0;
   right: 0;
@@ -124,11 +123,10 @@ label[for="titleInput"] {
 }
 .toolbar-items.active {
   display: block;
-  pointer-events: auto;
 }
 
 #toolbar select,
-#toolbar button:not(.sum-btn):not(.hamburger) {
+#toolbar button:not(.hamburger) {
   background-color: var(--bg-panel);
   border: 1px solid var(--color-border);
   padding: 6px 16px;
