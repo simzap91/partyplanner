@@ -86,7 +86,7 @@ body {
   min-height: 60px;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 4px;
+  padding: 0 12px;
   width: 100%;
   box-sizing: border-box;
   font-family: 'Georgia', serif;
@@ -97,25 +97,26 @@ body {
   display: flex;
   position: relative;
   background: var(--bg-panel);
-  border: 1px solid var(--color-border);
+  border: none;
   border-radius: 8px;
   padding: 8px;
-  z-index: 1015;
+  z-index: 1020;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 80px;
-  height: 28px;
+  justify-content: space-around;
+  width: 60px;
+  height: 40px;
   cursor: pointer;
   pointer-events: auto;
   margin: 0;
 }
 .hamburger span {
+  display: block;
   width: 60%;
   height: 3px;
   background: var(--color-text);
   border-radius: 2px;
-  margin: 2px 0;
+  margin: 0;
 }
 .hamburger .menu-text {
   margin-top: 6px;
@@ -141,7 +142,8 @@ body {
   z-index: 1005;
 }
 .toolbar-items.active {
-  display: block;
+  /*display: block;*/
+  display: flex;
 }
 
 #toolbar select,
@@ -625,6 +627,9 @@ body {
     gap: 12px;
     background: transparent;
     box-shadow: none;
+  }
+  .toolbar-items > * {
+    margin: 0 var(--space-sm, 8px);
   }
   
   #siteNotice {

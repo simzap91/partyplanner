@@ -791,8 +791,12 @@ function showSiteNotice() {
 // HIT //
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("DOM ready, binding hamburger");
   const hamBtn   = document.querySelector('.hamburger');
+  console.log("Found hamburger:", hamBtn);
+  console.log("DOM ready, binding toolbar");
   const toolbar  = document.querySelector('.toolbar-items');
+  console.log("Found toolbar:", toolbar);
 
   bindClose();
   showSiteNotice();
@@ -823,9 +827,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#checklist .remove-item')
     .forEach(btn => btn.addEventListener('click', removeChecklistItem));
 
+  /* When summ order is active, activate this: */
+  /*
   document.querySelectorAll('.sum-btn').forEach(btn => {
     btn.addEventListener('click', summarizeOrder);
-  });
+  });*/
 
   updateSumButtonState();
   updateFloatingButtons();

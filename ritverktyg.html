@@ -199,12 +199,6 @@
     </div>
   </div>
 
-  <!-- Till nedladdningsfunktioner. Denna måste ligga innan 'ritverktyg.js' -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="ritverktyg.js"></script>
-  <script src="bestallning.js"></script>
-  <script src="kontaktform.js"></script>
-
   <!-- Modal-överlägg för gästlistan -->
   <div id="guestModalOverlay" class="no-print"
       style="display:none;
@@ -272,6 +266,13 @@
       <span class="material-icons">delete_outline</span>
     </button>
   </div>
+
+  <!-- Till nedladdningsfunktioner. Denna måste ligga innan 'ritverktyg.js' -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@…"></script>
+
+  <script src="ritverktyg.js" defer></script>
+  <script src="bestallning.js" defer></script>
+  <script src="kontaktform.js" defer></script>
 
   <!-- 100% privacy-first analytics -->
   <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
