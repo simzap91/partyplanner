@@ -34,13 +34,13 @@ body {
   display: flex; /*NEW*/
   flex-direction: column; /*NEW*/
   align-items: center; /*NEW*/
-  padding: var(--space-sm);
+  padding: 0;
   background: var(--bg-toolbar);
   z-index: 1015;
 }
 
 #logo {
-  height: 200px;
+  height: 150px;
   margin-bottom: 4px;
 }
 
@@ -48,12 +48,12 @@ body {
 .title-input-container #titleInput {
   width: 100%;
   max-width: 700px;
-  margin: 4px auto 0;
-  text-align: center;    /* keep the text centered inside */
+  margin: 0px auto 0;
+  text-align: left;    /* keep the text centered inside */
   padding: 12px 16px;
   font-size: 1.1rem;
   color: gray;               /* default text style */
-  font-style: italic;        /* default italic */
+  font-style: normal;        /* default italic */
   background-color: #f0f0f0; /* light gray background */
   border: none;              
   border-radius: 12px;       /* more rounded corners */
@@ -73,9 +73,9 @@ body {
 /* On focus / once typing begins */
 .title-input-container #titleInput:focus {
   outline: none;
-  background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(200,143,74,0.3);  /* highlight ring */
-  color: black;           /* switch to black text */
+  background-color: var(--bg-page);
+  /*box-shadow: 0 0 0 3px rgba(200,143,74,0.3);   highlight ring */
+  color: var(--color-text);        /* switch to black text */
   font-style: normal;     /* switch to normal font */
 }
 
@@ -91,7 +91,7 @@ body {
   box-sizing: border-box;
   font-family: 'Georgia', serif;
   text-align: center;
-  z-index: 1002; 
+  z-index: 1002;
 }
 .hamburger {
   display: flex;
