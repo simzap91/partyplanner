@@ -40,7 +40,7 @@ body {
 }
 
 #logo {
-  height: 100px;
+  height: 200px;
   margin-bottom: 4px;
 }
 
@@ -596,7 +596,6 @@ body {
   }
 
   #logo {
-    height: 200px;
     margin-bottom: var(--space-sm);
   }
 
