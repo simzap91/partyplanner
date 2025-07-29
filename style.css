@@ -31,33 +31,52 @@ body {
   will-change: transform; /*TEST*/
 }
 .titleRow {
-  padding: var(--space-md);
+  display: flex; /*NEW*/
+  flex-direction: column; /*NEW*/
+  align-items: center; /*NEW*/
+  padding: var(--space-sm);
   background: var(--bg-toolbar);
   z-index: 1015;
 }
 
-#titleInput {
-  width: 100%;
-  max-width: 300px;
-  padding: 4px;
-  font-family: 'Georgia', serif;
-  box-sizing: border-box;
-}
-#titleInput,
-label[for="titleInput"] {
-  position: relative;
-  z-index: 1005;
-  font-size: 0.9rem;
+#logo {
+  height: 40px;
+  margin-bottom: 4px;
 }
 
-#titleDisplay {
-  display: none;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  font-weight: bold;
-  font-family: 'Segoe UI', sans-serif;
+/* ── Modern, rounded input styling ── */
+.title-input-container #titleInput {
+  width: 100%;
+  max-width: 700px;
+  margin: 4px auto 0;
+  text-align: center;    /* keep the text centered inside */
+  padding: 12px 16px;
+  font-size: 1.1rem;
+  color: gray;               /* default text style */
+  font-style: italic;        /* default italic */
+  background-color: #f0f0f0; /* light gray background */
+  border: none;              
+  border-radius: 12px;       /* more rounded corners */
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+  transition: 
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease,
+    font-style 0.2s ease;
+  box-sizing: border-box;
+}
+
+.title-input-container #titleInput {
+  width: 100%;
+}
+
+/* On focus / once typing begins */
+.title-input-container #titleInput:focus {
+  outline: none;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(200,143,74,0.3);  /* highlight ring */
+  color: black;           /* switch to black text */
+  font-style: normal;     /* switch to normal font */
 }
 
 #toolbar {
@@ -67,7 +86,7 @@ label[for="titleInput"] {
   min-height: 60px;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 var(--space-md);
+  padding: 0 4px;
   width: 100%;
   box-sizing: border-box;
   font-family: 'Georgia', serif;
@@ -570,15 +589,19 @@ label[for="titleInput"] {
 @media screen and (min-width: 601px) {
   .titleRow {
     display: flex;
+    justify-content: center;
     align-items: center;    /* vertically center label+input */
     gap: var(--space-sm);   /* space between label and input */
     padding: var(--space-md);
   }
-  #titleInput {
-    width: 300px;
+
+  #logo {
+    height: 200px;
+    margin-bottom: var(--space-sm);
   }
-  #titleDisplay {
-    display: flex;
+
+  .title-input-container {
+    max-width: 800px;
   }
 
   #toolbar {
@@ -587,7 +610,7 @@ label[for="titleInput"] {
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-sm);
-    padding: var(--space-md) 0;
+    padding: 4px 0;
     min-height: 100px;
   }
   .hamburger {

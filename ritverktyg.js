@@ -476,11 +476,13 @@ async function downloadChecklist() {
   const closeBtn    = document.getElementById('closeChecklistBtn');
   const downloadBtn = document.getElementById('downloadChecklistBtn');
   const controlsDiv = container.querySelector('.controls');
-
+  const removeBtns  = Array.from(container.querySelectorAll('.remove-item'));
+  
   // 1) Hide UI chrome
   closeBtn.style.display    = 'none';
   downloadBtn.style.display = 'none';
   controlsDiv.style.display = 'none';
+  removeBtns.forEach(btn => btn.style.display = 'none');
 
   // 2) Temporarily remove height/overflow constraints *and* horizontal clipping
   const oldMaxH      = container.style.maxHeight;
@@ -520,6 +522,7 @@ async function downloadChecklist() {
     closeBtn.style.display     = '';
     downloadBtn.style.display  = '';
     controlsDiv.style.display  = '';
+    removeBtns.forEach(btn => btn.style.display = '');
     container.style.maxHeight  = oldMaxH;
     container.style.overflowY  = oldOverflowY;
     container.style.overflowX  = oldOverflowX;

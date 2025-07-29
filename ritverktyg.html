@@ -31,14 +31,18 @@
 
     <!-- Din rubrikrad -->
     <div class="titleRow">
-      <label for="titleInput">Rubrik:</label>
-      <input
-        type="text"
-        id="titleInput"
-        value="Anna & Noah 2026-07-12"
-        oninput="onTitleChange()"
-      />
-      <div id="titleDisplay">Anna & Noah 2026-07-12</div>
+      <img id="logo" src="logo.png" alt="Site Logo">
+
+      <div class="title-input-container">
+        <!--<label for="titleInput">Rubrik:</label>-->
+        <input
+          type="text"
+          id="titleInput"
+          value="Skriv din rubrik här"
+          oninput="onTitleChange()"
+        />
+        <!--<div id="titleDisplay">Anna & Noah 2026-07-12</div>-->
+      </div>
     </div>
 
     <div id="toolbar">
@@ -174,6 +178,13 @@
         <label>
           <input type="checkbox" data-id="kladsel"> 
           Klädsel & Skönhet
+        </label>
+        <button class="remove-item">Ta bort</button>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" data-id="budget"> 
+          Budget
         </label>
         <button class="remove-item">Ta bort</button>
       </li>
