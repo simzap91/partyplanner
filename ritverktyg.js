@@ -180,11 +180,16 @@ function onTitleChange() {
 function updateFloatingButtons() {
   const floatingButtons = document.getElementById('floatingButtons');
   const buttons = floatingButtons.querySelectorAll('button');
+
+  const axesBtn = floatingButtons.querySelector('button[onclick="toggleAxes()"]');
+  if (axesBtn) axesBtn.disabled = false;
   
   if (!selected) {
     // No selection - disable all buttons
     floatingButtons.classList.add('disabled');
-    buttons.forEach(btn => btn.disabled = true);
+    buttons.forEach(btn => {
+      if (btn !== axesBtn) btn.disabled = true;
+    });
     return;
   }
 
@@ -192,15 +197,16 @@ function updateFloatingButtons() {
   
   // Enable/disable buttons based on selected type
   buttons.forEach(btn => {
+    if (btn === axesBtn) return; // skip the axes button
+
     const action = btn.getAttribute('onclick');
-    
     if (selected.type === "guest") {
       btn.disabled = (action !== "removeSelected()");
     } 
     else if (selected.type === "circle") {
       btn.disabled = (action === "rotateSelected()");
     } 
-    else { // rect or other types
+    else { // rect or other
       btn.disabled = false;
     }
   });

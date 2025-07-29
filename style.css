@@ -44,6 +44,15 @@ body {
   margin-bottom: 4px;
 }
 
+.title-input-container {
+  width: 100%;
+  padding: 0 var(--space-md);   /* e.g. 16px on each side */
+  box-sizing: border-box;        /* include that padding inside the 100% */
+  max-width: none;               /* let it go full‑bleed if you want */
+  margin: 0 0 0;   /* vertical spacing below the logo */
+  text-align: center;
+}
+
 /* ── Modern, rounded input styling ── */
 .title-input-container #titleInput {
   width: 100%;
@@ -86,7 +95,7 @@ body {
   min-height: 60px;
   justify-content: flex-end;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 var(--space-md);
   width: 100%;
   box-sizing: border-box;
   font-family: 'Georgia', serif;

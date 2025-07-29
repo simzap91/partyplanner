@@ -59,7 +59,7 @@
         </select>
         <button onclick="addSelectedTable()">Lägg till bord</button>
         <button onclick="addGuest()">Lägg till gäst</button>
-        <button onclick="toggleAxes()">Visa/Dölj avstånd</button>
+        <!--<button onclick="toggleAxes()">Visa/Dölj avstånd</button>-->
         <button onclick="saveAsImage()">Spara som bild</button>
         <button onclick="createGuestList()">Skapa gästlista</button>
         <button id="openChecklistBtn">Skapa checklista</button>
@@ -264,6 +264,9 @@
     </button>
     <button onclick="removeSelected()" disabled>
       <span class="material-icons">delete_outline</span>
+    </button>
+    <button onclick="toggleAxes()" aria-label="Visa/Dölj avstånd">
+      <span class="material-icons">straighten</span>
     </button>
   </div>
 
