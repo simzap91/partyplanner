@@ -38,7 +38,7 @@
         <input
           type="text"
           id="titleInput"
-          value="Skriv din rubrik här"
+          placeholder="Skriv din rubrik här"
           oninput="onTitleChange()"
         />
         <!--<div id="titleDisplay">Anna & Noah 2026-07-12</div>-->
@@ -49,6 +49,37 @@
       <button class="hamburger" aria-label="Öppna meny" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
+      <!--
+      <div class="toolbar-items">
+        <div class="toolbar-group">
+          <h3>Bord</h3>
+          <select id="tableType">
+            <option value="round-6">Runt bord – 6 platser</option>
+            <option value="round-8">Runt bord – 8 platser</option>
+            <option value="rect-4">Rektangulärt bord – 4 platser</option>
+            <option value="rect-6">Rektangulärt bord – 6 platser</option>
+            <option value="rect-8">Rektangulärt bord – 8 platser</option>
+          </select>
+          <button onclick="addSelectedTable()">Lägg till bord</button>
+        </div>
+
+        <div class="toolbar-group">
+          <h3>Gäster</h3>
+          <button onclick="addGuest()">Lägg till gäst</button>
+          <button onclick="createGuestList()">Skapa gästlista</button>
+        </div>
+
+        <div class="toolbar-group">
+          <h3>Planering</h3>
+          <button id="openChecklistBtn">Skapa checklista</button>
+          <button onclick="saveAsImage()">Spara som bild</button>
+        </div>
+
+        <button id="sumButtonMobile" class="sum-btn sum-btn--mobile" disabled>
+          Summera beställning
+        </button>
+      </div>-->
+      
       <div class="toolbar-items">
         <select id="tableType">
           <option value="round-6">Runt bord – 6 platser</option>
@@ -59,7 +90,6 @@
         </select>
         <button onclick="addSelectedTable()">Lägg till bord</button>
         <button onclick="addGuest()">Lägg till gäst</button>
-        <!--<button onclick="toggleAxes()">Visa/Dölj avstånd</button>-->
         <button onclick="saveAsImage()">Spara som bild</button>
         <button onclick="createGuestList()">Skapa gästlista</button>
         <button id="openChecklistBtn">Skapa checklista</button>
