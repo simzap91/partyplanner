@@ -32,9 +32,14 @@
     <!-- Din rubrikrad -->
     <div class="titleRow">
       <img id="logo" src="logo.png" alt="Site Logo">
+    </div>
+
+    <div id="toolbar">
+      <button class="hamburger" aria-label="Öppna meny" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
       <div class="title-input-container">
-        <!--<label for="titleInput">Rubrik:</label>-->
         <input
           type="text"
           id="titleInput"
@@ -43,12 +48,7 @@
         />
         <!--<div id="titleDisplay">Anna & Noah 2026-07-12</div>-->
       </div>
-    </div>
 
-    <div id="toolbar">
-      <button class="hamburger" aria-label="Öppna meny" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
       <!--
       <div class="toolbar-items">
         <div class="toolbar-group">
@@ -88,6 +88,39 @@
           <option value="rect-6">Rektangulärt bord – 6 platser</option>
           <option value="rect-8">Rektangulärt bord – 8 platser</option>
         </select>
+        <button onclick="addSelectedTable()">
+          <span class="material-icons btn-icon">add</span>
+          Lägg till bord
+        </button>
+
+        <button onclick="addGuest()">
+          <span class="material-icons btn-icon">person_add</span>
+          Lägg till gäst
+        </button>
+
+        <button onclick="saveAsImage()">
+          <span class="material-icons btn-icon">save</span>
+          Spara bild
+        </button>
+
+        <button onclick="createGuestList()">
+          <span class="material-icons btn-icon">assignment</span>
+          Skapa gästlista
+        </button>
+
+        <button id="openChecklistBtn">
+          <span class="material-icons btn-icon">checklist</span>
+          Skapa checklista
+        </button>
+
+        <button
+          id="sumButtonMobile"
+          class="sum-btn sum-btn--mobile"
+          disabled
+        >
+          Sammanställ
+        </button>
+        <!--
         <button onclick="addSelectedTable()">Lägg till bord</button>
         <button onclick="addGuest()">Lägg till gäst</button>
         <button onclick="saveAsImage()">Spara som bild</button>
@@ -99,7 +132,7 @@
           disabled
         >
           Summera beställning
-        </button>
+        </button>-->
       </div>
     </div>
   </div>

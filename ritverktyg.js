@@ -114,7 +114,7 @@ function drawAll() {
    const x = canvas.width * 0.49;
    const y = canvas.height * 0.50;
    
-   ctx.fillText("EverAfterbyEster", x, y);
+   //ctx.fillText("EverAfterbyEster", x, y);
    if (showAxes) {
     const meterToPx = 80;
     const viewCenterX = window.scrollX + window.innerWidth / 2;
@@ -797,10 +797,7 @@ function showSiteNotice() {
 // HIT //
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("DOM ready, binding hamburger");
   const hamBtn   = document.querySelector('.hamburger');
-  console.log("Found hamburger:", hamBtn);
-  console.log("DOM ready, binding toolbar");
   const toolbar  = document.querySelector('.toolbar-items');
   console.log("Found toolbar:", toolbar);
 

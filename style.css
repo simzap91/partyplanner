@@ -34,19 +34,25 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0;
   background: var(--bg-toolbar);
   z-index: 1015;
 }
 
+.titleRow::before {
+  content: "";
+  display: block;
+  height: 24px;
+}
+
 #logo {
-  height: 150px;
+  height: 100px;
   margin-bottom: 4px;
 }
 
 .title-input-container {
+  flex: 1;
   width: 100%;
-  padding: 0 var(--space-md);   /* e.g. 16px on each side */
+  padding: 0 0 0 var(--space-sm);
   box-sizing: border-box;        /* include that padding inside the 100% */
   max-width: none;               /* let it go full‑bleed if you want */
   margin: 0 0 0;   /* vertical spacing below the logo */
@@ -61,11 +67,11 @@ body {
   text-align: left;    /* keep the text centered inside */
   padding: 12px 16px;
   font-size: 1.1rem;
-  color: gray;               /* default text style */
-  font-style: normal;        /* default italic */
-  background-color: #f0f0f0; /* light gray background */
+  color: gray;
+  font-style: normal; 
+  background-color: #f0f0f0;
   border: none;              
-  border-radius: 12px;       /* more rounded corners */
+  border-radius: 12px;
   box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
   transition: 
     background-color 0.2s ease,
@@ -79,7 +85,6 @@ body {
   width: 100%;
 }
 
-/* On focus / once typing begins */
 .title-input-container #titleInput:focus {
   outline: none;
   background-color: var(--bg-page);
@@ -97,9 +102,9 @@ body {
   position: relative;
   background: var(--bg-toolbar);
   min-height: 60px;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
-  padding: 0 var(--space-md);
+  padding: var(--space-sm);
   width: 100%;
   box-sizing: border-box;
   font-family: 'Georgia', serif;
@@ -154,59 +159,28 @@ body {
   box-sizing: border-box;
   z-index: 1005;
 }
-/*
- .toolbar-items.active {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-  }
-
-  .toolbar-group {
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    background-color: #fff;
-    overflow: hidden;
-  }
-
-  .toolbar-group h3 {
-    margin: 0;
-    padding: var(--space-sm) var(--space-md);
-    font-size: 0.9rem;
-    font-weight: normal;
-    color: var(--color-text);
-    background-color: var(--bg-panel);
-    text-align: left;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  #toolbar .toolbar-group select,
-  #toolbar .toolbar-group button {
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    font-size: 0.9rem;
-    font-family: inherit;
-    color: var(--color-text);
-    background: none;
-    border: none !important;
-    border-radius: 0 !important;
-    text-align: left;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-
-  .toolbar-group > * + * {
-    border-top: 1px solid var(--color-border);
-  }
-
-  .toolbar-group button:hover,
-  .toolbar-group select:hover {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
-    */
-
 
 .toolbar-items.active {
   display: flex;
+}
+
+#toolbar button:not(.hamburger) {
+  display: flex;
+  align-items: center;
+  text-align: left;        /* keep your left‑aligned text */
+  padding-left: var(--space-md);
+}
+
+.btn-icon {
+  display: inline-flex;        /* make the span a flex container */
+  align-items: center;         /* vertical center the glyph */
+  justify-content: center;     /* horizontal center (for a square box) */
+  font-size: 1.5em;            /* your chosen icon size */
+  width: 1em;                  /* make it a square that matches one ‘em’ */
+  height: 1em;
+  margin-right: 8px;
+  color: var(--color-text);
+  line-height: 1;              /* ensure the line box matches the container */
 }
 
 #toolbar select,
@@ -222,6 +196,12 @@ body {
   transition: all 0.3s ease;
   line-height: 1;
   height: 46px;
+}
+
+#toolbar #sumButtonMobile {
+  justify-content: center !important;
+  text-align: center !important;
+  padding-left: 0 !important;
 }
 
 /* Hover for normal buttons */
@@ -272,7 +252,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 1000;
+  z-index: 1020;
 }
 
 .floating-buttons button {
@@ -650,49 +630,67 @@ body {
   white-space: nowrap;
 }
 
-/* --- Desktop --- */
-@media screen and (min-width: 601px) {
-  .titleRow {
-    display: flex;
-    justify-content: center;
-    align-items: center;    /* vertically center label+input */
-    gap: var(--space-sm);   /* space between label and input */
-    padding: var(--space-md);
-  }
-
-  #logo {
-    margin-bottom: var(--space-sm);
-  }
-
-  .title-input-container {
-    max-width: 800px;
-  }
-
+/* --- Desktop --- (större än ipad) */
+@media screen and (min-width: 1025px) {
   #toolbar {
-    position: relative;
-    left: 0; right: 0;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--space-sm);
-    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;    /* or flex-start, as you prefer */
+    flex-wrap: nowrap;
+    gap: var(--space-sm);        /* space between title‐input and toolbar-items */
+    padding: 4px var(--space-sm);/* top/bottom 4px, left/right var(--space-sm) */
     min-height: 100px;
   }
-  .hamburger {
-    display: none;
+
+  /* 2) Title‑input sits to the left, no extra margins needed */
+  .title-input-container {
+    flex: 0 0 auto;             /* don’t grow/shrink */
+    max-width: 400px;
   }
+
+  /* 3) Toolbar‑items as a simple flex row with the same gap */
   .toolbar-items {
-    display: flex;
-    position: static;
-    top: auto;
-    left: auto;
-    right: auto;
+    display: flex !important;
     flex-direction: row;
-    gap: 12px;
+    gap: var(--space-sm);        /* same gap between buttons */
+    position: static;
     background: transparent;
     box-shadow: none;
+    margin: 0;                   /* reset any old margins */
   }
+
+  /* 4) Remove per‑button margins—gap on parent covers it */
   .toolbar-items > * {
-    margin: 0 var(--space-sm, 8px);
+    min-width: 0;
+  }
+
+  /* prevent wrapping and enable ellipsis */
+  .toolbar-items > button,
+  .toolbar-items > select {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 0 0 140px;
+  }
+
+  .toolbar-items > button .btn-icon {
+    display: none;
+  }
+
+  .toolbar-items > button:not(.hamburger) {
+    justify-content: center;
+    text-align: center;
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+  }
+
+  #toolbar button#sumButtonMobile {
+    padding: 0 !important;
+    flex: 0 0 160px;           /* set explicit width */
+  }
+
+  .hamburger {
+    display: none;
   }
   
   #siteNotice {
