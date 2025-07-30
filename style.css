@@ -172,15 +172,31 @@ body {
 }
 
 .btn-icon {
-  display: inline-flex;        /* make the span a flex container */
-  align-items: center;         /* vertical center the glyph */
-  justify-content: center;     /* horizontal center (for a square box) */
-  font-size: 1.5em;            /* your chosen icon size */
-  width: 1em;                  /* make it a square that matches one ‘em’ */
-  height: 1em;
+  font-size: 18px !important;
+
+  /* make the box exactly the same size */
+  width: 16px !important;
+  height: 16px !important;
+
+  /* inline-block so line-height is respected */
+  display: inline-block !important;
+  vertical-align: middle;
+
+  /* center the ligature inside that box */
+  line-height: 16px !important;
+  text-align: center !important;
+  margin-right: 12px;
+  color: var(--color-text);
+  /*
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;   
+  width: 1.0em;
+  height: 1.0em;
   margin-right: 8px;
   color: var(--color-text);
-  line-height: 1;              /* ensure the line box matches the container */
+  line-height: 1;*/
 }
 
 #toolbar select,
@@ -631,7 +647,7 @@ body {
 }
 
 /* --- Desktop --- (större än ipad) */
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1600px) {
   #toolbar {
     display: flex;
     align-items: center;
@@ -674,7 +690,7 @@ body {
   }
 
   .toolbar-items > button .btn-icon {
-    display: none;
+    display: none !important;
   }
 
   .toolbar-items > button:not(.hamburger) {
