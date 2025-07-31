@@ -157,7 +157,7 @@ body {
   background: var(--bg-toolbar);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   box-sizing: border-box;
-  z-index: 1005;
+  z-index: 1049;
 }
 
 .toolbar-items.active {
