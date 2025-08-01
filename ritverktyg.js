@@ -8,14 +8,13 @@ let offsetY = 0;
 let selected = null;
 let nextTableNumber = 1;
 let showAxes = false;
-let hasCentered = false;  // HÄR
+let hasCentered = false;
 
 function resizeCanvas() {
   const scale = window.devicePixelRatio || 1;
   const extraWidth = window.innerWidth < 600
     ? window.innerWidth  * 2
     : window.innerWidth * 0.5;
-  //const extraHeight = window.innerHeight * 0.5; //HÄR
 
   const extraHeight = window.innerWidth < 600
     ? window.innerHeight * 1
@@ -34,10 +33,9 @@ function resizeCanvas() {
   drawAll();
 
   if (!hasCentered) {
-    window.scrollTo((canvas.width - window.innerWidth) / 2, 0);  // HÄR
+    window.scrollTo((canvas.width - window.innerWidth) / 2, 0);
     hasCentered = true;
   }
-  //window.scrollTo((canvas.width - window.innerWidth) / 2, 0); // HÄR
 }
 
 window.addEventListener("keydown", (e) => {

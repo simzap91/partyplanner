@@ -27,7 +27,7 @@ body {
   flex-direction: column;
   background: #eee;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  z-index: 1010;
+  z-index: 1049;
   will-change: transform; /*TEST*/
 }
 .titleRow {
@@ -187,16 +187,6 @@ body {
   text-align: center !important;
   margin-right: 12px;
   color: var(--color-text);
-  /*
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;   
-  width: 1.0em;
-  height: 1.0em;
-  margin-right: 8px;
-  color: var(--color-text);
-  line-height: 1;*/
 }
 
 #toolbar select,
