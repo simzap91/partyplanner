@@ -392,17 +392,22 @@ body {
 }
 
 #summaryBox, #userFormBox {
-  max-width: 400px;
+  max-width: none;
   background: #fffef9;
   border: 1px solid var(--color-border);
   padding: 20px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  width: auto;
+  box-sizing: border-box;
   display: none;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  z-index: 10;
+  z-index: 1050;
 }
 
 #summaryBox p, #userFormBox p {
@@ -411,8 +416,13 @@ body {
   color: var(--color-text);
 }
 
-#summaryBox select, #summaryBox button,
-#userFormBox input, #userFormBox button, #userFormBox select {
+#summaryBox select,
+#summaryBox button,
+#userFormBox input[type="text"],
+#userFormBox input[type="number"],
+#userFormBox input[type="date"],
+#userFormBox select,
+#userFormBox button {
   margin-top: 12px;
   width: 100%;
   padding: 8px;
@@ -438,10 +448,6 @@ body {
   background-color: #e6d3b3;
 }
 
-#summaryBox button:last-of-type {
-  background-color: #6c757d;
-}
-
 .quantity-control {
   display: flex;
   flex-direction: column;
@@ -465,12 +471,15 @@ body {
 }
 
 .quantity-control button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30px;
   height: 30px;
   font-size: 18px;
   border: none;
   border-radius: 4px;
-  background-color: #ddd;
+  background-color: #666;
   cursor: pointer;
 }
 
@@ -482,7 +491,7 @@ body {
 
 .quantity-control small {
   font-size: 12px;
-  color: #666;
+  color: #555;
   margin-left: 4px;
 }
 
@@ -698,6 +707,46 @@ body {
   .hamburger {
     display: none;
   }
+  /*
+  #siteNotice {
+    top: calc(174px);
+    padding: 24px;
+    max-width: 500px;
+    left: calc(50% - 250px);
+    right: auto;
+  }
+  #siteNotice h2 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+  #siteNotice p {
+    margin-bottom: 16px;
+  }
+  #siteNotice ol li {
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+  }*/
+
+  #checklistContainer {
+    overflow-x: auto;
+    padding: 16px;
+  }
+  #checklistContainer h2 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+  #checklist li {
+    padding: 8px 0;
+  }
+  #checklistContainer .remove-item,
+  #checklistContainer .controls button {
+    padding: 6px 12px;
+    font-size: 1rem;
+  }
+}
+
+/* --- Desktop --- (större än ipad) */
+@media screen and (min-width: 1500px) {
   
   #siteNotice {
     top: calc(174px);
@@ -718,21 +767,10 @@ body {
     font-size: 1.1rem;
   }
 
-  #checklistContainer {
-    overflow-x: auto;
-    padding: 16px;
-  }
-  #checklistContainer h2 {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-  }
-  #checklist li {
-    padding: 8px 0;
-  }
-  #checklistContainer .remove-item,
-  #checklistContainer .controls button {
-    padding: 6px 12px;
-    font-size: 1rem;
+  #summaryBox,
+  #userFormBox {
+    left: 500px;
+    right: 500px;
   }
 }
 

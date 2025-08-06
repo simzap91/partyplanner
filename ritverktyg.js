@@ -829,10 +829,10 @@ document.addEventListener('DOMContentLoaded', () => {
     .forEach(btn => btn.addEventListener('click', removeChecklistItem));
 
   /* When summ order is active, activate this: */
-  /*
+  
   document.querySelectorAll('.sum-btn').forEach(btn => {
     btn.addEventListener('click', summarizeOrder);
-  });*/
+  });
 
   updateSumButtonState();
   updateFloatingButtons();
